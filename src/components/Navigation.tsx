@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
-import { Logo } from "./Logo";
 
 const navItems = [
   { label: "Home", href: "/" },
@@ -37,7 +36,9 @@ export function Navigation() {
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
-            <Logo size={28} />
+            <div className="w-7 h-7 rounded-md bg-primary flex items-center justify-center">
+              <span className="text-primary-foreground font-bold text-xs">A</span>
+            </div>
             <span className="font-semibold text-base tracking-tight">ArtiNovate</span>
           </Link>
 

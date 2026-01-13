@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { Logo } from "./Logo";
 
 const footerLinks = {
   navigation: [
@@ -22,7 +21,9 @@ export function Footer() {
           {/* Brand */}
           <div>
             <Link to="/" className="flex items-center gap-2 mb-4">
-              <Logo size={28} />
+              <div className="w-7 h-7 rounded-md bg-primary flex items-center justify-center">
+                <span className="text-primary-foreground font-bold text-xs">A</span>
+              </div>
               <span className="font-semibold text-base tracking-tight">ArtiNovate</span>
             </Link>
             <p className="text-muted-foreground text-sm leading-relaxed max-w-xs">
