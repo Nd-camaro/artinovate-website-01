@@ -14,7 +14,99 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      insight_posts: {
+        Row: {
+          alt_texts: Json | null
+          author_id: string | null
+          backlinks_count: number | null
+          canonical_url: string | null
+          content: string
+          conversion_goal: string | null
+          created_at: string
+          cta_config: Json | null
+          excerpt: string | null
+          external_links: Json | null
+          faq_json_ld: Json | null
+          featured_image_url: string | null
+          id: string
+          internal_links: Json | null
+          meta_description: string | null
+          meta_title: string | null
+          page_views: number | null
+          published_at: string | null
+          reading_time: number | null
+          schema_type: string | null
+          secondary_keywords: Json | null
+          slug: string
+          social_shares: number | null
+          status: Database["public"]["Enums"]["post_status"]
+          target_keyword: string | null
+          title: string
+          updated_at: string
+          word_count: number | null
+        }
+        Insert: {
+          alt_texts?: Json | null
+          author_id?: string | null
+          backlinks_count?: number | null
+          canonical_url?: string | null
+          content: string
+          conversion_goal?: string | null
+          created_at?: string
+          cta_config?: Json | null
+          excerpt?: string | null
+          external_links?: Json | null
+          faq_json_ld?: Json | null
+          featured_image_url?: string | null
+          id?: string
+          internal_links?: Json | null
+          meta_description?: string | null
+          meta_title?: string | null
+          page_views?: number | null
+          published_at?: string | null
+          reading_time?: number | null
+          schema_type?: string | null
+          secondary_keywords?: Json | null
+          slug: string
+          social_shares?: number | null
+          status?: Database["public"]["Enums"]["post_status"]
+          target_keyword?: string | null
+          title: string
+          updated_at?: string
+          word_count?: number | null
+        }
+        Update: {
+          alt_texts?: Json | null
+          author_id?: string | null
+          backlinks_count?: number | null
+          canonical_url?: string | null
+          content?: string
+          conversion_goal?: string | null
+          created_at?: string
+          cta_config?: Json | null
+          excerpt?: string | null
+          external_links?: Json | null
+          faq_json_ld?: Json | null
+          featured_image_url?: string | null
+          id?: string
+          internal_links?: Json | null
+          meta_description?: string | null
+          meta_title?: string | null
+          page_views?: number | null
+          published_at?: string | null
+          reading_time?: number | null
+          schema_type?: string | null
+          secondary_keywords?: Json | null
+          slug?: string
+          social_shares?: number | null
+          status?: Database["public"]["Enums"]["post_status"]
+          target_keyword?: string | null
+          title?: string
+          updated_at?: string
+          word_count?: number | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +115,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      post_status: "draft" | "published" | "archived"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +242,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      post_status: ["draft", "published", "archived"],
+    },
   },
 } as const
