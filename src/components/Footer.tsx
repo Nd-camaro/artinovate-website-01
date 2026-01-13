@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import artinovateLogo from "@/assets/artinovate-logo.png";
 
 const footerLinks = {
   navigation: [
@@ -20,11 +21,12 @@ export function Footer() {
         <div className="grid md:grid-cols-3 gap-12 mb-12">
           {/* Brand */}
           <div>
-            <Link to="/" className="flex items-center gap-2 mb-4">
-              <div className="w-7 h-7 rounded-md bg-primary flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-xs">A</span>
-              </div>
-              <span className="font-semibold text-base tracking-tight">ArtiNovate</span>
+            <Link to="/" className="inline-block mb-4 hover:opacity-90 transition-opacity duration-200">
+              <img 
+                src={artinovateLogo} 
+                alt="ArtiNovate" 
+                className="h-8 w-auto"
+              />
             </Link>
             <p className="text-muted-foreground text-sm leading-relaxed max-w-xs">
               Autonomous digital presence for Web3 and digital asset organizations.
