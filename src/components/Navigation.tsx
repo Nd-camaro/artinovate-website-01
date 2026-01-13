@@ -40,7 +40,7 @@ export function Navigation() {
             <img 
               src={artinovateLogo} 
               alt="ArtiNovate" 
-              className="h-6 md:h-8 w-auto"
+              className="h-7 md:h-8 w-auto"
             />
           </Link>
 
