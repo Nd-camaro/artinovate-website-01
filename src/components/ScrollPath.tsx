@@ -50,11 +50,11 @@ export function ScrollPath() {
           className="path-glow"
         />
 
-        {/* Gradient definition - Unified accent cyan */}
+        {/* Gradient definition */}
         <defs>
           <linearGradient id="pathGradient" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="hsl(var(--accent-cyan))" />
-            <stop offset="100%" stopColor="hsl(var(--accent-cyan) / 0.6)" />
+            <stop offset="0%" stopColor="hsl(var(--signal-blue))" />
+            <stop offset="100%" stopColor="hsl(var(--electric-cyan))" />
           </linearGradient>
         </defs>
       </svg>
@@ -85,11 +85,11 @@ export function ScrollPath() {
 
       {/* Traveling glow */}
       <motion.div
-        className="absolute left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-primary"
+        className="absolute left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-accent"
         style={{
           top: useTransform(scrollYProgress, [0, 1], ["0%", "100%"]),
           opacity: glowOpacity,
-          boxShadow: "0 0 20px 4px hsl(var(--accent-cyan) / 0.6)",
+          boxShadow: "0 0 20px 4px hsl(var(--electric-cyan) / 0.6)",
         }}
       />
     </div>

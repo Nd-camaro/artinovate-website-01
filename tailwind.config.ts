@@ -67,7 +67,8 @@ export default {
           DEFAULT: "hsl(var(--graphite))",
           light: "hsl(var(--graphite-light))",
         },
-        "accent-cyan": "hsl(var(--accent-cyan))",
+        signal: "hsl(var(--signal-blue))",
+        cyan: "hsl(var(--electric-cyan))",
         pale: "hsl(var(--pale-grey))",
       },
       borderRadius: {
