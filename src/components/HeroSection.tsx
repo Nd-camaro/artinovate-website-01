@@ -6,42 +6,51 @@ import heroImage from "@/assets/hero-home.jpg";
 
 const SESSION_KEY = "artinovate_typewriter_played";
 
-interface TypewriterLineProps {
-  text: string;
+// Headlines for different breakpoints
+const DESKTOP_HEADLINE = "Autonomous AI Powered Websites";
+const MOBILE_LINE_1 = "Autonomous AI Powered";
+const MOBILE_LINE_2 = "Websites";
+
+interface TypewriterProps {
+  lines: string[];
   isActive: boolean;
   onComplete?: () => void;
   skipAnimation?: boolean;
-  showCursor?: boolean;
 }
 
-const TypewriterLine = ({
-  text,
+const Typewriter = ({
+  lines,
   isActive,
   onComplete,
   skipAnimation = false,
-  showCursor = false,
-}: TypewriterLineProps) => {
-  const [displayedText, setDisplayedText] = useState(skipAnimation ? text : "");
+}: TypewriterProps) => {
+  const fullText = lines.join("\n");
+  const [displayedText, setDisplayedText] = useState(skipAnimation ? fullText : "");
   const [cursorVisible, setCursorVisible] = useState(false);
   const hasCompletedRef = useRef(false);
 
   useEffect(() => {
     if (skipAnimation || !isActive || hasCompletedRef.current) {
-      if (skipAnimation) setDisplayedText(text);
+      if (skipAnimation) setDisplayedText(fullText);
       return;
     }
 
     setCursorVisible(true);
     let currentIndex = 0;
-    const chars = text.split("");
+    const chars = fullText.split("");
 
     const typeNextChar = () => {
       if (currentIndex <= chars.length) {
-        setDisplayedText(text.slice(0, currentIndex));
+        setDisplayedText(fullText.slice(0, currentIndex));
         currentIndex++;
-        const baseSpeed = 80;
-        const variance = Math.random() * 20 - 10;
-        setTimeout(typeNextChar, baseSpeed + variance);
+        
+        // Pause slightly longer at line breaks
+        const currentChar = chars[currentIndex - 1];
+        const baseSpeed = 65;
+        const variance = Math.random() * 15 - 7;
+        const delay = currentChar === "\n" ? 250 : baseSpeed + variance;
+        
+        setTimeout(typeNextChar, delay);
       } else {
         hasCompletedRef.current = true;
         setCursorVisible(false);
@@ -51,38 +60,49 @@ const TypewriterLine = ({
 
     const startDelay = setTimeout(typeNextChar, 100);
     return () => clearTimeout(startDelay);
-  }, [text, isActive, onComplete, skipAnimation]);
+  }, [fullText, isActive, onComplete, skipAnimation]);
+
+  // Split displayed text back into lines
+  const displayedLines = displayedText.split("\n");
 
   return (
     <span className="relative">
-      {/* Invisible text to reserve space */}
-      <span className="invisible">{text}</span>
-      {/* Visible typed text */}
-      <span className="absolute inset-0">{displayedText}</span>
-      {/* Cursor */}
-      {showCursor && (
-        <motion.span
-          className="inline-block w-[2px] h-[0.75em] bg-primary/80 ml-0.5 align-middle rounded-sm"
-          initial={{ opacity: 0 }}
-          animate={{
-            opacity: cursorVisible ? [0.4, 0.8, 0.4] : 0,
-          }}
-          transition={
-            cursorVisible
-              ? { duration: 1.2, repeat: Infinity, ease: "easeInOut" }
-              : { duration: 0.4, ease: "easeOut" }
-          }
-        />
-      )}
+      {/* Invisible text to reserve exact space for each line */}
+      {lines.map((line, idx) => (
+        <span key={`reserve-${idx}`} className="block invisible" aria-hidden="true">
+          {line}
+        </span>
+      ))}
+      {/* Visible typed text overlay */}
+      <span className="absolute inset-0">
+        {displayedLines.map((line, idx) => (
+          <span key={`typed-${idx}`} className="block">
+            {line}
+            {/* Cursor on the last line being typed */}
+            {idx === displayedLines.length - 1 && (
+              <motion.span
+                className="inline-block w-[2px] h-[0.75em] bg-primary/80 ml-0.5 align-middle rounded-sm"
+                initial={{ opacity: 0 }}
+                animate={{
+                  opacity: cursorVisible ? [0.4, 0.8, 0.4] : 0,
+                }}
+                transition={
+                  cursorVisible
+                    ? { duration: 1.2, repeat: Infinity, ease: "easeInOut" }
+                    : { duration: 0.4, ease: "easeOut" }
+                }
+              />
+            )}
+          </span>
+        ))}
+      </span>
     </span>
   );
 };
 
 export function HeroSection() {
-  const [line1Active, setLine1Active] = useState(false);
-  const [line1Done, setLine1Done] = useState(false);
-  const [line2Active, setLine2Active] = useState(false);
-  const [line2Done, setLine2Done] = useState(false);
+  const [typewriterActive, setTypewriterActive] = useState(false);
+  const [typewriterDone, setTypewriterDone] = useState(false);
   const [showSubhead, setShowSubhead] = useState(false);
   const [showSupporting, setShowSupporting] = useState(false);
   const [showCTA, setShowCTA] = useState(false);
@@ -92,26 +112,19 @@ export function HeroSection() {
     const hasPlayed = sessionStorage.getItem(SESSION_KEY);
     if (hasPlayed) {
       setSkipAnimation(true);
-      setLine1Done(true);
-      setLine2Done(true);
+      setTypewriterDone(true);
       setShowSubhead(true);
       setShowSupporting(true);
       setShowCTA(true);
     } else {
-      // Start line 1 after container fades in
-      const timer = setTimeout(() => setLine1Active(true), 600);
+      // Start typewriter after container fades in
+      const timer = setTimeout(() => setTypewriterActive(true), 600);
       return () => clearTimeout(timer);
     }
   }, []);
 
-  const handleLine1Complete = () => {
-    setLine1Done(true);
-    // Micro pause before line 2
-    setTimeout(() => setLine2Active(true), 300);
-  };
-
-  const handleLine2Complete = () => {
-    setLine2Done(true);
+  const handleTypewriterComplete = () => {
+    setTypewriterDone(true);
     sessionStorage.setItem(SESSION_KEY, "true");
     // Reveal subsequent elements
     setTimeout(() => setShowSubhead(true), 200);
@@ -154,7 +167,7 @@ export function HeroSection() {
         transition={{ duration: 0.6, ease: "easeOut" }}
         className="container mx-auto px-6 lg:px-12 relative z-20 pt-20"
       >
-        <div className="max-w-3xl">
+        <div className="max-w-4xl">
           {/* Label */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}
@@ -166,29 +179,29 @@ export function HeroSection() {
             </span>
           </motion.div>
 
-          {/* Main headline - fixed two-line lockup */}
+          {/* Main headline - responsive breakpoint logic */}
           <motion.h1
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: skipAnimation ? 0 : 0.4, duration: 0.4 }}
             className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter mb-6 leading-[0.95]"
           >
-            <span className="block">
-              <TypewriterLine
-                text="AI Powered"
-                isActive={line1Active || skipAnimation}
-                onComplete={handleLine1Complete}
+            {/* Desktop: single line */}
+            <span className="hidden md:block">
+              <Typewriter
+                lines={[DESKTOP_HEADLINE]}
+                isActive={typewriterActive || skipAnimation}
+                onComplete={handleTypewriterComplete}
                 skipAnimation={skipAnimation}
-                showCursor={!line1Done && line1Active}
               />
             </span>
-            <span className="block">
-              <TypewriterLine
-                text="Websites"
-                isActive={line2Active || skipAnimation}
-                onComplete={handleLine2Complete}
+            {/* Mobile: two lines */}
+            <span className="block md:hidden">
+              <Typewriter
+                lines={[MOBILE_LINE_1, MOBILE_LINE_2]}
+                isActive={typewriterActive || skipAnimation}
+                onComplete={handleTypewriterComplete}
                 skipAnimation={skipAnimation}
-                showCursor={!line2Done && line2Active}
               />
             </span>
           </motion.h1>
