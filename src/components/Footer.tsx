@@ -34,7 +34,7 @@ export function Footer() {
               <img 
                 src={artinovateLogo} 
                 alt="ArtiNovate" 
-                className="h-6 w-auto"
+                className="h-7 w-auto"
               />
             </Link>
             <p className="text-muted-foreground text-sm leading-relaxed max-w-xs">
