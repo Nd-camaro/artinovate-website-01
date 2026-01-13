@@ -1,32 +1,37 @@
 import { Link } from "react-router-dom";
-import artinovateLogo from "@/assets/artinovate-logo.png";
-
 const footerLinks = {
-  navigation: [
-    { label: "Home", href: "/" },
-    { label: "About", href: "/about" },
-    { label: "Insights", href: "/insights" },
-    { label: "Contact", href: "/contact" },
-  ],
-  legal: [
-    { label: "Privacy", href: "#" },
-    { label: "Terms", href: "#" },
-  ],
+  navigation: [{
+    label: "Home",
+    href: "/"
+  }, {
+    label: "About",
+    href: "/about"
+  }, {
+    label: "Insights",
+    href: "/insights"
+  }, {
+    label: "Contact",
+    href: "/contact"
+  }],
+  legal: [{
+    label: "Privacy",
+    href: "#"
+  }, {
+    label: "Terms",
+    href: "#"
+  }]
 };
-
 export function Footer() {
-  return (
-    <footer className="bg-graphite border-t border-border py-16">
+  return <footer className="bg-graphite border-t border-border py-16">
       <div className="container mx-auto px-6 lg:px-12">
         <div className="grid md:grid-cols-3 gap-12 mb-12">
           {/* Brand */}
           <div>
-            <Link to="/" className="inline-block mb-4 hover:opacity-90 transition-opacity duration-200">
-              <img 
-                src={artinovateLogo} 
-                alt="ArtiNovate" 
-                className="h-8 w-auto"
-              />
+            <Link to="/" className="flex items-center gap-2 mb-4">
+              <div className="w-7 h-7 rounded-md bg-gradient-to-br from-primary to-accent flex items-center justify-center">
+                <span className="text-primary-foreground font-bold text-xs">A</span>
+              </div>
+              <span className="font-semibold text-base tracking-tight">ArtiNovate</span>
             </Link>
             <p className="text-muted-foreground text-sm leading-relaxed max-w-xs">
               Autonomous digital presence for Web3 and digital asset organizations.
@@ -39,13 +44,11 @@ export function Footer() {
               Navigation
             </h4>
             <ul className="space-y-3">
-              {footerLinks.navigation.map((link) => (
-                <li key={link.label}>
+              {footerLinks.navigation.map(link => <li key={link.label}>
                   <Link to={link.href} className="text-sm text-foreground/80 hover:text-primary transition-colors">
                     {link.label}
                   </Link>
-                </li>
-              ))}
+                </li>)}
             </ul>
           </div>
 
@@ -55,13 +58,11 @@ export function Footer() {
               Legal
             </h4>
             <ul className="space-y-3">
-              {footerLinks.legal.map((link) => (
-                <li key={link.label}>
+              {footerLinks.legal.map(link => <li key={link.label}>
                   <a href={link.href} className="text-sm text-foreground/80 hover:text-primary transition-colors">
                     {link.label}
                   </a>
-                </li>
-              ))}
+                </li>)}
             </ul>
           </div>
         </div>
@@ -74,7 +75,7 @@ export function Footer() {
           <div className="flex items-center gap-5">
             <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                
               </svg>
             </a>
             <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
@@ -85,6 +86,5 @@ export function Footer() {
           </div>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 }
