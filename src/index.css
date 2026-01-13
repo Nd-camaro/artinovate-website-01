@@ -4,6 +4,10 @@
 
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap');
 
+@import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap");
+
 @layer base {
   :root {
     /* ArtiNovate Dark Palette */
@@ -17,7 +21,7 @@
     --popover-foreground: 0 0% 95%;
 
     /* Accent Cyan - Unified accent color #0A82CD */
-    --primary: 204 91% 42%;
+    --primary: 187 100% 42%;
     --primary-foreground: 0 0% 100%;
 
     /* Graphite Grey - Secondary */
@@ -29,15 +33,15 @@
     --muted-foreground: 0 0% 55%;
 
     /* Accent Cyan - Same as primary for unified system */
-    --accent: 204 91% 42%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 187 100% 42%;
+    --accent-foreground: 0 0% 4%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
 
     --border: 0 0% 15%;
     --input: 0 0% 15%;
-    --ring: 204 91% 42%;
+    --ring: 187 100% 42%;
 
     --radius: 0.5rem;
 
@@ -47,24 +51,26 @@
     --graphite-light: 0 0% 14%;
     --accent-cyan: 204 91% 42%;
     --pale-grey: 0 0% 85%;
-    
+
     /* Gradient definitions - Single accent color */
-    --gradient-glow: linear-gradient(135deg, hsl(204 91% 42% / 0.2), hsl(204 91% 42% / 0.1));
-    --gradient-path: linear-gradient(180deg, hsl(204 91% 42%), hsl(204 91% 42% / 0.6));
+    --gradient-glow: linear-gradient(135deg, hsl(216 100% 50% / 0.2), hsl(187 100% 42% / 0.2));
+    --gradient-path: linear-gradient(180deg, hsl(216 100% 50%), hsl(187 100% 42%));
     --gradient-card: linear-gradient(145deg, hsl(0 0% 10%), hsl(0 0% 7%));
-    
+
     /* Shadows - Unified accent */
-    --shadow-glow: 0 0 60px -15px hsl(204 91% 42% / 0.3);
+    --shadow-glow: 0 0 60px -15px hsl(216 100% 50% / 0.3);
     --shadow-subtle: 0 4px 30px -10px hsl(0 0% 0% / 0.5);
 
     --sidebar-background: 0 0% 7%;
     --sidebar-foreground: 0 0% 85%;
-    --sidebar-primary: 204 91% 42%;
+    --sidebar-primary: 216 100% 50%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 0 0% 12%;
     --sidebar-accent-foreground: 0 0% 85%;
     --sidebar-border: 0 0% 15%;
-    --sidebar-ring: 204 91% 42%;
+    --sidebar-ring: 216 100% 50%;
+    --signal-blue: 216 100% 50%;
+    --electric-cyan: 187 100% 42%;
   }
 }
 
