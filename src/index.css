@@ -45,11 +45,11 @@
 
     --radius: 0.5rem;
 
-    /* Custom ArtiNovate tokens - Unified Accent Cyan */
+    /* Custom ArtiNovate tokens - Unified Accent Cyan #00bdd6 */
     --carbon: 0 0% 4%;
     --graphite: 0 0% 10%;
     --graphite-light: 0 0% 14%;
-    --accent-cyan: 204 91% 42%;
+    --accent-cyan: 187 100% 42%;
     --pale-grey: 0 0% 85%;
 
     /* Gradient definitions - Single accent color */
