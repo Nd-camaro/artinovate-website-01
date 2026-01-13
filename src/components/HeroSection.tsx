@@ -1,13 +1,31 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
+import heroImage from "@/assets/hero-home.jpg";
 
-const TypewriterText = ({ text, delay = 0, onComplete }: { text: string; delay?: number; onComplete?: () => void }) => {
-  const [displayedText, setDisplayedText] = useState("");
-  const [isComplete, setIsComplete] = useState(false);
+const SESSION_KEY = "artinovate_typewriter_played";
+
+const TypewriterText = ({ 
+  text, 
+  delay = 0, 
+  onComplete,
+  skipAnimation = false 
+}: { 
+  text: string; 
+  delay?: number; 
+  onComplete?: () => void;
+  skipAnimation?: boolean;
+}) => {
+  const [displayedText, setDisplayedText] = useState(skipAnimation ? text : "");
+  const [showCursor, setShowCursor] = useState(!skipAnimation);
 
   useEffect(() => {
+    if (skipAnimation) {
+      onComplete?.();
+      return;
+    }
+
     const timeout = setTimeout(() => {
       let currentIndex = 0;
       const interval = setInterval(() => {
@@ -16,19 +34,28 @@ const TypewriterText = ({ text, delay = 0, onComplete }: { text: string; delay?:
           currentIndex++;
         } else {
           clearInterval(interval);
-          setIsComplete(true);
-          onComplete?.();
+          // Fade out cursor after completion
+          setTimeout(() => {
+            setShowCursor(false);
+            onComplete?.();
+          }, 600);
         }
-      }, 40);
+      }, 50);
       return () => clearInterval(interval);
     }, delay);
     return () => clearTimeout(timeout);
-  }, [text, delay, onComplete]);
+  }, [text, delay, onComplete, skipAnimation]);
 
   return (
     <span>
       {displayedText}
-      {!isComplete && <span className="typewriter-cursor" />}
+      {showCursor && (
+        <motion.span 
+          className="inline-block w-[2px] h-[0.85em] bg-primary/80 ml-1 align-middle"
+          animate={{ opacity: [1, 0] }}
+          transition={{ duration: 0.8, repeat: Infinity, repeatType: "reverse" }}
+        />
+      )}
     </span>
   );
 };
@@ -37,91 +64,114 @@ export function HeroSection() {
   const [showSubhead, setShowSubhead] = useState(false);
   const [showSupporting, setShowSupporting] = useState(false);
   const [showCTA, setShowCTA] = useState(false);
-  const [animationComplete, setAnimationComplete] = useState(false);
+  const hasPlayedRef = useRef(false);
+  const [skipAnimation, setSkipAnimation] = useState(false);
 
   useEffect(() => {
-    // Trigger the hero content after logo animation
-    const timer = setTimeout(() => setAnimationComplete(true), 1800);
-    return () => clearTimeout(timer);
+    // Check if animation has already played this session
+    const hasPlayed = sessionStorage.getItem(SESSION_KEY);
+    if (hasPlayed) {
+      setSkipAnimation(true);
+      setShowSubhead(true);
+      setShowSupporting(true);
+      setShowCTA(true);
+    } else {
+      hasPlayedRef.current = true;
+    }
   }, []);
 
-  return (
-    <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
-      {/* Background grid pattern */}
-      <div className="absolute inset-0 bg-grid-pattern opacity-30" />
-      
-      {/* Gradient orbs */}
-      <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] rounded-full bg-primary/5 blur-[120px] animate-float" />
-      <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-accent/5 blur-[100px] animate-float" style={{ animationDelay: "-2s" }} />
-      
-      {/* Logo sweep animation */}
-      <motion.div
-        initial={{ x: "-100%", opacity: 0 }}
-        animate={{ x: "100%", opacity: [0, 1, 1, 0] }}
-        transition={{ duration: 1.2, ease: "easeInOut" }}
-        className="absolute top-1/2 left-0 -translate-y-1/2 z-10"
-      >
-        <div className="flex items-center gap-4 px-8">
-          <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-            <span className="text-primary-foreground font-bold text-2xl">A</span>
-          </div>
-          <span className="text-4xl font-bold tracking-tight text-gradient">ArtiNovate</span>
-        </div>
-      </motion.div>
+  const handleTypewriterComplete = () => {
+    if (!skipAnimation) {
+      sessionStorage.setItem(SESSION_KEY, "true");
+    }
+    setTimeout(() => setShowSubhead(true), 100);
+  };
 
+  return (
+    <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Hero background image with overlay */}
+      <div className="absolute inset-0">
+        <img 
+          src={heroImage} 
+          alt="" 
+          className="w-full h-full object-cover object-top"
+        />
+        {/* Dark overlay for readability */}
+        <div className="absolute inset-0 bg-background/40" />
+        {/* Bottom gradient blend - slow, smooth, invisible transition */}
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 via-35% to-transparent" />
+      </div>
+      
       {/* Main content */}
-      <div className="container mx-auto px-6 lg:px-12 relative z-20">
-        <div className="max-w-4xl mx-auto text-center">
+      <div className="container mx-auto px-6 lg:px-12 relative z-20 pt-20">
+        <div className="max-w-3xl">
           {/* Label */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8, duration: 0.6 }}
+            transition={{ delay: skipAnimation ? 0 : 0.3, duration: 0.5 }}
           >
             <span className="label-mono text-primary mb-6 block">AI Automation Agency</span>
           </motion.div>
 
-          {/* Main headline */}
+          {/* Main headline with typewriter */}
           <motion.h1
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 1, duration: 0.5 }}
-            className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter mb-6 leading-[0.95]"
+            transition={{ delay: skipAnimation ? 0 : 0.5, duration: 0.4 }}
+            className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter mb-6 leading-[0.95]"
           >
-            <TypewriterText text="Autonomous digital presence" delay={1200} onComplete={() => setShowSubhead(true)} />
+            <TypewriterText 
+              text="Autonomous Digital Presence" 
+              delay={skipAnimation ? 0 : 700} 
+              onComplete={handleTypewriterComplete}
+              skipAnimation={skipAnimation}
+            />
           </motion.h1>
 
-          {/* Subheading */}
+          {/* Subheading - slides up softly */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={showSubhead ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6 }}
-            onAnimationComplete={() => setTimeout(() => setShowSupporting(true), 300)}
-            className="text-xl md:text-2xl text-muted-foreground font-light mb-4"
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            onAnimationComplete={() => {
+              if (showSubhead) setTimeout(() => setShowSupporting(true), 200);
+            }}
+            className="text-lg md:text-xl text-muted-foreground font-light mb-3"
           >
             For Web3 and digital asset organizations.
           </motion.p>
 
-          {/* Supporting line */}
+          {/* Supporting line - fades in at reduced opacity */}
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={showSupporting ? { opacity: 1, y: 0 } : {}}
+            initial={{ opacity: 0 }}
+            animate={showSupporting ? { opacity: 0.7 } : {}}
             transition={{ duration: 0.6 }}
-            onAnimationComplete={() => setTimeout(() => setShowCTA(true), 500)}
-            className="font-mono text-sm md:text-base text-primary mb-12"
+            onAnimationComplete={() => {
+              if (showSupporting) setTimeout(() => setShowCTA(true), 300);
+            }}
+            className="font-mono text-xs md:text-sm text-primary mb-10"
           >
             Publishes. Engages. Converts. Follows up.
           </motion.p>
 
-          {/* CTA Button */}
+          {/* CTA Buttons - left aligned, reduced size */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             animate={showCTA ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="flex flex-col sm:flex-row items-start gap-4"
           >
-            <Button variant="hero" size="xl">
+            <Button variant="hero" size="default" className="h-10 px-6 text-sm">
               Book a strategy call
             </Button>
+            <a 
+              href="#system" 
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1 group"
+            >
+              See how it works
+              <ChevronDown className="w-4 h-4 group-hover:translate-y-0.5 transition-transform" />
+            </a>
           </motion.div>
         </div>
       </div>
@@ -130,21 +180,21 @@ export function HeroSection() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 3, duration: 1 }}
+        transition={{ delay: skipAnimation ? 0.5 : 3, duration: 1 }}
         className="absolute bottom-12 left-1/2 -translate-x-1/2"
       >
         <a href="#about" className="flex flex-col items-center gap-2 text-muted-foreground hover:text-foreground transition-colors">
           <span className="font-mono text-xs uppercase tracking-widest">Scroll</span>
-          <ChevronDown className="w-5 h-5 scroll-indicator" />
+          <ChevronDown className="w-4 h-4 scroll-indicator" />
         </a>
       </motion.div>
 
-      {/* Connecting lines starting point */}
+      {/* Connecting line starting point */}
       <motion.div
         initial={{ opacity: 0, scaleY: 0 }}
         animate={{ opacity: 1, scaleY: 1 }}
-        transition={{ delay: 4.5, duration: 1, ease: "easeOut" }}
-        className="absolute bottom-0 left-1/2 -translate-x-1/2 w-px h-24 bg-gradient-to-b from-primary/0 via-primary to-primary origin-top"
+        transition={{ delay: skipAnimation ? 0.5 : 3.5, duration: 1, ease: "easeOut" }}
+        className="absolute bottom-0 left-1/2 -translate-x-1/2 w-px h-20 bg-gradient-to-b from-primary/0 via-primary to-primary origin-top"
       />
     </section>
   );
