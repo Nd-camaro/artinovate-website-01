@@ -1,8 +1,10 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { useScheduling } from "@/contexts/SchedulingContext";
 
 export function CTASection() {
+  const { openScheduler } = useScheduling();
   return (
     <section id="contact" className="relative py-32 lg:py-48 bg-background overflow-hidden">
       {/* Background elements */}
@@ -46,7 +48,7 @@ export function CTASection() {
             </p>
 
             <div className="flex justify-center">
-              <Button variant="hero" size="xl" className="group">
+              <Button variant="hero" size="xl" className="group" onClick={openScheduler}>
                 Book a strategy call
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
