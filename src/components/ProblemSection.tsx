@@ -4,15 +4,15 @@ import { Globe, TrendingDown } from "lucide-react";
 const problems = [
   {
     icon: Globe,
-    label: "No Website",
-    title: "Operating without a digital presence",
-    description: "Your organization exists in the Web3 space but has no home on the web. Potential partners and investors cannot verify your legitimacy or understand your value proposition.",
+    label: "No Central System",
+    title: "No website, no central system",
+    description: "Your organization operates without a digital home. No way for partners or investors to verify legitimacy or understand your value proposition.",
   },
   {
     icon: TrendingDown,
-    label: "Underperforming",
-    title: "Website that doesn't work for you",
-    description: "You have a website, but it sits static. No content updates, no visitor engagement, no lead capture. Your digital presence is a liability, not an asset.",
+    label: "Static Presence",
+    title: "Static website, no automation",
+    description: "You have a website, but it sits idle. No publishing, no engagement, no qualification, no follow up. Your digital presence is a liability.",
   },
 ];
 
@@ -32,7 +32,7 @@ export function ProblemSection() {
         >
           <span className="label-mono text-primary mb-4 block">The Problem</span>
           <h2 className="text-3xl md:text-5xl font-bold tracking-tight max-w-2xl">
-            Digital presence is no longer optional
+            Most digital operations lack real infrastructure
           </h2>
         </motion.div>
 

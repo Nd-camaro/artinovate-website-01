@@ -39,9 +39,9 @@ export function CoreFunctionsSection() {
           transition={{ duration: 0.8 }}
           className="mb-16 text-center lg:text-left"
         >
-          <span className="label-mono text-primary mb-4 block">The System</span>
+          <span className="label-mono text-primary mb-4 block">System Overview</span>
           <h2 className="text-3xl md:text-5xl font-bold tracking-tight max-w-2xl">
-            Four functions, one autonomous system
+            One system. Four functions.
           </h2>
         </motion.div>
 

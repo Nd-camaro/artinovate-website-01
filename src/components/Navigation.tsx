@@ -1,18 +1,19 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
 
 const navItems = [
-  { label: "Home", href: "#hero" },
-  { label: "About", href: "#about" },
-  { label: "Insights", href: "#system" },
-  { label: "Contact", href: "#contact" },
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
+  { label: "Insights", href: "/insights" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -26,48 +27,49 @@ export function Navigation() {
     <motion.header
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, delay: 1.5 }}
+      transition={{ duration: 0.6, delay: 0.5 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled ? "bg-background/80 backdrop-blur-xl border-b border-border/50" : "bg-transparent"
+        isScrolled ? "bg-background/60 backdrop-blur-xl border-b border-border/30" : "bg-transparent"
       }`}
     >
       <div className="container mx-auto px-6 lg:px-12">
-        <div className="flex items-center justify-between h-20">
+        <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
-          <a href="#hero" className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-md bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-sm">A</span>
+          <Link to="/" className="flex items-center gap-2">
+            <div className="w-7 h-7 rounded-md bg-gradient-to-br from-primary to-accent flex items-center justify-center">
+              <span className="text-primary-foreground font-bold text-xs">A</span>
             </div>
-            <span className="font-semibold text-lg tracking-tight">ArtiNovate</span>
-          </a>
+            <span className="font-semibold text-base tracking-tight">ArtiNovate</span>
+          </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden md:flex items-center gap-10">
             {navItems.map((item) => (
-              <a
+              <Link
                 key={item.label}
-                href={item.href}
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 relative group"
+                to={item.href}
+                className={`text-sm transition-colors duration-200 relative group ${
+                  location.pathname === item.href 
+                    ? "text-foreground" 
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
               >
                 {item.label}
-                <span className="absolute -bottom-1 left-0 w-0 h-px bg-primary transition-all duration-300 group-hover:w-full" />
-              </a>
+                <span 
+                  className={`absolute -bottom-1 left-0 h-px bg-primary transition-all duration-300 ${
+                    location.pathname === item.href ? "w-full" : "w-0 group-hover:w-full"
+                  }`} 
+                />
+              </Link>
             ))}
           </nav>
-
-          {/* CTA Button */}
-          <div className="hidden md:block">
-            <Button variant="hero" size="default">
-              Book a strategy call
-            </Button>
-          </div>
 
           {/* Mobile Menu Toggle */}
           <button
             className="md:hidden p-2 text-foreground"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
       </div>
@@ -83,18 +85,19 @@ export function Navigation() {
           >
             <nav className="container mx-auto px-6 py-6 flex flex-col gap-4">
               {navItems.map((item) => (
-                <a
+                <Link
                   key={item.label}
-                  href={item.href}
-                  className="text-lg text-muted-foreground hover:text-foreground transition-colors py-2"
+                  to={item.href}
+                  className={`text-base py-2 transition-colors ${
+                    location.pathname === item.href 
+                      ? "text-foreground" 
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {item.label}
-                </a>
+                </Link>
               ))}
-              <Button variant="hero" size="lg" className="mt-4">
-                Book a strategy call
-              </Button>
             </nav>
           </motion.div>
         )}
