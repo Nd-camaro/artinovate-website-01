@@ -1,11 +1,9 @@
-import { useEffect, useState, useRef, useLayoutEffect } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
 import heroImage from "@/assets/hero-home.jpg";
-
 const SESSION_KEY = "artinovate_typewriter_played";
-
 const TypewriterText = ({
   text,
   delay = 0,
@@ -20,32 +18,12 @@ const TypewriterText = ({
   const [displayedText, setDisplayedText] = useState(skipAnimation ? text : "");
   const [cursorOpacity, setCursorOpacity] = useState(skipAnimation ? 0 : 1);
   const [isTyping, setIsTyping] = useState(!skipAnimation);
-  const [isReady, setIsReady] = useState(skipAnimation);
-  const containerRef = useRef<HTMLSpanElement>(null);
-  const animationStartedRef = useRef(false);
-
-  // Use layout effect to measure and set container dimensions before paint
-  useLayoutEffect(() => {
-    if (skipAnimation || !containerRef.current) {
-      setIsReady(true);
-      return;
-    }
-    // Container already has the full text invisibly rendered for measurement
-    // Mark as ready immediately since CSS handles the layout
-    setIsReady(true);
-  }, [skipAnimation]);
 
   useEffect(() => {
     if (skipAnimation) {
       onComplete?.();
       return;
     }
-
-    // Prevent re-running if already started
-    if (animationStartedRef.current) return;
-    if (!isReady) return;
-
-    animationStartedRef.current = true;
 
     const startTimeout = setTimeout(() => {
       let currentIndex = 0;
@@ -56,9 +34,9 @@ const TypewriterText = ({
           setDisplayedText(text.slice(0, currentIndex));
           currentIndex++;
           
-          // Consistent, smooth typing speed
-          const baseSpeed = 55;
-          const variance = Math.random() * 20 - 10;
+          // Vary speed slightly for more natural feel
+          const baseSpeed = 65;
+          const variance = Math.random() * 30 - 15;
           setTimeout(typeNextChar, baseSpeed + variance);
         } else {
           // Typing complete - fade out cursor gracefully
@@ -67,8 +45,8 @@ const TypewriterText = ({
             setCursorOpacity(0);
             setTimeout(() => {
               onComplete?.();
-            }, 300);
-          }, 600);
+            }, 400);
+          }, 800);
         }
       };
       
@@ -76,58 +54,36 @@ const TypewriterText = ({
     }, delay);
 
     return () => clearTimeout(startTimeout);
-  }, [text, delay, onComplete, skipAnimation, isReady]);
+  }, [text, delay, onComplete, skipAnimation]);
 
   return (
-    <span ref={containerRef} className="relative inline">
-      {/* Invisible text to establish layout - prevents reflow */}
-      <span 
-        className="invisible" 
-        aria-hidden="true"
-        style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}
-      >
-        {text}
-      </span>
-      {/* Visible typed text overlaid on top */}
-      <span 
-        className="absolute left-0 top-0"
-        style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}
-      >
-        {displayedText}
-        {(isTyping || cursorOpacity > 0) && (
-          <motion.span 
-            className="inline-block w-[2px] h-[0.85em] bg-primary ml-0.5 align-middle rounded-sm"
-            initial={{ opacity: 1 }}
-            animate={{ 
-              opacity: isTyping ? [1, 0.4, 1] : cursorOpacity,
-            }}
-            transition={isTyping ? {
-              duration: 0.8,
-              repeat: Infinity,
-              ease: "easeInOut"
-            } : {
-              duration: 0.4,
-              ease: "easeOut"
-            }}
-          />
-        )}
-      </span>
+    <span className="relative">
+      {displayedText}
+      <motion.span 
+        className="inline-block w-[3px] h-[0.8em] bg-primary ml-1 align-middle rounded-sm"
+        initial={{ opacity: skipAnimation ? 0 : 1 }}
+        animate={{ 
+          opacity: isTyping ? [1, 0.3, 1] : cursorOpacity,
+        }}
+        transition={isTyping ? {
+          duration: 0.9,
+          repeat: Infinity,
+          ease: "easeInOut"
+        } : {
+          duration: 0.5,
+          ease: "easeOut"
+        }}
+      />
     </span>
   );
 };
-
 export function HeroSection() {
   const [showSubhead, setShowSubhead] = useState(false);
   const [showSupporting, setShowSupporting] = useState(false);
   const [showCTA, setShowCTA] = useState(false);
+  const hasPlayedRef = useRef(false);
   const [skipAnimation, setSkipAnimation] = useState(false);
-  const initRef = useRef(false);
-
   useEffect(() => {
-    // Only run once
-    if (initRef.current) return;
-    initRef.current = true;
-
     // Check if animation has already played this session
     const hasPlayed = sessionStorage.getItem(SESSION_KEY);
     if (hasPlayed) {
@@ -135,9 +91,10 @@ export function HeroSection() {
       setShowSubhead(true);
       setShowSupporting(true);
       setShowCTA(true);
+    } else {
+      hasPlayedRef.current = true;
     }
   }, []);
-
   const handleTypewriterComplete = () => {
     if (!skipAnimation) {
       sessionStorage.setItem(SESSION_KEY, "true");
