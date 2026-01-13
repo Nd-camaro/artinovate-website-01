@@ -7,6 +7,7 @@ import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/hero-insights.jpg";
 import { ArrowRight } from "lucide-react";
+import { useScheduling } from "@/contexts/SchedulingContext";
 
 const categories = [
   { id: "all", label: "All" },
@@ -62,6 +63,7 @@ const insights = [
 ];
 
 export default function Insights() {
+  const { openScheduler } = useScheduling();
   const [activeCategory, setActiveCategory] = useState("all");
 
   const filteredInsights = activeCategory === "all" 
@@ -163,7 +165,7 @@ export default function Insights() {
               <p className="text-muted-foreground mb-6">
                 Book a strategy call to explore how autonomous systems could work for your organization.
               </p>
-              <Button variant="hero" size="default" className="h-10 px-6 text-sm">
+              <Button variant="hero" size="default" className="h-10 px-6 text-sm" onClick={openScheduler}>
                 Book a strategy call
               </Button>
             </motion.div>

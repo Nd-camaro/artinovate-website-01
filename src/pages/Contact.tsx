@@ -7,6 +7,7 @@ import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/hero-contact.jpg";
 import { Calendar, CheckCircle, ArrowRight, MessageSquare, Target, Compass } from "lucide-react";
+import { useScheduling } from "@/contexts/SchedulingContext";
 
 const callBenefits = [
   "Discuss your current digital presence and operational needs",
@@ -44,6 +45,7 @@ const nextSteps = [
 ];
 
 export default function Contact() {
+  const { openScheduler } = useScheduling();
   const [formData, setFormData] = useState({
     organizationType: "",
     presenceStatus: "",
@@ -106,7 +108,7 @@ export default function Contact() {
                   ))}
                 </ul>
 
-                <Button variant="hero" size="default" className="h-10 px-6 text-sm inline-flex items-center gap-2">
+                <Button variant="hero" size="default" className="h-10 px-6 text-sm inline-flex items-center gap-2" onClick={openScheduler}>
                   <Calendar className="w-4 h-4" />
                   Schedule a call
                 </Button>

@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
 import heroImage from "@/assets/hero-home.jpg";
+import { useScheduling } from "@/contexts/SchedulingContext";
 
 const SESSION_KEY = "artinovate_typewriter_played";
 
@@ -101,6 +102,7 @@ const Typewriter = ({
 };
 
 export function HeroSection() {
+  const { openScheduler } = useScheduling();
   const [typewriterActive, setTypewriterActive] = useState(false);
   const [typewriterDone, setTypewriterDone] = useState(false);
   const [showSubhead, setShowSubhead] = useState(false);
@@ -233,7 +235,7 @@ export function HeroSection() {
             transition={{ duration: 0.6, ease: "easeOut" }}
             className="flex flex-col sm:flex-row items-start gap-4"
           >
-            <Button variant="hero" size="default" className="h-10 px-6 text-sm">
+            <Button variant="hero" size="default" className="h-10 px-6 text-sm" onClick={openScheduler}>
               Book a strategy call
             </Button>
           </motion.div>
