@@ -36,7 +36,7 @@ export function Navigation() {
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-md bg-gradient-to-br from-primary to-accent flex items-center justify-center">
+            <div className="w-7 h-7 rounded-md bg-primary flex items-center justify-center">
               <span className="text-primary-foreground font-bold text-xs">A</span>
             </div>
             <span className="font-semibold text-base tracking-tight">ArtiNovate</span>
