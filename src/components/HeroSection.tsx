@@ -7,10 +7,9 @@ import { useScheduling } from "@/contexts/SchedulingContext";
 
 const SESSION_KEY = "artinovate_typewriter_played";
 
-// Headlines for different breakpoints
-const DESKTOP_HEADLINE = "Autonomous AI Powered Websites";
-const MOBILE_LINE_1 = "Autonomous AI Powered";
-const MOBILE_LINE_2 = "Websites";
+// Fixed two-line headline for all breakpoints
+const HEADLINE_LINE_1 = "Autonomous AI";
+const HEADLINE_LINE_2 = "Powered Websites";
 
 interface TypewriterProps {
   lines: string[];
@@ -181,31 +180,19 @@ export function HeroSection() {
             </span>
           </motion.div>
 
-          {/* Main headline - responsive breakpoint logic */}
+          {/* Main headline - fixed two lines on all breakpoints */}
           <motion.h1
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: skipAnimation ? 0 : 0.4, duration: 0.4 }}
-            className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter mb-6 leading-[0.95]"
+            className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter mb-6 leading-[1.05]"
           >
-            {/* Desktop: single line */}
-            <span className="hidden md:block">
-              <Typewriter
-                lines={[DESKTOP_HEADLINE]}
-                isActive={typewriterActive || skipAnimation}
-                onComplete={handleTypewriterComplete}
-                skipAnimation={skipAnimation}
-              />
-            </span>
-            {/* Mobile: two lines */}
-            <span className="block md:hidden">
-              <Typewriter
-                lines={[MOBILE_LINE_1, MOBILE_LINE_2]}
-                isActive={typewriterActive || skipAnimation}
-                onComplete={handleTypewriterComplete}
-                skipAnimation={skipAnimation}
-              />
-            </span>
+            <Typewriter
+              lines={[HEADLINE_LINE_1, HEADLINE_LINE_2]}
+              isActive={typewriterActive || skipAnimation}
+              onComplete={handleTypewriterComplete}
+              skipAnimation={skipAnimation}
+            />
           </motion.h1>
 
           {/* Subheading */}
