@@ -16,41 +16,66 @@ const TypewriterText = ({
   skipAnimation?: boolean;
 }) => {
   const [displayedText, setDisplayedText] = useState(skipAnimation ? text : "");
-  const [showCursor, setShowCursor] = useState(!skipAnimation);
+  const [cursorOpacity, setCursorOpacity] = useState(skipAnimation ? 0 : 1);
+  const [isTyping, setIsTyping] = useState(!skipAnimation);
+
   useEffect(() => {
     if (skipAnimation) {
       onComplete?.();
       return;
     }
-    const timeout = setTimeout(() => {
+
+    const startTimeout = setTimeout(() => {
       let currentIndex = 0;
-      const interval = setInterval(() => {
-        if (currentIndex <= text.length) {
+      const chars = text.split("");
+      
+      const typeNextChar = () => {
+        if (currentIndex <= chars.length) {
           setDisplayedText(text.slice(0, currentIndex));
           currentIndex++;
+          
+          // Vary speed slightly for more natural feel
+          const baseSpeed = 65;
+          const variance = Math.random() * 30 - 15;
+          setTimeout(typeNextChar, baseSpeed + variance);
         } else {
-          clearInterval(interval);
-          // Fade out cursor after completion
+          // Typing complete - fade out cursor gracefully
+          setIsTyping(false);
           setTimeout(() => {
-            setShowCursor(false);
-            onComplete?.();
-          }, 600);
+            setCursorOpacity(0);
+            setTimeout(() => {
+              onComplete?.();
+            }, 400);
+          }, 800);
         }
-      }, 50);
-      return () => clearInterval(interval);
+      };
+      
+      typeNextChar();
     }, delay);
-    return () => clearTimeout(timeout);
+
+    return () => clearTimeout(startTimeout);
   }, [text, delay, onComplete, skipAnimation]);
-  return <span>
+
+  return (
+    <span className="relative">
       {displayedText}
-      {showCursor && <motion.span className="inline-block w-[2px] h-[0.85em] bg-primary/80 ml-1 align-middle" animate={{
-      opacity: [1, 0]
-    }} transition={{
-      duration: 0.8,
-      repeat: Infinity,
-      repeatType: "reverse"
-    }} />}
-    </span>;
+      <motion.span 
+        className="inline-block w-[3px] h-[0.8em] bg-primary ml-1 align-middle rounded-sm"
+        initial={{ opacity: skipAnimation ? 0 : 1 }}
+        animate={{ 
+          opacity: isTyping ? [1, 0.3, 1] : cursorOpacity,
+        }}
+        transition={isTyping ? {
+          duration: 0.9,
+          repeat: Infinity,
+          ease: "easeInOut"
+        } : {
+          duration: 0.5,
+          ease: "easeOut"
+        }}
+      />
+    </span>
+  );
 };
 export function HeroSection() {
   const [showSubhead, setShowSubhead] = useState(false);
