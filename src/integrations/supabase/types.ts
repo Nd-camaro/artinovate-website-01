@@ -24,9 +24,6 @@ export type Database = {
           conversion_goal: string | null
           created_at: string
           cta_config: Json | null
-          cta_enabled: boolean | null
-          cta_text: string | null
-          cta_url: string | null
           excerpt: string | null
           external_links: Json | null
           faq_json_ld: Json | null
@@ -57,9 +54,6 @@ export type Database = {
           conversion_goal?: string | null
           created_at?: string
           cta_config?: Json | null
-          cta_enabled?: boolean | null
-          cta_text?: string | null
-          cta_url?: string | null
           excerpt?: string | null
           external_links?: Json | null
           faq_json_ld?: Json | null
@@ -90,9 +84,6 @@ export type Database = {
           conversion_goal?: string | null
           created_at?: string
           cta_config?: Json | null
-          cta_enabled?: boolean | null
-          cta_text?: string | null
-          cta_url?: string | null
           excerpt?: string | null
           external_links?: Json | null
           faq_json_ld?: Json | null
