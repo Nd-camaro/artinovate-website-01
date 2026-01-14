@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { Navigation } from "@/components/Navigation";
 import { PageHero } from "@/components/PageHero";
 import { ScrollPath } from "@/components/ScrollPath";
@@ -9,12 +10,11 @@ import { ArrowRight } from "lucide-react";
 import { useScheduling } from "@/contexts/SchedulingContext";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Insights() {
   const { openScheduler } = useScheduling();
 
-  const { data: insights = [], isLoading } = useQuery({
+  const { data: insights = [] } = useQuery({
     queryKey: ["insight_posts"],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -47,18 +47,7 @@ export default function Insights() {
         {/* Insights Grid */}
         <section id="content" className="py-16 lg:py-24 bg-background">
           <div className="container mx-auto px-6 lg:px-12">
-            {isLoading ? (
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {[1, 2, 3].map((i) => (
-                  <div key={i} className="p-6 border border-border/50 rounded-lg bg-card/20">
-                    <Skeleton className="h-4 w-24 mb-4" />
-                    <Skeleton className="h-6 w-full mb-3" />
-                    <Skeleton className="h-4 w-full mb-2" />
-                    <Skeleton className="h-4 w-3/4" />
-                  </div>
-                ))}
-              </div>
-            ) : insights.length === 0 ? (
+            {insights.length === 0 ? (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -70,7 +59,7 @@ export default function Insights() {
                 </p>
               </motion.div>
             ) : (
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
                 {insights.map((insight, index) => (
                   <motion.article
                     key={insight.id}
@@ -78,33 +67,53 @@ export default function Insights() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-50px" }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className="group cursor-pointer"
                   >
-                    <div className="h-full p-6 border border-border/50 rounded-lg bg-card/20 hover:border-primary/30 hover:bg-card/40 transition-all duration-300 hover:-translate-y-1">
-                      <div className="flex items-center gap-3 mb-4">
-                        {insight.reading_time && (
-                          <span className="font-mono text-xs text-primary">
-                            {insight.reading_time} min read
-                          </span>
+                    <Link 
+                      to={`/insights/${insight.slug}`}
+                      className="group block h-full"
+                    >
+                      <div className="h-full flex flex-col border border-border/50 rounded-lg bg-card/20 hover:border-primary/30 hover:bg-card/40 transition-all duration-300 hover:-translate-y-1 overflow-hidden">
+                        {/* Featured Image */}
+                        {insight.featured_image_url && (
+                          <div className="relative aspect-[16/9] overflow-hidden">
+                            <div className="absolute inset-0 bg-gradient-to-t from-card/60 to-transparent z-10" />
+                            <img
+                              src={insight.featured_image_url}
+                              alt={insight.title}
+                              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                              loading="eager"
+                            />
+                          </div>
                         )}
-                        {insight.published_at && (
-                          <span className="text-xs text-muted-foreground">
-                            {new Date(insight.published_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                        
+                        {/* Content */}
+                        <div className="flex-1 p-6 flex flex-col">
+                          <div className="flex items-center gap-3 mb-4">
+                            {insight.reading_time && (
+                              <span className="font-mono text-xs text-primary">
+                                {insight.reading_time} min read
+                              </span>
+                            )}
+                            {insight.published_at && (
+                              <span className="text-xs text-muted-foreground">
+                                {new Date(insight.published_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                              </span>
+                            )}
+                          </div>
+                          <h3 className="text-lg font-semibold mb-3 text-foreground group-hover:text-primary transition-colors leading-snug">
+                            {insight.title}
+                          </h3>
+                          {insight.excerpt && (
+                            <p className="text-sm text-muted-foreground leading-relaxed mb-4 flex-1">
+                              {insight.excerpt}
+                            </p>
+                          )}
+                          <span className="inline-flex items-center gap-1 text-sm text-primary opacity-0 group-hover:opacity-100 transition-opacity mt-auto">
+                            Read more <ArrowRight className="w-3 h-3" />
                           </span>
-                        )}
+                        </div>
                       </div>
-                      <h3 className="text-lg font-semibold mb-3 text-foreground group-hover:text-primary transition-colors">
-                        {insight.title}
-                      </h3>
-                      {insight.excerpt && (
-                        <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-                          {insight.excerpt}
-                        </p>
-                      )}
-                      <span className="inline-flex items-center gap-1 text-sm text-primary opacity-0 group-hover:opacity-100 transition-opacity">
-                        Read more <ArrowRight className="w-3 h-3" />
-                      </span>
-                    </div>
+                    </Link>
                   </motion.article>
                 ))}
               </div>
