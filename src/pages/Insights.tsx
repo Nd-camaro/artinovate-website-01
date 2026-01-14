@@ -14,7 +14,7 @@ import { supabase } from "@/integrations/supabase/client";
 export default function Insights() {
   const { openScheduler } = useScheduling();
 
-  const { data: insights, isLoading } = useQuery({
+  const { data: insights = [], isLoading } = useQuery({
     queryKey: ["insight_posts"],
     queryFn: async () => {
       const { data, error } = await supabase
