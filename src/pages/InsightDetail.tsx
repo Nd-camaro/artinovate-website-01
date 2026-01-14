@@ -4,9 +4,10 @@ import { supabase } from "@/integrations/supabase/client";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { ScrollPath } from "@/components/ScrollPath";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Calendar } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { useScheduling } from "@/contexts/SchedulingContext";
 
 interface CTAConfig {
   text?: string;
@@ -16,6 +17,7 @@ interface CTAConfig {
 
 export default function InsightDetail() {
   const { slug } = useParams<{ slug: string }>();
+  const { openScheduler } = useScheduling();
 
   const { data: insight, isLoading, error } = useQuery({
     queryKey: ["insight_post", slug],
@@ -255,21 +257,27 @@ export default function InsightDetail() {
             </ReactMarkdown>
           </div>
 
-          {/* Inline CTA from cta_config */}
+          {/* Inline CTA from cta_config - opens scheduling modal */}
           {ctaConfig?.text && (
-            <aside className="mt-12 p-6 md:p-8 bg-graphite/50 border border-primary/10 rounded-lg">
+            <aside 
+              onClick={openScheduler}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  openScheduler();
+                }
+              }}
+              className="mt-12 p-6 md:p-8 bg-graphite/50 border border-primary/10 rounded-lg cursor-pointer transition-colors hover:bg-graphite/70 hover:border-primary/20 focus:outline-none focus:ring-2 focus:ring-primary/30"
+            >
               <p className="text-base md:text-lg leading-relaxed text-foreground">
                 {ctaConfig.text}
               </p>
-              {ctaConfig.url && ctaConfig.buttonText && (
-                <a
-                  href={ctaConfig.url}
-                  className="inline-block mt-4 text-primary hover:text-primary/80 font-medium transition-colors"
-                  {...(ctaConfig.url.startsWith('http') && { target: "_blank", rel: "noopener noreferrer" })}
-                >
-                  {ctaConfig.buttonText} →
-                </a>
-              )}
+              <span className="inline-flex items-center gap-2 mt-4 text-primary font-medium">
+                <Calendar className="w-4 h-4" />
+                {ctaConfig.buttonText || "Schedule a consultation"} →
+              </span>
             </aside>
           )}
         </article>
