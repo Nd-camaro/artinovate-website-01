@@ -33,12 +33,35 @@ export default function InsightDetail() {
     enabled: !!slug,
   });
 
-  // Parse CTA config
-  const ctaConfig: CTAConfig | null = insight?.cta_config 
-    ? (typeof insight.cta_config === 'string' 
-        ? JSON.parse(insight.cta_config) 
-        : insight.cta_config as CTAConfig)
-    : null;
+  // Parse CTA config safely - handle both JSON objects and plain text
+  const parseCTAConfig = (config: unknown): CTAConfig | null => {
+    if (!config) return null;
+    
+    // Already an object with expected structure
+    if (typeof config === 'object' && config !== null) {
+      return config as CTAConfig;
+    }
+    
+    // String that might be JSON or plain text
+    if (typeof config === 'string') {
+      const trimmed = config.trim();
+      // Only try to parse if it looks like JSON (starts with { or [)
+      if (trimmed.startsWith('{') || trimmed.startsWith('[')) {
+        try {
+          return JSON.parse(trimmed) as CTAConfig;
+        } catch {
+          // Failed to parse - treat as plain text CTA
+          return { text: config };
+        }
+      }
+      // Plain text - use as CTA text directly
+      return { text: config };
+    }
+    
+    return null;
+  };
+
+  const ctaConfig = parseCTAConfig(insight?.cta_config);
 
   if (isLoading) {
     return (
