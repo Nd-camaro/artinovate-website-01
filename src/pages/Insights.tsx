@@ -14,7 +14,7 @@ import { supabase } from "@/integrations/supabase/client";
 export default function Insights() {
   const { openScheduler } = useScheduling();
 
-  const { data: insights = [] } = useQuery({
+  const { data: insights, isLoading } = useQuery({
     queryKey: ["insight_posts"],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -28,6 +28,7 @@ export default function Insights() {
       if (error) throw error;
       return data || [];
     },
+    staleTime: 1000 * 60 * 5, // Cache for 5 minutes
   });
 
   return (
@@ -47,7 +48,10 @@ export default function Insights() {
         {/* Insights Grid */}
         <section id="content" className="py-16 lg:py-24 bg-background">
           <div className="container mx-auto px-6 lg:px-12">
-            {insights.length === 0 ? (
+            {isLoading ? (
+              // Neutral reserved space while loading - no content claims
+              <div className="min-h-[200px]" />
+            ) : !insights || insights.length === 0 ? (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
