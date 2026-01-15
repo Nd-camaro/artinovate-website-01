@@ -66,9 +66,7 @@ export default function Contact() {
             }}>
                 <span className="label-mono text-primary mb-4 block">Strategy Call</span>
                 <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">Book a 15-minute call</h2>
-                <p className="text-muted-foreground mb-8 leading-relaxed">
-                  No sales pitch. Just a focused conversation to understand your situation and explore possibilities.
-                </p>
+                <p className="text-muted-foreground mb-8 leading-relaxed">Just a short conversation to understand your situation and explore possibilities.</p>
 
                 <ul className="space-y-4 mb-10">
                   {callBenefits.map((benefit, index) => <motion.li key={index} initial={{
