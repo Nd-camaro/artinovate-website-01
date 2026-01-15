@@ -28,6 +28,37 @@
   <meta name="twitter:title" content="ArtiNovate | Autonomous AI Powered Websites for  For Web3, Blockchain and Digital Assets Enterprises">
   <meta property="og:description" content="ArtiNovate creates AI-powered websites that publish authoritative content, engage visitors, capture leads, and follow up automatically. Built for  For Web3, Blockchain and Digital Assets Enterprises">
   <meta name="twitter:description" content="ArtiNovate creates AI-powered websites that publish authoritative content, engage visitors, capture leads, and follow up automatically. Built for  For Web3, Blockchain and Digital Assets Enterprises">
+
+  <!-- Voiceflow UI Suppression - MUST load before Voiceflow script -->
+  <style id="voiceflow-suppress">
+    #voiceflow-chat,
+    .vfrc-widget,
+    .vfrc-widget--launcher,
+    .vfrc-widget--chat,
+    .vfrc-launcher,
+    .vfrc-chat,
+    .vfrc-assistant,
+    .vfrc-header,
+    .vfrc-footer,
+    [id^="voiceflow"],
+    [class^="voiceflow"],
+    [class*="vfrc-"],
+    [data-testid="widget-bubble"],
+    [data-testid="launcher"],
+    div[style*="voiceflow"],
+    iframe[src*="voiceflow"] {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+      width: 0 !important;
+      height: 0 !important;
+      position: absolute !important;
+      left: -9999px !important;
+      top: -9999px !important;
+      z-index: -9999 !important;
+    }
+  </style>
 </head>
 
   <body>
@@ -43,8 +74,61 @@
               versionID: 'production',
               voice: {
                 url: "https://runtime-api.voiceflow.com"
+              },
+              render: {
+                mode: 'embedded',
+                target: document.createElement('div')
               }
             });
+
+            // Cleanup routine to remove any Voiceflow DOM elements
+            var cleanup = function() {
+              var selectors = [
+                '#voiceflow-chat',
+                '.vfrc-widget',
+                '.vfrc-launcher',
+                '.vfrc-chat',
+                '[id^="voiceflow"]',
+                '[class^="voiceflow"]',
+                '[class*="vfrc-"]',
+                '[data-testid="widget-bubble"]',
+                '[data-testid="launcher"]'
+              ];
+              selectors.forEach(function(sel) {
+                var els = document.querySelectorAll(sel);
+                els.forEach(function(el) {
+                  if (el && el.parentNode) {
+                    el.parentNode.removeChild(el);
+                  }
+                });
+              });
+            };
+
+            // Run cleanup multiple times to catch late injections
+            cleanup();
+            setTimeout(cleanup, 100);
+            setTimeout(cleanup, 500);
+            setTimeout(cleanup, 1000);
+            setTimeout(cleanup, 2000);
+
+            // MutationObserver to catch any new Voiceflow elements
+            var observer = new MutationObserver(function(mutations) {
+              mutations.forEach(function(mutation) {
+                mutation.addedNodes.forEach(function(node) {
+                  if (node.nodeType === 1) {
+                    var el = node;
+                    if (el.id && el.id.indexOf('voiceflow') !== -1) {
+                      el.remove();
+                    }
+                    if (el.className && typeof el.className === 'string' && 
+                        (el.className.indexOf('vfrc-') !== -1 || el.className.indexOf('voiceflow') !== -1)) {
+                      el.remove();
+                    }
+                  }
+                });
+              });
+            });
+            observer.observe(document.body, { childList: true, subtree: true });
           }
           v.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs";
           v.type = "text/javascript";
