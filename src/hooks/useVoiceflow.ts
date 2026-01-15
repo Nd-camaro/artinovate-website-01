@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 
 export interface Message {
   id: string;
@@ -11,21 +11,22 @@ export interface Message {
 const API_BASE = "https://general-runtime.voiceflow.com";
 const VERSION_ID = "production";
 
-// Get or create persistent user ID
-const getUserId = (): string => {
-  const stored = localStorage.getItem("vf-user-id");
-  if (stored) return stored;
-  const newId = crypto.randomUUID();
-  localStorage.setItem("vf-user-id", newId);
-  return newId;
-};
-
 export function useVoiceflow() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [isReady] = useState(true);
   const [hasLaunched, setHasLaunched] = useState(false);
-  const [userId] = useState(getUserId);
+
+  // Get or create persistent user ID - lazy initialization
+  const userId = useMemo(() => {
+    if (typeof window === "undefined") return "server";
+    const stored = localStorage.getItem("vf-user-id");
+    if (stored) return stored;
+    const newId = crypto.randomUUID();
+    localStorage.setItem("vf-user-id", newId);
+    return newId;
+  }, []);
+
+  const isReady = true;
 
   // Make API request to Voiceflow Runtime
   const interact = useCallback(
