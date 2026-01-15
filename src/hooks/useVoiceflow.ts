@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useCallback } from "react";
 
 export interface Message {
   id: string;
@@ -8,107 +8,82 @@ export interface Message {
   buttons?: Array<{ name: string; request: any }>;
 }
 
-declare global {
-  interface Window {
-    voiceflow: {
-      chat: {
-        load: (config: any) => Promise<void>;
-        open: () => void;
-        close: () => void;
-        hide: () => void;
-        show: () => void;
-        interact: (action: { type: string; payload?: any }) => Promise<any[]>;
-        proactive: {
-          clear: () => void;
-        };
-      };
-    };
-  }
-}
+const API_BASE = "https://general-runtime.voiceflow.com";
+const VERSION_ID = "production";
+
+// Get or create persistent user ID
+const getUserId = (): string => {
+  const stored = localStorage.getItem("vf-user-id");
+  if (stored) return stored;
+  const newId = crypto.randomUUID();
+  localStorage.setItem("vf-user-id", newId);
+  return newId;
+};
 
 export function useVoiceflow() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [isReady, setIsReady] = useState(false);
+  const [isReady] = useState(true);
   const [hasLaunched, setHasLaunched] = useState(false);
-  const initializingRef = useRef(false);
+  const [userId] = useState(getUserId);
 
-  // Load Voiceflow script
-  useEffect(() => {
-    if (window.voiceflow || document.querySelector('script[src*="voiceflow"]')) {
-      return;
-    }
-
-    const script = document.createElement("script");
-    script.type = "text/javascript";
-    script.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs";
-    script.onload = () => {
-      window.voiceflow.chat.load({
-        verify: { projectID: "69683416f7032a296d4dfd92" },
-        url: "https://general-runtime.voiceflow.com",
-        versionID: "production",
-        voice: {
-          url: "https://runtime-api.voiceflow.com",
-        },
-      }).then(() => {
-        // Hide the default Voiceflow widget completely
-        window.voiceflow.chat.hide();
-        window.voiceflow.chat.proactive.clear();
-        setIsReady(true);
-      });
-    };
-
-    document.head.appendChild(script);
-
-    // Hide Voiceflow widget with CSS as backup
-    const style = document.createElement("style");
-    style.textContent = `
-      #voiceflow-chat, 
-      .vfrc-widget, 
-      .vfrc-launcher,
-      [data-testid="widget-bubble"],
-      [class*="vfrc"] {
-        display: none !important;
-        visibility: hidden !important;
-        opacity: 0 !important;
-        pointer-events: none !important;
-      }
-    `;
-    document.head.appendChild(style);
-
-    return () => {
-      // Cleanup if needed
-    };
-  }, []);
+  // Make API request to Voiceflow Runtime
+  const interact = useCallback(
+    async (action: { type: string; payload?: string }) => {
+      const response = await fetch(
+        `${API_BASE}/state/user/${userId}/interact?logs=off`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            versionID: VERSION_ID,
+          },
+          body: JSON.stringify({
+            action,
+            config: { tts: false, stripSSML: true },
+          }),
+        }
+      );
+      return response.json();
+    },
+    [userId]
+  );
 
   // Parse Voiceflow traces into messages
-  const parseTraces = useCallback((traces: any[]): { content: string; buttons: Array<{ name: string; request: any }> } => {
-    let content = "";
-    let buttons: Array<{ name: string; request: any }> = [];
-
-    traces.forEach((trace) => {
-      if (trace.type === "text") {
-        content += (content ? "\n" : "") + trace.payload.message;
-      } else if (trace.type === "choice") {
-        buttons = trace.payload.buttons.map((btn: any) => ({
-          name: btn.name,
-          request: btn.request,
-        }));
+  const parseTraces = useCallback(
+    (traces: any[]): { content: string; buttons: Array<{ name: string; request: any }> } => {
+      if (!traces || !Array.isArray(traces)) {
+        return { content: "", buttons: [] };
       }
-    });
 
-    return { content, buttons };
-  }, []);
+      let content = "";
+      let buttons: Array<{ name: string; request: any }> = [];
+
+      traces.forEach((trace) => {
+        if (trace.type === "text" && trace.payload?.message) {
+          content += (content ? "\n" : "") + trace.payload.message;
+        } else if (trace.type === "choice" && trace.payload?.buttons) {
+          buttons = trace.payload.buttons.map((btn: any) => ({
+            name: btn.name,
+            request: btn.request,
+          }));
+        }
+      });
+
+      return { content, buttons };
+    },
+    []
+  );
 
   // Launch conversation
   const launchConversation = useCallback(async () => {
-    if (!isReady || hasLaunched || initializingRef.current) return;
-    
-    initializingRef.current = true;
+    if (hasLaunched) return;
+
     setIsLoading(true);
+    setHasLaunched(true);
 
     try {
-      const traces = await window.voiceflow.chat.interact({ type: "launch" });
+      const traces = await interact({ type: "launch" });
       const { content, buttons } = parseTraces(traces);
 
       if (content) {
@@ -122,7 +97,6 @@ export function useVoiceflow() {
           },
         ]);
       }
-      setHasLaunched(true);
     } catch (error) {
       console.error("Voiceflow launch error:", error);
       setMessages([
@@ -133,17 +107,15 @@ export function useVoiceflow() {
           timestamp: new Date(),
         },
       ]);
-      setHasLaunched(true);
     } finally {
       setIsLoading(false);
-      initializingRef.current = false;
     }
-  }, [isReady, hasLaunched, parseTraces]);
+  }, [hasLaunched, interact, parseTraces]);
 
   // Send a text message
   const sendMessage = useCallback(
     async (text: string) => {
-      if (!isReady || !text.trim()) return;
+      if (!text.trim()) return;
 
       const userMessage: Message = {
         id: crypto.randomUUID(),
@@ -156,11 +128,7 @@ export function useVoiceflow() {
       setIsLoading(true);
 
       try {
-        const traces = await window.voiceflow.chat.interact({
-          type: "text",
-          payload: text.trim(),
-        });
-
+        const traces = await interact({ type: "text", payload: text.trim() });
         const { content, buttons } = parseTraces(traces);
 
         if (content) {
@@ -190,14 +158,12 @@ export function useVoiceflow() {
         setIsLoading(false);
       }
     },
-    [isReady, parseTraces]
+    [interact, parseTraces]
   );
 
   // Handle button click
   const handleButtonClick = useCallback(
     async (button: { name: string; request: any }) => {
-      if (!isReady) return;
-
       const userMessage: Message = {
         id: crypto.randomUUID(),
         role: "user",
@@ -209,7 +175,7 @@ export function useVoiceflow() {
       setIsLoading(true);
 
       try {
-        const traces = await window.voiceflow.chat.interact(button.request);
+        const traces = await interact(button.request);
         const { content, buttons } = parseTraces(traces);
 
         if (content) {
@@ -230,7 +196,7 @@ export function useVoiceflow() {
         setIsLoading(false);
       }
     },
-    [isReady, parseTraces]
+    [interact, parseTraces]
   );
 
   return {
