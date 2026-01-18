@@ -125,26 +125,21 @@ const Typewriter = ({
         </span>
       </span>
       
-      {/* Blinking underline after completion - continuous loop */}
+      {/* Blinking underline after completion */}
       {isComplete && (
         <motion.span
           className="absolute -bottom-2 left-0 right-0 h-[2px] bg-accent rounded-full"
           initial={{ opacity: 0, scaleX: 0 }}
-          animate={{ scaleX: 1, opacity: 1 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
+          animate={{ 
+            opacity: [0.5, 0.9, 0.5],
+            scaleX: 1 
+          }}
+          transition={{
+            opacity: { duration: 2.5, repeat: Infinity, ease: "easeInOut" },
+            scaleX: { duration: 0.5, ease: "easeOut" }
+          }}
           style={{ transformOrigin: "left" }}
-        >
-          <motion.span
-            className="block w-full h-full bg-accent rounded-full"
-            animate={{ opacity: [0.4, 1, 0.4] }}
-            transition={{
-              duration: 2.5,
-              repeat: Infinity,
-              repeatType: "loop",
-              ease: "easeInOut",
-            }}
-          />
-        </motion.span>
+        />
       )}
     </span>
   );
