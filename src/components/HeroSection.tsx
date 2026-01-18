@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
@@ -24,123 +24,78 @@ const Typewriter = ({
   onComplete,
   skipAnimation = false,
 }: TypewriterProps) => {
-  // Track characters revealed per line for stable two-line rendering
-  const [line1Chars, setLine1Chars] = useState(skipAnimation ? lines[0].length : 0);
-  const [line2Chars, setLine2Chars] = useState(skipAnimation ? lines[1].length : 0);
-  const [showCursor, setShowCursor] = useState(false);
-  const [isComplete, setIsComplete] = useState(skipAnimation);
-  const hasStartedRef = useRef(false);
-  const onCompleteRef = useRef(onComplete);
-  
-  // Keep onComplete ref updated
-  useEffect(() => {
-    onCompleteRef.current = onComplete;
-  }, [onComplete]);
+  const fullText = lines.join("\n");
+  const [displayedText, setDisplayedText] = useState(skipAnimation ? fullText : "");
+  const [cursorVisible, setCursorVisible] = useState(false);
+  const hasCompletedRef = useRef(false);
 
-  const runTypewriter = useCallback(() => {
-    if (hasStartedRef.current) return;
-    hasStartedRef.current = true;
-    
-    setShowCursor(true);
-    
-    const line1 = lines[0];
-    const line2 = lines[1];
-    const baseSpeed = 60;
-    let currentLine = 1;
-    let currentChar = 0;
-    
-    const typeNext = () => {
-      if (currentLine === 1) {
-        if (currentChar < line1.length) {
-          currentChar++;
-          setLine1Chars(currentChar);
-          const delay = baseSpeed + (Math.random() * 20 - 10);
-          setTimeout(typeNext, delay);
-        } else {
-          // Move to line 2 after a brief pause
-          currentLine = 2;
-          currentChar = 0;
-          setTimeout(typeNext, 180);
-        }
+  useEffect(() => {
+    if (skipAnimation || !isActive || hasCompletedRef.current) {
+      if (skipAnimation) setDisplayedText(fullText);
+      return;
+    }
+
+    setCursorVisible(true);
+    let currentIndex = 0;
+    const chars = fullText.split("");
+
+    const typeNextChar = () => {
+      if (currentIndex <= chars.length) {
+        setDisplayedText(fullText.slice(0, currentIndex));
+        currentIndex++;
+        
+        // Pause slightly longer at line breaks
+        const currentChar = chars[currentIndex - 1];
+        const baseSpeed = 65;
+        const variance = Math.random() * 15 - 7;
+        const delay = currentChar === "\n" ? 250 : baseSpeed + variance;
+        
+        setTimeout(typeNextChar, delay);
       } else {
-        if (currentChar < line2.length) {
-          currentChar++;
-          setLine2Chars(currentChar);
-          const delay = baseSpeed + (Math.random() * 20 - 10);
-          setTimeout(typeNext, delay);
-        } else {
-          // Complete
-          setShowCursor(false);
-          setIsComplete(true);
-          onCompleteRef.current?.();
-        }
+        hasCompletedRef.current = true;
+        setCursorVisible(false);
+        onComplete?.();
       }
     };
-    
-    typeNext();
-  }, [lines]);
 
-  useEffect(() => {
-    if (skipAnimation || !isActive) return;
-    runTypewriter();
-  }, [isActive, skipAnimation, runTypewriter]);
+    const startDelay = setTimeout(typeNextChar, 100);
+    return () => clearTimeout(startDelay);
+  }, [fullText, isActive, onComplete, skipAnimation]);
 
-  // Determine which line the cursor is on
-  const cursorOnLine1 = line1Chars < lines[0].length;
-  const cursorOnLine2 = !cursorOnLine1 && line2Chars < lines[1].length;
+  // Split displayed text back into lines
+  const displayedLines = displayedText.split("\n");
 
   return (
-    <span className="relative inline-block">
-      {/* Line 1 - always rendered at full height */}
-      <span className="block relative">
-        {/* Invisible placeholder for stable width */}
-        <span className="invisible" aria-hidden="true">{lines[0]}</span>
-        {/* Visible typed text */}
-        <span className="absolute inset-0">
-          {lines[0].slice(0, line1Chars)}
-          {showCursor && cursorOnLine1 && (
-            <motion.span
-              className="inline-block w-[2px] h-[0.7em] bg-primary/70 ml-0.5 align-middle rounded-sm"
-              animate={{ opacity: [0.3, 0.7, 0.3] }}
-              transition={{ duration: 0.9, repeat: Infinity, ease: "easeInOut" }}
-            />
-          )}
+    <span className="relative">
+      {/* Invisible text to reserve exact space for each line */}
+      {lines.map((line, idx) => (
+        <span key={`reserve-${idx}`} className="block invisible" aria-hidden="true">
+          {line}
         </span>
+      ))}
+      {/* Visible typed text overlay */}
+      <span className="absolute inset-0">
+        {displayedLines.map((line, idx) => (
+          <span key={`typed-${idx}`} className="block">
+            {line}
+            {/* Cursor on the last line being typed */}
+            {idx === displayedLines.length - 1 && (
+              <motion.span
+                className="inline-block w-[2px] h-[0.75em] bg-primary/80 ml-0.5 align-middle rounded-sm"
+                initial={{ opacity: 0 }}
+                animate={{
+                  opacity: cursorVisible ? [0.4, 0.8, 0.4] : 0,
+                }}
+                transition={
+                  cursorVisible
+                    ? { duration: 1.2, repeat: Infinity, ease: "easeInOut" }
+                    : { duration: 0.4, ease: "easeOut" }
+                }
+              />
+            )}
+          </span>
+        ))}
       </span>
-      
-      {/* Line 2 - always rendered at full height */}
-      <span className="block relative">
-        {/* Invisible placeholder for stable width */}
-        <span className="invisible" aria-hidden="true">{lines[1]}</span>
-        {/* Visible typed text */}
-        <span className="absolute inset-0">
-          {lines[1].slice(0, line2Chars)}
-          {showCursor && cursorOnLine2 && (
-            <motion.span
-              className="inline-block w-[2px] h-[0.7em] bg-primary/70 ml-0.5 align-middle rounded-sm"
-              animate={{ opacity: [0.3, 0.7, 0.3] }}
-              transition={{ duration: 0.9, repeat: Infinity, ease: "easeInOut" }}
-            />
-          )}
-        </span>
-      </span>
-      
-      {/* Blinking underline after completion */}
-      {isComplete && (
-        <motion.span
-          className="absolute -bottom-2 left-0 right-0 h-[2px] bg-accent rounded-full"
-          initial={{ opacity: 0, scaleX: 0 }}
-          animate={{ 
-            opacity: [0.5, 0.9, 0.5],
-            scaleX: 1 
-          }}
-          transition={{
-            opacity: { duration: 2.5, repeat: Infinity, ease: "easeInOut" },
-            scaleX: { duration: 0.5, ease: "easeOut" }
-          }}
-          style={{ transformOrigin: "left" }}
-        />
-      )}
     </span>
   );
 };
@@ -163,8 +118,8 @@ export function HeroSection() {
       setShowSupporting(true);
       setShowCTA(true);
     } else {
-      // Start typewriter promptly after container fades in
-      const timer = setTimeout(() => setTypewriterActive(true), 350);
+      // Start typewriter after container fades in
+      const timer = setTimeout(() => setTypewriterActive(true), 600);
       return () => clearTimeout(timer);
     }
   }, []);
@@ -218,7 +173,7 @@ export function HeroSection() {
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: skipAnimation ? 0 : 0.15, duration: 0.5 }}
+            transition={{ delay: skipAnimation ? 0 : 0.3, duration: 0.5 }}
           >
             <span className="label-mono text-primary mb-6 block">
               AI Automation Agency
@@ -229,7 +184,7 @@ export function HeroSection() {
           <motion.h1
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: skipAnimation ? 0 : 0.25, duration: 0.4 }}
+            transition={{ delay: skipAnimation ? 0 : 0.4, duration: 0.4 }}
             className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter mb-6 leading-[1.05]"
           >
             <Typewriter
@@ -278,7 +233,7 @@ export function HeroSection() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: skipAnimation ? 0.5 : 2.0, duration: 1 }}
+        transition={{ delay: skipAnimation ? 0.5 : 2.5, duration: 1 }}
         className="absolute bottom-12 left-1/2 -translate-x-1/2"
       >
         <a
@@ -293,7 +248,7 @@ export function HeroSection() {
       <motion.div
         initial={{ opacity: 0, scaleY: 0 }}
         animate={{ opacity: 1, scaleY: 1 }}
-        transition={{ delay: skipAnimation ? 0.5 : 2.5, duration: 1, ease: "easeOut" }}
+        transition={{ delay: skipAnimation ? 0.5 : 3, duration: 1, ease: "easeOut" }}
         className="absolute bottom-0 left-1/2 -translate-x-1/2 w-px h-20 bg-gradient-to-b from-primary/0 via-primary to-primary origin-top"
       />
     </section>
