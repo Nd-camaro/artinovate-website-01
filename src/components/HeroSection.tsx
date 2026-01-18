@@ -163,8 +163,8 @@ export function HeroSection() {
       setShowSupporting(true);
       setShowCTA(true);
     } else {
-      // Start typewriter after container fades in
-      const timer = setTimeout(() => setTypewriterActive(true), 600);
+      // Start typewriter promptly after container fades in
+      const timer = setTimeout(() => setTypewriterActive(true), 350);
       return () => clearTimeout(timer);
     }
   }, []);
@@ -218,7 +218,7 @@ export function HeroSection() {
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: skipAnimation ? 0 : 0.3, duration: 0.5 }}
+            transition={{ delay: skipAnimation ? 0 : 0.15, duration: 0.5 }}
           >
             <span className="label-mono text-primary mb-6 block">
               AI Automation Agency
@@ -229,7 +229,7 @@ export function HeroSection() {
           <motion.h1
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: skipAnimation ? 0 : 0.4, duration: 0.4 }}
+            transition={{ delay: skipAnimation ? 0 : 0.25, duration: 0.4 }}
             className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter mb-6 leading-[1.05]"
           >
             <Typewriter
@@ -278,7 +278,7 @@ export function HeroSection() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: skipAnimation ? 0.5 : 2.5, duration: 1 }}
+        transition={{ delay: skipAnimation ? 0.5 : 2.0, duration: 1 }}
         className="absolute bottom-12 left-1/2 -translate-x-1/2"
       >
         <a
@@ -293,7 +293,7 @@ export function HeroSection() {
       <motion.div
         initial={{ opacity: 0, scaleY: 0 }}
         animate={{ opacity: 1, scaleY: 1 }}
-        transition={{ delay: skipAnimation ? 0.5 : 3, duration: 1, ease: "easeOut" }}
+        transition={{ delay: skipAnimation ? 0.5 : 2.5, duration: 1, ease: "easeOut" }}
         className="absolute bottom-0 left-1/2 -translate-x-1/2 w-px h-20 bg-gradient-to-b from-primary/0 via-primary to-primary origin-top"
       />
     </section>
