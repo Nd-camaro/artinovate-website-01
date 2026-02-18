@@ -28,7 +28,7 @@ export function ChatWidget() {
     script.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs";
     script.onload = () => {
       window.voiceflow?.chat.load({
-        verify: { projectID: "69683416f7032a296d4dfd92" },
+        verify: { projectID: "69950fac1279ee129fc94c96" },
         url: "https://general-runtime.voiceflow.com",
         versionID: "production",
         voice: {
