@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Navigation } from "@/components/Navigation";
 import { PageHero } from "@/components/PageHero";
-import { ScrollPath } from "@/components/ScrollPath";
+
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/hero-contact.jpg";
