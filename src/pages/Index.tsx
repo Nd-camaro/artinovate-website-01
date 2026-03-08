@@ -1,6 +1,6 @@
 import { Navigation } from "@/components/Navigation";
 import { HeroSection } from "@/components/HeroSection";
-import { ScrollPath } from "@/components/ScrollPath";
+
 import { ProblemSection } from "@/components/ProblemSection";
 import { CoreFunctionsSection } from "@/components/CoreFunctionsSection";
 import { SystemFlowSection } from "@/components/SystemFlowSection";
@@ -12,7 +12,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       <Navigation />
-      <ScrollPath />
+      
       <main>
         <HeroSection />
         <ProblemSection />

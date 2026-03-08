@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Navigation } from "@/components/Navigation";
 import { PageHero } from "@/components/PageHero";
-import { ScrollPath } from "@/components/ScrollPath";
+
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/hero-about.jpg";
@@ -40,7 +40,7 @@ export default function About() {
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       <Navigation />
-      <ScrollPath />
+      
       
       <main>
         <PageHero 

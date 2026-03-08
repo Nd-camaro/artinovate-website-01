@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
-import { ScrollPath } from "@/components/ScrollPath";
+
 import { ArrowLeft, Calendar } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -106,7 +106,7 @@ export default function InsightDetail() {
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       <Navigation />
-      <ScrollPath />
+      
 
       <main className="pt-24 pb-16 lg:pb-24">
         <article className="container mx-auto px-6 lg:px-12 max-w-3xl">

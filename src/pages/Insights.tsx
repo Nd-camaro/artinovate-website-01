@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Navigation } from "@/components/Navigation";
 import { PageHero } from "@/components/PageHero";
-import { ScrollPath } from "@/components/ScrollPath";
+
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/hero-insights.jpg";
@@ -34,7 +34,7 @@ export default function Insights() {
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       <Navigation />
-      <ScrollPath />
+      
       
       <main>
         <PageHero 

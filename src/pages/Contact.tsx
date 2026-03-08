@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Navigation } from "@/components/Navigation";
 import { PageHero } from "@/components/PageHero";
-import { ScrollPath } from "@/components/ScrollPath";
+
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/hero-contact.jpg";
@@ -42,7 +42,7 @@ export default function Contact() {
   };
   return <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       <Navigation />
-      <ScrollPath />
+      
       
       <main>
         <PageHero image={heroImage} label="Contact" headline="Start with clarity" subheading="From first build to full automation" scrollTarget="#booking" />
