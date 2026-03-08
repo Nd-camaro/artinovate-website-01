@@ -18,6 +18,10 @@ export function PageHero({ image, label, headline, subheading, scrollTarget }: P
           src={image} 
           alt="" 
           className="w-full h-full object-cover object-top"
+          loading="lazy"
+          decoding="async"
+          width={1920}
+          height={1080}
         />
         {/* Dark overlay for readability */}
         <div className="absolute inset-0 bg-background/50" />

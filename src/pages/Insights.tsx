@@ -85,7 +85,8 @@ export default function Insights() {
                               src={insight.featured_image_url}
                               alt={insight.title}
                               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                              loading="eager"
+                              loading="lazy"
+                              decoding="async"
                             />
                           </div>
                         )}
