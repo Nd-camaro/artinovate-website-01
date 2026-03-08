@@ -34,7 +34,7 @@ export default function Insights() {
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       <Navigation />
-      <ScrollPath />
+      
       
       <main>
         <PageHero 
