@@ -1,9 +1,10 @@
 import { useParams, Link } from "react-router-dom";
+import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Helmet } from "react-helmet-async";
 import { supabase } from "@/integrations/supabase/client";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
+import { useDocumentHead } from "@/hooks/useDocumentHead";
 
 import { ArrowLeft, Calendar } from "lucide-react";
 import ReactMarkdown from "react-markdown";
@@ -64,6 +65,23 @@ export default function InsightDetail() {
     return null;
   };
 
+  const jsonLd = useMemo(() => {
+    if (!insight?.faq_json_ld) return null;
+    if (typeof insight.faq_json_ld === 'string') {
+      try { return JSON.parse(insight.faq_json_ld); } catch { return null; }
+    }
+    return insight.faq_json_ld as object;
+  }, [insight?.faq_json_ld]);
+
+  useDocumentHead({
+    title: insight?.meta_title ?? undefined,
+    description: insight?.meta_description ?? undefined,
+    canonicalUrl: insight?.canonical_url ?? undefined,
+    ogTitle: insight?.meta_title ?? undefined,
+    ogDescription: insight?.meta_description ?? undefined,
+    jsonLd,
+  });
+
   const ctaConfig = parseCTAConfig(insight?.cta_config);
 
   if (isLoading) {
@@ -107,33 +125,6 @@ export default function InsightDetail() {
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       <Navigation />
-
-      {insight && (
-        <Helmet>
-          {insight.meta_title && <title>{insight.meta_title}</title>}
-          {insight.meta_description && (
-            <meta name="description" content={insight.meta_description} />
-          )}
-          {insight.canonical_url && (
-            <link rel="canonical" href={insight.canonical_url} />
-          )}
-          {insight.meta_title && (
-            <meta property="og:title" content={insight.meta_title} />
-          )}
-          {insight.meta_description && (
-            <meta property="og:description" content={insight.meta_description} />
-          )}
-          {insight.faq_json_ld && (
-            <script type="application/ld+json">
-              {JSON.stringify(
-                typeof insight.faq_json_ld === 'string'
-                  ? JSON.parse(insight.faq_json_ld)
-                  : insight.faq_json_ld
-              )}
-            </script>
-          )}
-        </Helmet>
-      )}
 
       <main className="pt-24 pb-16 lg:pb-24">
         <article className="container mx-auto px-6 lg:px-12 max-w-3xl">
