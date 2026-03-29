@@ -107,9 +107,34 @@ export default function InsightDetail() {
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       <Navigation />
-      
 
-      <main className="pt-24 pb-16 lg:pb-24">
+      {insight && (
+        <Helmet>
+          {insight.meta_title && <title>{insight.meta_title}</title>}
+          {insight.meta_description && (
+            <meta name="description" content={insight.meta_description} />
+          )}
+          {insight.canonical_url && (
+            <link rel="canonical" href={insight.canonical_url} />
+          )}
+          {insight.meta_title && (
+            <meta property="og:title" content={insight.meta_title} />
+          )}
+          {insight.meta_description && (
+            <meta property="og:description" content={insight.meta_description} />
+          )}
+          {insight.faq_json_ld && (
+            <script type="application/ld+json">
+              {JSON.stringify(
+                typeof insight.faq_json_ld === 'string'
+                  ? JSON.parse(insight.faq_json_ld)
+                  : insight.faq_json_ld
+              )}
+            </script>
+          )}
+        </Helmet>
+      )}
+
         <article className="container mx-auto px-6 lg:px-12 max-w-3xl">
           {/* Back link */}
           <Link 
