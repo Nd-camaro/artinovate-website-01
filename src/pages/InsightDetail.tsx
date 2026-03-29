@@ -135,6 +135,7 @@ export default function InsightDetail() {
         </Helmet>
       )}
 
+      <main className="pt-24 pb-16 lg:pb-24">
         <article className="container mx-auto px-6 lg:px-12 max-w-3xl">
           {/* Back link */}
           <Link 
