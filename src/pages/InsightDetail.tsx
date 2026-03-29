@@ -65,9 +65,24 @@ export default function InsightDetail() {
     return null;
   };
 
-  const ctaConfig = parseCTAConfig(insight?.cta_config);
+  const jsonLd = useMemo(() => {
+    if (!insight?.faq_json_ld) return null;
+    if (typeof insight.faq_json_ld === 'string') {
+      try { return JSON.parse(insight.faq_json_ld); } catch { return null; }
+    }
+    return insight.faq_json_ld as object;
+  }, [insight?.faq_json_ld]);
 
-  if (isLoading) {
+  useDocumentHead({
+    title: insight?.meta_title ?? undefined,
+    description: insight?.meta_description ?? undefined,
+    canonicalUrl: insight?.canonical_url ?? undefined,
+    ogTitle: insight?.meta_title ?? undefined,
+    ogDescription: insight?.meta_description ?? undefined,
+    jsonLd,
+  });
+
+
     return (
       <div className="min-h-screen bg-background text-foreground">
         <Navigation />
