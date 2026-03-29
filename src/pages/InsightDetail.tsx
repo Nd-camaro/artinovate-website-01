@@ -86,6 +86,7 @@ export default function InsightDetail() {
 
   if (isLoading) {
     return (
+      <div className="min-h-screen bg-background text-foreground">
         <Navigation />
         <main className="pt-24 pb-16">
           <div className="container mx-auto px-6 lg:px-12 max-w-3xl">
