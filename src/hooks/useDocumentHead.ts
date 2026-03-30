@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useLayoutEffect, useState } from "react";
 
 interface HeadConfig {
   title?: string;
@@ -9,13 +9,32 @@ interface HeadConfig {
   jsonLd?: object | null;
 }
 
-export function useDocumentHead(config: HeadConfig) {
-  useEffect(() => {
+export function useDocumentHead(config: HeadConfig, enabled = true) {
+  const { title, description, canonicalUrl, ogTitle, ogDescription, jsonLd } = config;
+  const serializedJsonLd = jsonLd ? JSON.stringify(jsonLd) : "";
+  const targetKey = enabled
+    ? JSON.stringify([
+        title ?? "",
+        description ?? "",
+        canonicalUrl ?? "",
+        ogTitle ?? "",
+        ogDescription ?? "",
+        serializedJsonLd,
+      ])
+    : "";
+  const [appliedKey, setAppliedKey] = useState("");
+
+  useLayoutEffect(() => {
+    if (!enabled) {
+      setAppliedKey("");
+      return;
+    }
+
     const cleanups: (() => void)[] = [];
 
-    if (config.title) {
+    if (title) {
       const prev = document.title;
-      document.title = config.title;
+      document.title = title;
       cleanups.push(() => { document.title = prev; });
     }
 
@@ -36,11 +55,11 @@ export function useDocumentHead(config: HeadConfig) {
       });
     };
 
-    if (config.description) setMeta("description", config.description);
-    if (config.ogTitle) setMeta("og:title", config.ogTitle, true);
-    if (config.ogDescription) setMeta("og:description", config.ogDescription, true);
+    if (description) setMeta("description", description);
+    if (ogTitle) setMeta("og:title", ogTitle, true);
+    if (ogDescription) setMeta("og:description", ogDescription, true);
 
-    if (config.canonicalUrl) {
+    if (canonicalUrl) {
       let link = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
       const existed = !!link;
       const prev = link?.href;
@@ -49,21 +68,25 @@ export function useDocumentHead(config: HeadConfig) {
         link.rel = "canonical";
         document.head.appendChild(link);
       }
-      link.href = config.canonicalUrl;
+      link.href = canonicalUrl;
       cleanups.push(() => {
         if (existed && prev) link!.href = prev;
         else if (!existed) link!.remove();
       });
     }
 
-    if (config.jsonLd) {
+    if (serializedJsonLd) {
       const script = document.createElement("script");
       script.type = "application/ld+json";
-      script.textContent = JSON.stringify(config.jsonLd);
+      script.textContent = serializedJsonLd;
       document.head.appendChild(script);
       cleanups.push(() => script.remove());
     }
 
-    return () => cleanups.forEach(fn => fn());
-  }, [config.title, config.description, config.canonicalUrl, config.ogTitle, config.ogDescription, config.jsonLd]);
+    setAppliedKey(targetKey);
+
+    return () => cleanups.forEach((fn) => fn());
+  }, [enabled, title, description, canonicalUrl, ogTitle, ogDescription, serializedJsonLd, targetKey]);
+
+  return enabled && appliedKey === targetKey;
 }
