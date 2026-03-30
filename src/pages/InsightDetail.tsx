@@ -77,8 +77,6 @@ export default function InsightDetail() {
     title: insight?.meta_title ?? undefined,
     description: insight?.meta_description ?? undefined,
     canonicalUrl: insight?.canonical_url ?? undefined,
-    ogTitle: insight?.meta_title ?? undefined,
-    ogDescription: insight?.meta_description ?? undefined,
     jsonLd,
   }, !!insight && !isLoading && !error);
 
