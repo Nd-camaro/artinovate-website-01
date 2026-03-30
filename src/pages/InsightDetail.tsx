@@ -73,28 +73,20 @@ export default function InsightDetail() {
     return insight.faq_json_ld as object;
   }, [insight?.faq_json_ld]);
 
-  useDocumentHead({
+  const headReady = useDocumentHead({
     title: insight?.meta_title ?? undefined,
     description: insight?.meta_description ?? undefined,
     canonicalUrl: insight?.canonical_url ?? undefined,
     ogTitle: insight?.meta_title ?? undefined,
     ogDescription: insight?.meta_description ?? undefined,
     jsonLd,
-  });
+  }, !!insight && !isLoading && !error);
 
   const ctaConfig = parseCTAConfig(insight?.cta_config);
 
-  if (isLoading) {
+  if (isLoading || (!!insight && !error && !headReady)) {
     return (
-      <div className="min-h-screen bg-background text-foreground">
-        <Navigation />
-        <main className="pt-24 pb-16">
-          <div className="container mx-auto px-6 lg:px-12 max-w-3xl">
-            <p className="text-muted-foreground">Loading...</p>
-          </div>
-        </main>
-        <Footer />
-      </div>
+      <div className="min-h-screen bg-background" aria-hidden="true" />
     );
   }
 
