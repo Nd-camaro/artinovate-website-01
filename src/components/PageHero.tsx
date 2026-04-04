@@ -10,7 +10,7 @@ interface PageHeroProps {
   scrollTarget?: string;
 }
 
-export function PageHero({ image, label, headline, subheading, scrollTarget }: PageHeroProps) {
+export function PageHero({ image, imageAlt, label, headline, subheading, scrollTarget }: PageHeroProps) {
   return (
     <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
       {/* Hero background image with overlay */}
