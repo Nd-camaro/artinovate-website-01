@@ -12,6 +12,12 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
 export default function Insights() {
+  useDocumentHead({
+    title: "Web3 AI Automation Insights | ArtiNovate",
+    description: "Insights on AI automation, autonomous digital presence systems, and Web3 digital strategy from ArtiNovate.",
+    canonicalUrl: "https://www.artinovate.com/insights",
+  });
+
   const { openScheduler } = useScheduling();
 
   const { data: insights = [], isLoading } = useQuery({
