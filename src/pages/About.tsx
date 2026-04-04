@@ -37,6 +37,12 @@ const principles = [
 ];
 
 export default function About() {
+  useDocumentHead({
+    title: "About ArtiNovate | AI Automation Agency for Web3",
+    description: "Learn about ArtiNovate's infrastructure-first approach to building autonomous AI-powered digital presence systems for Web3 and blockchain organizations.",
+    canonicalUrl: "https://www.artinovate.com/about",
+  });
+
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       <Navigation />
