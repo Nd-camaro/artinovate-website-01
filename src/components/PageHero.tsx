@@ -3,20 +3,21 @@ import { ChevronDown } from "lucide-react";
 
 interface PageHeroProps {
   image: string;
+  imageAlt?: string;
   label?: string;
   headline: string;
   subheading?: string;
   scrollTarget?: string;
 }
 
-export function PageHero({ image, label, headline, subheading, scrollTarget }: PageHeroProps) {
+export function PageHero({ image, imageAlt, label, headline, subheading, scrollTarget }: PageHeroProps) {
   return (
     <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
       {/* Hero background image with overlay */}
       <div className="absolute inset-0">
         <img 
           src={image} 
-          alt="" 
+          alt={imageAlt || ""} 
           className="w-full h-full object-cover object-top"
           loading="lazy"
           decoding="async"

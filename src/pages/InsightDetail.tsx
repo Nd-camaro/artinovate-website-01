@@ -66,12 +66,46 @@ export default function InsightDetail() {
   };
 
   const jsonLd = useMemo(() => {
-    if (!insight?.faq_json_ld) return null;
-    if (typeof insight.faq_json_ld === 'string') {
-      try { return JSON.parse(insight.faq_json_ld); } catch { return null; }
+    if (!insight) return null;
+
+    const articleSchema = {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": insight.title,
+      "description": insight.excerpt || insight.content?.split('.')[0] || "",
+      "image": insight.featured_image_url || "",
+      "datePublished": insight.published_at || "",
+      "dateModified": insight.updated_at || "2026-04-04",
+      "author": {
+        "@type": "Organization",
+        "name": "ArtiNovate",
+        "url": "https://artinovate.com"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "ArtiNovate",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://artinovate.com/assets/artinovate-logo-BsiajO-W.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": `https://artinovate.com/insights/${insight.slug}`
+      }
+    };
+
+    let faqSchema = null;
+    if (insight.faq_json_ld) {
+      if (typeof insight.faq_json_ld === 'string') {
+        try { faqSchema = JSON.parse(insight.faq_json_ld); } catch { /* ignore */ }
+      } else {
+        faqSchema = insight.faq_json_ld as object;
+      }
     }
-    return insight.faq_json_ld as object;
-  }, [insight?.faq_json_ld]);
+
+    return faqSchema ? [articleSchema, faqSchema] : articleSchema;
+  }, [insight]);
 
   const headReady = useDocumentHead({
     title: insight?.meta_title ?? undefined,

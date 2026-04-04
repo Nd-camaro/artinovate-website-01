@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Navigation } from "@/components/Navigation";
 import { PageHero } from "@/components/PageHero";
-
+import { useDocumentHead } from "@/hooks/useDocumentHead";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/hero-insights.jpg";
@@ -12,6 +12,12 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
 export default function Insights() {
+  useDocumentHead({
+    title: "Web3 AI Automation Insights | ArtiNovate",
+    description: "Insights on AI automation, autonomous digital presence systems, and Web3 digital strategy from ArtiNovate.",
+    canonicalUrl: "https://www.artinovate.com/insights",
+  });
+
   const { openScheduler } = useScheduling();
 
   const { data: insights = [], isLoading } = useQuery({
@@ -39,6 +45,7 @@ export default function Insights() {
       <main>
         <PageHero 
           image={heroImage}
+          imageAlt="ArtiNovate insights on AI automation and Web3 digital systems"
           label="Insights"
           headline="Insights on AI automation and digital systems"
           subheading="For founders, operators, and decision makers"

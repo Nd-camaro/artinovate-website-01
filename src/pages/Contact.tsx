@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Navigation } from "@/components/Navigation";
 import { PageHero } from "@/components/PageHero";
-
+import { useDocumentHead } from "@/hooks/useDocumentHead";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/hero-contact.jpg";
@@ -26,6 +26,12 @@ const nextSteps = [{
   description: "A focused proposal with timeline, scope, and investment."
 }];
 export default function Contact() {
+  useDocumentHead({
+    title: "Contact ArtiNovate | Book a Strategy Call",
+    description: "Book a strategy call with ArtiNovate to discuss autonomous AI-powered digital presence systems for your Web3 organization.",
+    canonicalUrl: "https://www.artinovate.com/contact",
+  });
+
   const {
     openScheduler
   } = useScheduling();
@@ -45,7 +51,7 @@ export default function Contact() {
       
       
       <main>
-        <PageHero image={heroImage} label="Contact" headline="Start with clarity" subheading="From first build to full automation" scrollTarget="#booking" />
+        <PageHero image={heroImage} imageAlt="Contact ArtiNovate to book a strategy call" label="Contact" headline="Start with clarity" subheading="From first build to full automation" scrollTarget="#booking" />
 
         {/* Booking Section */}
         <section id="booking" className="py-24 lg:py-32 bg-background">

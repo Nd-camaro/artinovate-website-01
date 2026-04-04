@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Navigation } from "@/components/Navigation";
 import { PageHero } from "@/components/PageHero";
-
+import { useDocumentHead } from "@/hooks/useDocumentHead";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/hero-about.jpg";
@@ -37,6 +37,12 @@ const principles = [
 ];
 
 export default function About() {
+  useDocumentHead({
+    title: "About ArtiNovate | AI Automation Agency for Web3",
+    description: "Learn about ArtiNovate's infrastructure-first approach to building autonomous AI-powered digital presence systems for Web3 and blockchain organizations.",
+    canonicalUrl: "https://www.artinovate.com/about",
+  });
+
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       <Navigation />
@@ -45,6 +51,7 @@ export default function About() {
       <main>
         <PageHero 
           image={heroImage}
+          imageAlt="ArtiNovate infrastructure-first approach to autonomous digital presence for blockchain organizations"
           label="About ArtiNovate"
           headline="Infrastructure for modern digital operations"
           subheading="Built from zero or upgraded for scale"

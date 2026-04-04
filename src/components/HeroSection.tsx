@@ -8,8 +8,8 @@ import { useScheduling } from "@/contexts/SchedulingContext";
 const SESSION_KEY = "artinovate_typewriter_played";
 
 // Fixed two-line headline for all breakpoints
-const HEADLINE_LINE_1 = "Autonomous AI";
-const HEADLINE_LINE_2 = "Powered Websites";
+const HEADLINE_LINE_1 = "Autonomous AI-Powered";
+const HEADLINE_LINE_2 = "Digital Presence for Web3 Organizations";
 
 interface TypewriterProps {
   lines: string[];
@@ -154,7 +154,7 @@ export function HeroSection() {
       <div className="absolute inset-0">
         <img
           src={heroImage}
-          alt=""
+          alt="ArtiNovate autonomous AI digital presence system for Web3 protocols and DeFi funds"
           className="w-full h-full object-cover object-top"
           fetchPriority="high"
           decoding="async"
