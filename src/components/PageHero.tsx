@@ -3,6 +3,7 @@ import { ChevronDown } from "lucide-react";
 
 interface PageHeroProps {
   image: string;
+  imageAlt?: string;
   label?: string;
   headline: string;
   subheading?: string;
