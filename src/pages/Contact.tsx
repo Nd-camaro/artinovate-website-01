@@ -51,7 +51,7 @@ export default function Contact() {
       
       
       <main>
-        <PageHero image={heroImage} label="Contact" headline="Start with clarity" subheading="From first build to full automation" scrollTarget="#booking" />
+        <PageHero image={heroImage} imageAlt="Contact ArtiNovate to book a strategy call" label="Contact" headline="Start with clarity" subheading="From first build to full automation" scrollTarget="#booking" />
 
         {/* Booking Section */}
         <section id="booking" className="py-24 lg:py-32 bg-background">
