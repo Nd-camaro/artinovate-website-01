@@ -154,7 +154,7 @@ export function HeroSection() {
       <div className="absolute inset-0">
         <img
           src={heroImage}
-          alt=""
+          alt="ArtiNovate autonomous AI digital presence system for Web3 protocols and DeFi funds"
           className="w-full h-full object-cover object-top"
           fetchPriority="high"
           decoding="async"

@@ -17,7 +17,7 @@ export function PageHero({ image, imageAlt, label, headline, subheading, scrollT
       <div className="absolute inset-0">
         <img 
           src={image} 
-          alt="" 
+          alt={imageAlt || ""} 
           className="w-full h-full object-cover object-top"
           loading="lazy"
           decoding="async"

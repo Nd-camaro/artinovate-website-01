@@ -45,6 +45,7 @@ export default function Insights() {
       <main>
         <PageHero 
           image={heroImage}
+          imageAlt="ArtiNovate insights on AI automation and Web3 digital systems"
           label="Insights"
           headline="Insights on AI automation and digital systems"
           subheading="For founders, operators, and decision makers"

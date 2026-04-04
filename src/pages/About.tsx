@@ -51,6 +51,7 @@ export default function About() {
       <main>
         <PageHero 
           image={heroImage}
+          imageAlt="ArtiNovate infrastructure-first approach to autonomous digital presence for blockchain organizations"
           label="About ArtiNovate"
           headline="Infrastructure for modern digital operations"
           subheading="Built from zero or upgraded for scale"

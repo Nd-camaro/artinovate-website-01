@@ -26,6 +26,12 @@ const nextSteps = [{
   description: "A focused proposal with timeline, scope, and investment."
 }];
 export default function Contact() {
+  useDocumentHead({
+    title: "Contact ArtiNovate | Book a Strategy Call",
+    description: "Book a strategy call with ArtiNovate to discuss autonomous AI-powered digital presence systems for your Web3 organization.",
+    canonicalUrl: "https://www.artinovate.com/contact",
+  });
+
   const {
     openScheduler
   } = useScheduling();
