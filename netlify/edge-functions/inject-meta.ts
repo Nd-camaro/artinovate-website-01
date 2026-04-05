@@ -22,8 +22,8 @@ export default async function handler(req: Request, context: Context) {
   }
   const slug = segments[1];
 
-  // Fetch post from Supabase
-  const apiUrl = `${SUPABASE_URL}/rest/v1/insight_posts?slug=eq.${encodeURIComponent(slug)}&status=eq.published&select=meta_title,meta_description,canonical_url,faq_json_ld&limit=1`;
+  // Fetch post from Supabase (including fields for Article JSON-LD)
+  const apiUrl = `${SUPABASE_URL}/rest/v1/insight_posts?slug=eq.${encodeURIComponent(slug)}&status=eq.published&select=title,excerpt,featured_image_url,published_at,slug,meta_title,meta_description,canonical_url,faq_json_ld&limit=1`;
 
   let post: any = null;
   try {
@@ -70,16 +70,49 @@ export default async function handler(req: Request, context: Context) {
     );
   }
 
-  // Replace JSON-LD script tags
+  // Strip existing JSON-LD scripts from the SPA shell
+  html = html.replace(/<script\s+type="application\/ld\+json">[^<]*<\/script>/g, "");
+
+  // Build JSON-LD tags to inject
+  let jsonLdTags = "";
+
+  // FAQ schema (if present)
   if (post.faq_json_ld) {
-    const jsonLd = typeof post.faq_json_ld === "string" ? post.faq_json_ld : JSON.stringify(post.faq_json_ld);
-    // Remove existing JSON-LD scripts and inject the post-specific one
-    html = html.replace(/<script\s+type="application\/ld\+json">[^<]*<\/script>/g, "");
-    html = html.replace(
-      "</head>",
-      `<script type="application/ld+json">${jsonLd}</script>\n</head>`
-    );
+    const faqLd = typeof post.faq_json_ld === "string" ? post.faq_json_ld : JSON.stringify(post.faq_json_ld);
+    jsonLdTags += `<script type="application/ld+json">${faqLd}</script>\n`;
   }
+
+  // Article schema (always injected since we have the post data)
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": post.title || "",
+    "description": post.excerpt || "",
+    "image": post.featured_image_url || "",
+    "datePublished": post.published_at || "",
+    "dateModified": post.published_at || "",
+    "author": {
+      "@type": "Organization",
+      "name": "ArtiNovate",
+      "url": "https://www.artinovate.com"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "ArtiNovate",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://artinovate.com/assets/artinovate-logo-BsiajO-W.png"
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": `https://www.artinovate.com/insights/${post.slug}`
+    }
+  };
+  jsonLdTags += `<script type="application/ld+json">${JSON.stringify(articleSchema)}</script>\n`;
+
+  // Inject all JSON-LD before </head>
+  html = html.replace("</head>", `${jsonLdTags}</head>`);
 
   return new Response(html, {
     status: response.status,
