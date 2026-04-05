@@ -75,11 +75,11 @@ export default function InsightDetail() {
       "description": insight.excerpt || insight.content?.split('.')[0] || "",
       "image": insight.featured_image_url || "",
       "datePublished": insight.published_at || "",
-      "dateModified": insight.updated_at || "2026-04-04",
+      "dateModified": insight.published_at || "",
       "author": {
         "@type": "Organization",
         "name": "ArtiNovate",
-        "url": "https://artinovate.com"
+        "url": "https://www.artinovate.com"
       },
       "publisher": {
         "@type": "Organization",
@@ -91,7 +91,7 @@ export default function InsightDetail() {
       },
       "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": `https://artinovate.com/insights/${insight.slug}`
+        "@id": `https://www.artinovate.com/insights/${insight.slug}`
       }
     };
 
