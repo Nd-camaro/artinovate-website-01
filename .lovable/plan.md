@@ -1,26 +1,39 @@
 
 
-## Move Article JSON-LD from useDocumentHead to Inline JSX
+## Update Netlify Edge Function to Inject Article JSON-LD Server-Side
 
 ### Problem
-The Article JSON-LD is injected client-side via `useDocumentHead`, which runs after render. Crawlers (including Google Rich Results Test) don't execute JS, so they never see the schema.
+The edge function currently fetches only `meta_title`, `meta_description`, `canonical_url`, and `faq_json_ld`. It does not inject the Article JSON-LD schema, so crawlers that don't execute JavaScript miss it entirely.
 
-### Changes (single file: `src/pages/InsightDetail.tsx`)
+### Changes (single file: `netlify/edge-functions/inject-meta.ts`)
 
-**1. Remove Article schema from `jsonLd` useMemo (lines 68-108)**
-- Keep only FAQ schema logic; pass only `faqSchema` (or `null`) to `useDocumentHead`
-- The `articleSchema` variable and its construction are removed from this block
+**1. Expand the Supabase `select` query (line 26)**
+Add `title`, `excerpt`, `featured_image_url`, `published_at`, `slug` to the selected fields so we have data to build the Article schema.
 
-**2. Stop passing Article JSON-LD to useDocumentHead (line 114)**
-- `jsonLd` will now only contain FAQ schema (or null), not the Article schema
+**2. Build and inject Article JSON-LD (after line 81)**
+Construct the Article schema object using fetched post data and inject it as an additional `<script type="application/ld+json">` tag before `</head>`, alongside the existing FAQ schema injection. The schema matches the exact structure already used in the React component:
 
-**3. Add inline `<script>` tag in JSX return (after line 150)**
-- Place a `<script type="application/ld+json" dangerouslySetInnerHTML={...} />` immediately after the opening `<div>` wrapper, before `<Navigation />`
-- Uses the exact Article schema structure with `insight.title`, `insight.excerpt`, `insight.featured_image_url`, `insight.published_at`, and `insight.slug`
-- This renders as static HTML in the DOM, visible to crawlers even without JS execution
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": post.title,
+  "description": post.excerpt,
+  "image": post.featured_image_url,
+  "datePublished": post.published_at,
+  "dateModified": post.published_at,
+  "author": { "@type": "Organization", "name": "ArtiNovate", "url": "https://www.artinovate.com" },
+  "publisher": { "@type": "Organization", "name": "ArtiNovate", "logo": { "@type": "ImageObject", "url": "https://artinovate.com/assets/artinovate-logo-BsiajO-W.png" } },
+  "mainEntityOfPage": { "@type": "WebPage", "@id": "https://www.artinovate.com/insights/{slug}" }
+}
+```
+
+**3. Restructure the JSON-LD injection block (lines 73-82)**
+- Still strip existing JSON-LD tags from the SPA shell
+- Inject FAQ schema if present
+- Always inject Article schema (since we have the post data at this point)
+- Both go before `</head>`
 
 ### Result
-- Article schema appears in the raw HTML response (and in the Netlify Edge Function's rewritten output)
-- FAQ schema continues to be injected via `useDocumentHead` (acceptable since it's supplementary)
-- No other files change
+Crawlers and Google Rich Results Test will see the Article JSON-LD in the raw HTML response without any JavaScript execution needed. The client-side inline script in InsightDetail.tsx remains as a fallback for direct SPA navigation.
 
