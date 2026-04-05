@@ -121,6 +121,37 @@ export default function InsightDetail() {
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": insight.title,
+            "description": insight.excerpt || insight.content?.split('.')[0] || "",
+            "image": insight.featured_image_url || "",
+            "datePublished": insight.published_at || "",
+            "dateModified": insight.published_at || "",
+            "author": {
+              "@type": "Organization",
+              "name": "ArtiNovate",
+              "url": "https://www.artinovate.com"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "ArtiNovate",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://artinovate.com/assets/artinovate-logo-BsiajO-W.png"
+              }
+            },
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": `https://www.artinovate.com/insights/${insight.slug}`
+            }
+          })
+        }}
+      />
       <Navigation />
 
       <main className="pt-24 pb-16 lg:pb-24">
