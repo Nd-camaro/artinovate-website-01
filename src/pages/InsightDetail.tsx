@@ -91,7 +91,7 @@ export default function InsightDetail() {
       },
       "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": `https://artinovate.com/insights/${insight.slug}`
+        "@id": `https://www.artinovate.com/insights/${insight.slug}`
       }
     };
 
