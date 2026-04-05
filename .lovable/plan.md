@@ -1,26 +1,14 @@
 
 
-## Dynamic Sitemap Generation
+## Update Article JSON-LD in InsightDetail.tsx
 
-### Overview
-Create a Node.js build script that fetches all published post slugs from Supabase and generates a complete `sitemap.xml` including both static pages and dynamic insight post URLs. The script runs automatically after every Vite build.
+The Article JSON-LD already exists in `src/pages/InsightDetail.tsx` (lines 71-96) and is dynamically injected via `useDocumentHead`. Two small adjustments are needed to match the requested spec exactly:
 
-### Changes
+### Changes (single file: `src/pages/InsightDetail.tsx`)
 
-**1. Create `scripts/generate-sitemap.mjs`**
-- Fetch published posts from Supabase REST API (slug + updated_at)
-- Generate sitemap XML with static pages (/, /about, /insights, /contact) plus dynamic `/insights/[slug]` entries
-- Use each post's `updated_at` as `lastmod`, priority 0.6, changefreq weekly
-- Write output to `dist/sitemap.xml`
+1. **Line 78**: Change `"dateModified"` from `insight.updated_at || "2026-04-04"` to `insight.published_at || ""`
+2. **Line 82**: Change author URL from `"https://artinovate.com"` to `"https://www.artinovate.com"`
+3. **Line 94**: Change mainEntityOfPage `@id` from `` `https://artinovate.com/insights/...` `` to `` `https://www.artinovate.com/insights/...` ``
 
-**2. Update `package.json` build script**
-- Change `"build"` from `"vite build"` to `"vite build && node scripts/generate-sitemap.mjs"`
-
-**3. Remove `public/sitemap.xml`**
-- No longer needed since sitemap is generated at build time into `dist/`
-
-### Technical Details
-- The script uses the Supabase REST API directly with `fetch` (no extra dependencies needed)
-- The anon key and URL are read from the `.env` file or hardcoded since they're public
-- The `netlify.toml` build command already points to `npm run build`, so no changes needed there
+No other files need editing. The schema is already template-driven — every published post automatically gets its own Article JSON-LD with the correct headline, description, image, and dates.
 
