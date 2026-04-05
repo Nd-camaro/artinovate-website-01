@@ -79,7 +79,7 @@ export default function InsightDetail() {
       "author": {
         "@type": "Organization",
         "name": "ArtiNovate",
-        "url": "https://artinovate.com"
+        "url": "https://www.artinovate.com"
       },
       "publisher": {
         "@type": "Organization",
