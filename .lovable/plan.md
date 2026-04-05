@@ -1,14 +1,26 @@
 
 
-## Update Article JSON-LD in InsightDetail.tsx
+## Move Article JSON-LD from useDocumentHead to Inline JSX
 
-The Article JSON-LD already exists in `src/pages/InsightDetail.tsx` (lines 71-96) and is dynamically injected via `useDocumentHead`. Two small adjustments are needed to match the requested spec exactly:
+### Problem
+The Article JSON-LD is injected client-side via `useDocumentHead`, which runs after render. Crawlers (including Google Rich Results Test) don't execute JS, so they never see the schema.
 
 ### Changes (single file: `src/pages/InsightDetail.tsx`)
 
-1. **Line 78**: Change `"dateModified"` from `insight.updated_at || "2026-04-04"` to `insight.published_at || ""`
-2. **Line 82**: Change author URL from `"https://artinovate.com"` to `"https://www.artinovate.com"`
-3. **Line 94**: Change mainEntityOfPage `@id` from `` `https://artinovate.com/insights/...` `` to `` `https://www.artinovate.com/insights/...` ``
+**1. Remove Article schema from `jsonLd` useMemo (lines 68-108)**
+- Keep only FAQ schema logic; pass only `faqSchema` (or `null`) to `useDocumentHead`
+- The `articleSchema` variable and its construction are removed from this block
 
-No other files need editing. The schema is already template-driven — every published post automatically gets its own Article JSON-LD with the correct headline, description, image, and dates.
+**2. Stop passing Article JSON-LD to useDocumentHead (line 114)**
+- `jsonLd` will now only contain FAQ schema (or null), not the Article schema
+
+**3. Add inline `<script>` tag in JSX return (after line 150)**
+- Place a `<script type="application/ld+json" dangerouslySetInnerHTML={...} />` immediately after the opening `<div>` wrapper, before `<Navigation />`
+- Uses the exact Article schema structure with `insight.title`, `insight.excerpt`, `insight.featured_image_url`, `insight.published_at`, and `insight.slug`
+- This renders as static HTML in the DOM, visible to crawlers even without JS execution
+
+### Result
+- Article schema appears in the raw HTML response (and in the Netlify Edge Function's rewritten output)
+- FAQ schema continues to be injected via `useDocumentHead` (acceptable since it's supplementary)
+- No other files change
 
