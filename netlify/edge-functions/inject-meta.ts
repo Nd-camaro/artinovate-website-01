@@ -14,7 +14,32 @@ function escapeHtml(str: string): string {
 
 export default async function handler(req: Request, context: Context) {
   const url = new URL(req.url);
-  const segments = url.pathname.split("/").filter(Boolean);
+  const pathname = url.pathname.replace(/\/+$/, "") || "/";
+  const segments = pathname.split("/").filter(Boolean);
+
+  // Homepage: inject Organization JSON-LD
+  if (pathname === "/") {
+    const response = await context.next();
+    let html = await response.text();
+
+    const orgSchema = {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "ArtiNovate",
+      "url": "https://www.artinovate.com",
+      "logo": "https://artinovate.com/assets/artinovate-logo-BsiajO-W.png",
+      "description": "AI automation agency building autonomous digital presence systems for Web3 protocols, DeFi funds, DAOs, and blockchain firms.",
+      "areaServed": "Global",
+      "priceRange": "$5000–$15000"
+    };
+
+    html = html.replace("</head>", `<script type="application/ld+json">${JSON.stringify(orgSchema)}</script>\n</head>`);
+
+    return new Response(html, {
+      status: response.status,
+      headers: response.headers,
+    });
+  }
 
   // Extract slug from /insights/:slug
   if (segments.length < 2 || segments[0] !== "insights") {
