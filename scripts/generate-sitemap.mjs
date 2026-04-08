@@ -4,6 +4,18 @@ const SITE_URL = "https://www.artinovate.com";
 
 import { writeFileSync } from "fs";
 
+const REDIRECTED_SLUGS = new Set([
+  "autonomous-ai-powered-website-web3-context",
+  "autonomous-ai-powered-web3-website",
+  "what-is-autonomous-ai-powered-website-web3",
+  "autonomous-ai-website",
+  "ai-interpretability-impact-security",
+  "ai-model-interpretability-critical-ai-safety",
+  "ai-interpretability-legal-requirement",
+  "ai-safety-interpretability-cybersecurity",
+  "offense-defense-imbalance-ai-cybersecurity",
+]);
+
 const staticPages = [
   { path: "/", priority: "1.0" },
   { path: "/about", priority: "0.8" },
