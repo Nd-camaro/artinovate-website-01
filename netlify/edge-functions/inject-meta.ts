@@ -41,6 +41,26 @@ export default async function handler(req: Request, context: Context) {
     });
   }
 
+  // Static routes: inject correct canonical
+  const staticCanonicals: Record<string, string> = {
+    "/about": "https://www.artinovate.com/about",
+    "/contact": "https://www.artinovate.com/contact",
+    "/insights": "https://www.artinovate.com/insights",
+  };
+
+  if (staticCanonicals[pathname]) {
+    const response = await context.next();
+    let html = await response.text();
+    html = html.replace(
+      /<link\s+rel="canonical"\s+href="[^"]*"/,
+      `<link rel="canonical" href="${staticCanonicals[pathname]}"`
+    );
+    return new Response(html, {
+      status: response.status,
+      headers: response.headers,
+    });
+  }
+
   // Extract slug from /insights/:slug
   if (segments.length < 2 || segments[0] !== "insights") {
     return context.next();
