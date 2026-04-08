@@ -5,3 +5,63 @@
 [[edge_functions]]
   path = "/insights/*"
   function = "inject-meta"
+
+[[edge_functions]]
+  path = "/"
+  function = "inject-meta"
+
+# Autonomous AI Website duplicates → canonical version
+[[redirects]]
+  from = "/insights/autonomous-ai-powered-website-web3-context"
+  to = "/insights/autonomous-ai-powered-website-web3"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/insights/autonomous-ai-powered-web3-website"
+  to = "/insights/autonomous-ai-powered-website-web3"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/insights/what-is-autonomous-ai-powered-website-web3"
+  to = "/insights/autonomous-ai-powered-website-web3"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/insights/autonomous-ai-website"
+  to = "/insights/what-is-an-autonomous-ai-website"
+  status = 301
+  force = true
+
+# Off-ICP interpretability posts → strongest on-ICP post
+[[redirects]]
+  from = "/insights/ai-interpretability-impact-security"
+  to = "/insights/blockchain-startups-build-24-7-digital-growth-system"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/insights/ai-model-interpretability-critical-ai-safety"
+  to = "/insights/blockchain-startups-build-24-7-digital-growth-system"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/insights/ai-interpretability-legal-requirement"
+  to = "/insights/blockchain-startups-build-24-7-digital-growth-system"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/insights/ai-safety-interpretability-cybersecurity"
+  to = "/insights/blockchain-startups-build-24-7-digital-growth-system"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/insights/offense-defense-imbalance-ai-cybersecurity"
+  to = "/insights/blockchain-startups-build-24-7-digital-growth-system"
+  status = 301
+  force = true
