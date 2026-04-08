@@ -54,7 +54,7 @@ async function main() {
   </url>`
   );
 
-  for (const post of posts) {
+  for (const post of posts.filter(p => !REDIRECTED_SLUGS.has(p.slug))) {
     const lastmod = post.updated_at ? post.updated_at.split("T")[0] : today;
     urls.push(`  <url>
     <loc>${SITE_URL}/insights/${post.slug}</loc>
