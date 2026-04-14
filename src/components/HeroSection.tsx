@@ -9,7 +9,7 @@ const SESSION_KEY = "artinovate_typewriter_played";
 
 // Fixed two-line headline for all breakpoints
 const HEADLINE_LINE_1 = "Autonomous AI-Powered";
-const HEADLINE_LINE_2 = "Digital Presence for Web3 Organizations";
+const HEADLINE_LINE_2 = "Digital Presence";
 
 interface TypewriterProps {
   lines: string[];
