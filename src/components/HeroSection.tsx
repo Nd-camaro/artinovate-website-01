@@ -216,7 +216,7 @@ export function HeroSection() {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="font-mono text-xs md:text-sm text-primary mb-10"
           >
-            Publishes. Engages. Converts. Follows up.
+            Publishes. Engages. Captures.
           </motion.p>
 
           {/* CTA Buttons */}
