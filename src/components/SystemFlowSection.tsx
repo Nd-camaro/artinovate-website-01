@@ -18,7 +18,7 @@ const steps = [
     icon: Rocket,
     number: "03",
     title: "Deployment",
-    description: "Your autonomous digital presence goes live, immediately beginning to publish, engage, and convert.",
+    description: "Your autonomous digital presence goes live, immediately beginning to publish, engage, and capture.",
   },
   {
     icon: BarChart3,

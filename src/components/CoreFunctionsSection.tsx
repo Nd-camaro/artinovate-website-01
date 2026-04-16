@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { FileText, MessageSquare, Target, RefreshCw } from "lucide-react";
+import { FileText, MessageSquare, Target } from "lucide-react";
 
 const functions = [
   {
@@ -16,15 +16,9 @@ const functions = [
   },
   {
     icon: Target,
-    title: "Convert",
-    description: "Capture qualified leads and schedule calls automatically. Every interaction is an opportunity.",
+    title: "Capture",
+    description: "Qualified leads are captured automatically. Every visitor interaction routes into a structured system, ready for a real conversation.",
     accent: "from-primary/20 to-primary/5",
-  },
-  {
-    icon: RefreshCw,
-    title: "Follow Up",
-    description: "Automated sequences nurture leads over time, ensuring no opportunity falls through the cracks.",
-    accent: "from-accent/20 to-accent/5",
   },
 ];
 
@@ -41,11 +35,11 @@ export function CoreFunctionsSection() {
         >
           <span className="label-mono text-primary mb-4 block">System Overview</span>
           <h2 className="text-3xl md:text-5xl font-bold tracking-tight max-w-2xl">
-            One system. Four functions.
+            One system. Three functions.
           </h2>
         </motion.div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {functions.map((func, index) => (
             <motion.div
               key={func.title}

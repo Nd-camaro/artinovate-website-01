@@ -12,7 +12,7 @@ const problems = [
     icon: TrendingDown,
     label: "Static Presence",
     title: "Static website, no automation",
-    description: "You have a website, but it sits idle. No publishing, no engagement, no qualification, no follow up. Your digital presence is a liability.",
+    description: "No publishing, no engagement, no capture. Your digital presence is a liability.",
   },
 ];
 
