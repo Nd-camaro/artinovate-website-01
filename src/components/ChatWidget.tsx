@@ -1,5 +1,8 @@
 import { useEffect } from "react";
 
+// Chat assistant temporarily disabled. Set to true to re-enable.
+const SHOW_CHAT_WIDGET = false;
+
 declare global {
   interface Window {
     voiceflow?: {
@@ -17,6 +20,8 @@ declare global {
 
 export function ChatWidget() {
   useEffect(() => {
+    if (!SHOW_CHAT_WIDGET) return;
+
     const loadWidget = () => {
       if (document.getElementById("voiceflow-widget-script")) return;
 
