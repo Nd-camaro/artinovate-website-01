@@ -14,6 +14,7 @@ const About = lazy(() => import("./pages/About"));
 const Insights = lazy(() => import("./pages/Insights"));
 const InsightDetail = lazy(() => import("./pages/InsightDetail"));
 const Contact = lazy(() => import("./pages/Contact"));
+const Playbook = lazy(() => import("./pages/Playbook"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
@@ -33,6 +34,7 @@ const App = () => (
               <Route path="/insights" element={<Insights />} />
               <Route path="/insights/:slug" element={<InsightDetail />} />
               <Route path="/contact" element={<Contact />} />
+              <Route path="/playbook" element={<Playbook />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
