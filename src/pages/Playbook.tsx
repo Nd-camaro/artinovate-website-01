@@ -101,7 +101,6 @@ function OfferBox({ progressKey }: { progressKey: string }) {
       <div
         style={mono}
         className="mt-3.5 text-[10px] text-[#00D4D4] text-center tracking-[0.06em] px-3.5 py-2.5"
-        css={{ backgroundColor: "rgba(0,212,212,0.05)", border: "1px solid rgba(0,212,212,0.2)" } as any}
       >
         <div style={{ backgroundColor: "rgba(0,212,212,0.05)", border: "1px solid rgba(0,212,212,0.2)", padding: "10px 14px" }}>
           ⚑ Blueprint bonus expires when 100 copies sell. Price returns to $50 on July 1.
@@ -234,7 +233,6 @@ export default function Playbook() {
                 <h1
                   style={syne}
                   className="mt-6 font-extrabold text-white leading-[0.95]"
-                  css={{ fontSize: "clamp(42px,6vw,80px)", letterSpacing: "-0.02em" } as any}
                 >
                   <span style={{ display: "block", fontSize: "clamp(42px,6vw,80px)", letterSpacing: "-0.02em" }}>
                     The playbook<br />
@@ -280,7 +278,7 @@ export default function Playbook() {
         <div className="max-w-[1100px] mx-auto px-10 py-[100px]">
           <FadeUp>
             <SectionLabel>THE HONEST CALCULATION</SectionLabel>
-            <h2 style={syne} className="font-extrabold text-white leading-[1.05]" css={{ fontSize: "clamp(28px,4vw,52px)" } as any}>
+            <h2 style={syne} className="font-extrabold text-white leading-[1.05]">
               <span style={{ fontSize: "clamp(28px,4vw,52px)", display: "inline-block" }}>
                 What you're actually<br />paying for right now.
               </span>
@@ -361,7 +359,7 @@ export default function Playbook() {
         <div className="max-w-[1100px] mx-auto px-10 py-[100px]">
           <FadeUp>
             <SectionLabel>WHAT'S INSIDE</SectionLabel>
-            <h2 style={syne} className="font-extrabold text-white leading-[1.05]" css={{ fontSize: "clamp(28px,4vw,52px)" } as any}>
+            <h2 style={syne} className="font-extrabold text-white leading-[1.05]">
               <span style={{ fontSize: "clamp(28px,4vw,52px)", display: "inline-block" }}>
                 11 chapters.<br />Everything you need to build.
               </span>
@@ -401,7 +399,6 @@ export default function Playbook() {
                     key={m}
                     style={mono}
                     className="text-[9px] text-[#00D4D4] px-2.5 py-1"
-                    css={{ border: "1px solid rgba(0,212,212,0.3)" } as any}
                   >
                     <span style={{ border: "1px solid rgba(0,212,212,0.3)", padding: "4px 10px", display: "inline-block" }}>{m}</span>
                   </span>
@@ -439,7 +436,7 @@ export default function Playbook() {
         <div className="max-w-[1100px] mx-auto px-10 py-[100px]">
           <FadeUp>
             <SectionLabel>BUILT FOR</SectionLabel>
-            <h2 style={syne} className="font-extrabold text-white leading-[1.05]" css={{ fontSize: "clamp(28px,4vw,52px)" } as any}>
+            <h2 style={syne} className="font-extrabold text-white leading-[1.05]">
               <span style={{ fontSize: "clamp(28px,4vw,52px)", display: "inline-block" }}>
                 If your organization is serious,<br />this is for you.
               </span>
@@ -490,7 +487,7 @@ export default function Playbook() {
       <section className="bg-black text-center px-10 py-[100px]">
         <FadeUp>
           <SectionLabel center>ONE DECISION</SectionLabel>
-          <h2 style={syne} className="font-extrabold text-white leading-[1.05]" css={{ fontSize: "clamp(36px,5vw,64px)" } as any}>
+          <h2 style={syne} className="font-extrabold text-white leading-[1.05]">
             <span style={{ fontSize: "clamp(36px,5vw,64px)", display: "inline-block" }}>
               Build once.<br /><span className="text-[#00D4D4]">Compound forever.</span>
             </span>
