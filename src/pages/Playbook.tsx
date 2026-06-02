@@ -161,14 +161,6 @@ function HeroLoadFade({ children, delay = 0, className = "" }: { children: React
 }
 
 export default function Playbook() {
-  // Parallax for two large images
-  const [scrollY, setScrollY] = useState(0);
-  useEffect(() => {
-    const onScroll = () => setScrollY(window.scrollY);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
   useEffect(() => {
     document.title = "The Playbook — ArtiNovate";
   }, []);
