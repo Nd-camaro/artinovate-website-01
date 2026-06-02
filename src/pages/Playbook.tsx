@@ -161,33 +161,9 @@ function HeroLoadFade({ children, delay = 0, className = "" }: { children: React
 }
 
 export default function Playbook() {
-  // Parallax for two large images
-  const [scrollY, setScrollY] = useState(0);
-  useEffect(() => {
-    const onScroll = () => setScrollY(window.scrollY);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
   useEffect(() => {
     document.title = "The Playbook — ArtiNovate";
   }, []);
-
-  const backCoverRef = useRef<HTMLDivElement>(null);
-  const satoshiRef = useRef<HTMLDivElement>(null);
-  const [bcOffset, setBcOffset] = useState(0);
-  const [satOffset, setSatOffset] = useState(0);
-  useEffect(() => {
-    const calc = (el: HTMLElement | null) => {
-      if (!el) return 0;
-      const rect = el.getBoundingClientRect();
-      const center = rect.top + rect.height / 2 - window.innerHeight / 2;
-      const pct = Math.max(-1, Math.min(1, center / window.innerHeight));
-      return -pct * 20;
-    };
-    setBcOffset(calc(backCoverRef.current));
-    setSatOffset(calc(satoshiRef.current));
-  }, [scrollY]);
 
   return (
     <div className="min-h-screen bg-black text-white" style={inter}>
@@ -210,18 +186,18 @@ export default function Playbook() {
               {/* Desktop right gradient */}
               <div
                 className="absolute inset-0 hidden lg:block"
-                style={{ background: "linear-gradient(to right, transparent 55%, #000000 100%)" }}
+                style={{ background: "linear-gradient(to right, transparent 25%, rgba(0,0,0,0.55) 65%, #000000 100%)" }}
               />
               {/* Mobile bottom gradient */}
               <div
                 className="absolute inset-0 lg:hidden"
-                style={{ background: "linear-gradient(to bottom, transparent 40%, #000000 100%)" }}
+                style={{ background: "linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.6) 70%, #000000 100%)" }}
               />
             </div>
           </HeroLoadFade>
 
           {/* RIGHT — copy */}
-          <div className="relative w-full lg:w-[45%] bg-black flex items-center px-6 lg:pl-[60px] lg:pr-12 py-16 lg:py-0 -mt-24 lg:mt-0">
+          <div className="relative w-full lg:w-[45%] bg-black flex items-center px-5 md:px-10 lg:pl-[60px] lg:pr-12 py-16 lg:py-0 -mt-24 lg:mt-0 z-10">
             <div className="w-full max-w-xl">
               <HeroLoadFade delay={0}>
                 <div style={mono} className="text-[11px] text-[#00D4D4] uppercase tracking-[0.2em]">
@@ -275,7 +251,7 @@ export default function Playbook() {
 
       {/* SECTION 3 — THE MATH */}
       <section className="bg-black">
-        <div className="max-w-[1100px] mx-auto px-10 py-[100px]">
+        <div className="max-w-[1280px] mx-auto px-5 md:px-10 lg:px-20 py-[100px]">
           <FadeUp>
             <SectionLabel>THE HONEST CALCULATION</SectionLabel>
             <h2 style={syne} className="font-extrabold text-white leading-[1.05]">
@@ -285,78 +261,79 @@ export default function Playbook() {
             </h2>
           </FadeUp>
 
-          <div className="mt-12 grid md:grid-cols-[1fr_auto_1fr] gap-6 items-stretch">
-            <FadeUp className="bg-[#0F0F0F] border border-[#1A1A1A] border-t-2" delay={0}>
-              <div className="bg-[#0F0F0F] border-t-2 border-[#FF4444] p-8 h-full">
-                <div style={mono} className="text-[10px] text-[#888888] uppercase tracking-[0.18em] mb-5">RENTED GROUND</div>
-                <ul className="space-y-3 text-[13px]">
-                  {[
-                    ["SEO Retainer", "$36,000–$120,000/yr"],
-                    ["Content & Articles", "$24,000–$60,000/yr"],
-                    ["Community Management", "$36,000–$96,000/yr"],
-                    ["PR & Press Placements", "$18,000–$60,000/yr"],
-                    ["Influencer Campaigns", "$60,000–$300,000/yr"],
-                  ].map(([k, v]) => (
-                    <li key={k} className="flex justify-between gap-3">
-                      <span className="text-white">{k}</span>
-                      <span style={mono} className="text-[#FF4444]">{v}</span>
-                    </li>
-                  ))}
-                </ul>
-                <div className="border-t border-[#1A1A1A] mt-6 pt-5 flex justify-between items-baseline">
-                  <span style={syne} className="font-bold text-white text-[15px]">TOTAL RENTED SPEND</span>
-                  <span style={syne} className="font-bold text-[#FF4444] text-[20px]">$300K–$1M+/yr</span>
-                </div>
-                <div style={mono} className="text-[10px] text-[#888888] mt-4">Stops when budget stops. No compounding. No ownership.</div>
-              </div>
+          <div className="mt-12 grid lg:grid-cols-2 gap-6 items-stretch">
+            {/* Image — appears first on mobile, right column on desktop */}
+            <FadeUp delay={0} className="lg:order-2 relative min-h-[70vw] lg:min-h-[520px] overflow-hidden">
+              <img
+                src={backCover.url}
+                alt="What Web3 firms spend annually — AI Infrastructure Stack $218/mo"
+                className="absolute inset-0 w-full h-full object-cover object-center"
+              />
+              <div
+                className="absolute inset-x-0 bottom-0 h-[45%] lg:hidden"
+                style={{ background: "linear-gradient(to bottom, transparent 0%, #000000 100%)" }}
+              />
             </FadeUp>
 
-            <div className="hidden md:flex items-center justify-center">
-              <span style={mono} className="text-[#888888] text-[12px] uppercase tracking-[0.2em]">vs</span>
+            {/* Cost comparison tables stacked — left column on desktop */}
+            <div className="lg:order-1 flex flex-col gap-6">
+              <FadeUp delay={60}>
+                <div className="bg-[#0F0F0F] border border-[#1A1A1A] border-t-2 border-t-[#FF4444] p-8 h-full">
+                  <div style={mono} className="text-[10px] text-[#888888] uppercase tracking-[0.18em] mb-5">RENTED GROUND</div>
+                  <ul className="space-y-3 text-[13px]">
+                    {[
+                      ["SEO Retainer", "$36,000–$120,000/yr"],
+                      ["Content & Articles", "$24,000–$60,000/yr"],
+                      ["Community Management", "$36,000–$96,000/yr"],
+                      ["PR & Press Placements", "$18,000–$60,000/yr"],
+                      ["Influencer Campaigns", "$60,000–$300,000/yr"],
+                    ].map(([k, v]) => (
+                      <li key={k} className="flex justify-between gap-3">
+                        <span className="text-white">{k}</span>
+                        <span style={mono} className="text-[#FF4444]">{v}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="border-t border-[#1A1A1A] mt-6 pt-5 flex justify-between items-baseline">
+                    <span style={syne} className="font-bold text-white text-[15px]">TOTAL RENTED SPEND</span>
+                    <span style={syne} className="font-bold text-[#FF4444] text-[20px]">$300K–$1M+/yr</span>
+                  </div>
+                  <div style={mono} className="text-[10px] text-[#888888] mt-4">Stops when budget stops. No compounding. No ownership.</div>
+                </div>
+              </FadeUp>
+
+              <FadeUp delay={120}>
+                <div className="bg-[#0F0F0F] border border-[#1A1A1A] border-t-2 border-t-[#00D4D4] p-8 h-full">
+                  <div style={mono} className="text-[10px] text-[#888888] uppercase tracking-[0.18em] mb-5">OWNED INFRASTRUCTURE</div>
+                  <ul className="space-y-3 text-[13px]">
+                    {[
+                      ["Make.com automation", "$29/mo"],
+                      ["Supabase database", "$25/mo"],
+                      ["Voiceflow assistant", "$50/mo"],
+                      ["Lovable build environment", "$25/mo"],
+                      ["Gemini + Perplexity APIs", "~$40/mo"],
+                    ].map(([k, v]) => (
+                      <li key={k} className="flex justify-between gap-3">
+                        <span className="text-white">{k}</span>
+                        <span style={mono} className="text-[#00D4D4]">{v}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="border-t border-[#1A1A1A] mt-6 pt-5 flex justify-between items-baseline">
+                    <span style={syne} className="font-bold text-white text-[15px]">FULL STACK MONTHLY</span>
+                    <span style={syne} className="font-bold text-[#00D4D4] text-[20px]">$218/mo</span>
+                  </div>
+                  <div style={mono} className="text-[10px] text-[#888888] mt-4">Runs continuously. Compounds monthly. Full ownership.</div>
+                </div>
+              </FadeUp>
             </div>
-
-            <FadeUp delay={120}>
-              <div className="bg-[#0F0F0F] border border-[#1A1A1A] border-t-2 border-t-[#00D4D4] p-8 h-full">
-                <div style={mono} className="text-[10px] text-[#888888] uppercase tracking-[0.18em] mb-5">OWNED INFRASTRUCTURE</div>
-                <ul className="space-y-3 text-[13px]">
-                  {[
-                    ["Make.com automation", "$29/mo"],
-                    ["Supabase database", "$25/mo"],
-                    ["Voiceflow assistant", "$50/mo"],
-                    ["Lovable build environment", "$25/mo"],
-                    ["Gemini + Perplexity APIs", "~$40/mo"],
-                  ].map(([k, v]) => (
-                    <li key={k} className="flex justify-between gap-3">
-                      <span className="text-white">{k}</span>
-                      <span style={mono} className="text-[#00D4D4]">{v}</span>
-                    </li>
-                  ))}
-                </ul>
-                <div className="border-t border-[#1A1A1A] mt-6 pt-5 flex justify-between items-baseline">
-                  <span style={syne} className="font-bold text-white text-[15px]">FULL STACK MONTHLY</span>
-                  <span style={syne} className="font-bold text-[#00D4D4] text-[20px]">$218/mo</span>
-                </div>
-                <div style={mono} className="text-[10px] text-[#888888] mt-4">Runs continuously. Compounds monthly. Full ownership.</div>
-              </div>
-            </FadeUp>
-          </div>
-
-          {/* Back cover poster */}
-          <div ref={backCoverRef} className="relative mt-16 -mx-10 overflow-hidden" style={{ maxHeight: 580 }}>
-            <img
-              src={backCover.url}
-              alt="What Web3 firms spend annually — AI Infrastructure Stack $218/mo"
-              className="w-full h-auto object-cover object-top"
-              style={{ maxHeight: 580, transform: `translateY(${bcOffset}px)`, transition: "transform 0.1s linear" }}
-            />
-            <div className="absolute inset-x-0 top-0 h-[18%]" style={{ background: "linear-gradient(to bottom, #000000 0%, transparent 100%)" }} />
           </div>
         </div>
       </section>
 
       {/* SECTION 4 — WHAT'S INSIDE */}
       <section className="bg-black">
-        <div className="max-w-[1100px] mx-auto px-10 py-[100px]">
+        <div className="max-w-[1280px] mx-auto px-5 md:px-10 lg:px-20 py-[100px]">
           <FadeUp>
             <SectionLabel>WHAT'S INSIDE</SectionLabel>
             <h2 style={syne} className="font-extrabold text-white leading-[1.05]">
@@ -381,8 +358,8 @@ export default function Playbook() {
 
       {/* SECTION 5 — BLUEPRINT BONUS */}
       <section className="bg-black">
-        <div className="max-w-[1100px] mx-auto px-10 pb-[100px]">
-          <div className="bg-[#0F0F0F] border border-[#1A1A1A] border-l-[3px] border-l-[#00D4D4] p-12 grid md:grid-cols-2 gap-10">
+        <div className="max-w-[1280px] mx-auto px-5 md:px-10 lg:px-20 pb-[100px]">
+          <div className="bg-[#0F0F0F] border border-[#1A1A1A] border-l-[3px] border-l-[#00D4D4] p-6 md:p-10 lg:p-12 grid md:grid-cols-2 gap-10">
             <FadeUp>
               <span style={mono} className="inline-block bg-[#00D4D4] text-black text-[9px] uppercase tracking-[0.18em] px-2.5 py-1">
                 BONUS · FIRST 100 COPIES ONLY
@@ -433,7 +410,7 @@ export default function Playbook() {
 
       {/* SECTION 6 — WHO IT'S FOR */}
       <section className="bg-black">
-        <div className="max-w-[1100px] mx-auto px-10 py-[100px]">
+        <div className="max-w-[1280px] mx-auto px-5 md:px-10 lg:px-20 py-[100px]">
           <FadeUp>
             <SectionLabel>BUILT FOR</SectionLabel>
             <h2 style={syne} className="font-extrabold text-white leading-[1.05]">
@@ -457,34 +434,39 @@ export default function Playbook() {
 
       {/* SECTION 7 — CINEMATIC BREAK + AUTHOR */}
       <section className="bg-black">
-        <div ref={satoshiRef} className="relative w-full overflow-hidden" style={{ height: "70vh" }}>
-          <img
-            src={satoshi.url}
-            alt="Anonymous reader holding the playbook by terminal light"
-            className="w-full h-full object-cover object-top"
-            style={{ transform: `translateY(${satOffset}px)`, transition: "transform 0.1s linear" }}
-          />
-          <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, transparent 50%, #000000 100%)" }} />
-        </div>
-        <div className="max-w-[1100px] mx-auto px-10 py-[60px] grid md:grid-cols-2 gap-12">
-          <FadeUp>
-            <div style={mono} className="text-[9px] text-[#555555] uppercase tracking-[0.2em]">WRITTEN BY</div>
-            <div style={syne} className="font-extrabold text-white text-[40px] leading-none mt-3">ND Nwankwo</div>
-            <div style={mono} className="text-[11px] text-[#00D4D4] mt-2">Founder, ArtiNovate</div>
+        <div className="max-w-[1280px] mx-auto px-5 md:px-10 lg:px-20 py-[100px] grid lg:grid-cols-2 gap-10 lg:gap-12 items-stretch">
+          <FadeUp className="lg:order-1 relative min-h-[80vw] lg:min-h-[560px] overflow-hidden">
+            <img
+              src={satoshi.url}
+              alt="Anonymous reader holding the playbook by terminal light"
+              className="absolute inset-0 w-full h-full object-cover object-center"
+            />
+            <div
+              className="absolute inset-x-0 bottom-0 h-[45%] lg:hidden"
+              style={{ background: "linear-gradient(to bottom, transparent 0%, #000000 100%)" }}
+            />
           </FadeUp>
-          <FadeUp delay={120}>
-            <div className="text-[14px] text-[#AAAAAA] leading-[1.8] space-y-4">
+          <div className="lg:order-2 flex flex-col justify-center">
+            <FadeUp>
+              <div style={mono} className="text-[9px] text-[#555555] uppercase tracking-[0.2em]">WRITTEN BY</div>
+              <div style={syne} className="font-extrabold text-white text-[40px] leading-none mt-3">ND Nwankwo</div>
+              <div style={mono} className="text-[11px] text-[#00D4D4] mt-2">Founder, ArtiNovate</div>
+            </FadeUp>
+            <FadeUp delay={120}>
+              <div className="text-[14px] text-[#AAAAAA] leading-[1.8] space-y-4 mt-6">
               <p>I am not a Web3 expert. I do not speak the language of tokenomics with the fluency of someone who has lived inside a protocol for five years. I will not pretend otherwise.</p>
               <p>What I have is something different. I have an eye for patterns. I watch how organizations present themselves to the world and I notice the distance between what they have built and what the world can see.</p>
               <p>That positioning — sitting at the intersection of AI infrastructure and Web3 visibility — is what qualifies me to write this. Not expertise in your technology. Expertise in how your technology gets seen.</p>
               <p className="text-[15px] text-[#00D4D4] mt-4">That is a different thing entirely. And it is the only thing this book is about.</p>
-            </div>
-          </FadeUp>
+              </div>
+            </FadeUp>
+          </div>
         </div>
       </section>
 
       {/* SECTION 8 — FINAL CTA */}
-      <section className="bg-black text-center px-10 py-[100px]">
+      <section className="bg-black text-center px-5 md:px-10 lg:px-20 py-[100px]">
+        <div className="max-w-[1280px] mx-auto">
         <FadeUp>
           <SectionLabel center>ONE DECISION</SectionLabel>
           <h2 style={syne} className="font-extrabold text-white leading-[1.05]">
@@ -498,6 +480,7 @@ export default function Playbook() {
         </FadeUp>
         <div className="max-w-[460px] mx-auto">
           <OfferBox progressKey="final" />
+        </div>
         </div>
       </section>
 
