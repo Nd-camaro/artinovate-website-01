@@ -63,9 +63,15 @@ export function Footer() {
             </h4>
             <ul className="space-y-3">
               {footerLinks.legal.map(link => <li key={link.label}>
-                  <a href={link.href} className="text-sm text-foreground/80 hover:text-primary transition-colors">
-                    {link.label}
-                  </a>
+                  {link.href.startsWith('/') ? (
+                    <Link to={link.href} className="text-sm text-foreground/80 hover:text-primary transition-colors">
+                      {link.label}
+                    </Link>
+                  ) : (
+                    <a href={link.href} className="text-sm text-foreground/80 hover:text-primary transition-colors">
+                      {link.label}
+                    </a>
+                  )}
                 </li>)}
             </ul>
           </div>
