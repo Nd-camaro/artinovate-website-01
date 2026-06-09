@@ -2,12 +2,32 @@ import { useEffect, useRef, useState } from "react";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 import mockup from "@/assets/playbook-3d-mockup.png.asset.json";
 import backCover from "@/assets/playbook-back-cover-poster.png.asset.json";
 import satoshi from "@/assets/playbook-satoshi-reading.png.asset.json";
 
-// Flutterwave inline checkout config. Public keys are safe to ship in client code.
-const FLW_PUBLIC_KEY = (import.meta.env.VITE_FLUTTERWAVE_PUBLIC_KEY as string | undefined) ?? "";
+// Flutterwave inline checkout config. Public key is fetched at runtime
+// from an edge function backed by the FLUTTERWAVE_PUBLIC_KEY secret.
+let FLW_PUBLIC_KEY = "";
+let flwKeyPromise: Promise<string> | null = null;
+
+async function fetchFlutterwavePublicKey(): Promise<string> {
+  if (FLW_PUBLIC_KEY) return FLW_PUBLIC_KEY;
+  if (flwKeyPromise) return flwKeyPromise;
+  flwKeyPromise = (async () => {
+    const { data, error } = await supabase.functions.invoke("flutterwave-public-key");
+    if (error) {
+      flwKeyPromise = null;
+      throw error;
+    }
+    const key = (data as { publicKey?: string } | null)?.publicKey ?? "";
+    FLW_PUBLIC_KEY = key;
+    return key;
+  })();
+  return flwKeyPromise;
+}
+
 const PLAYBOOK_PRICE = 25;
 const PLAYBOOK_CURRENCY = "USD";
 const FLW_SCRIPT_SRC = "https://checkout.flutterwave.com/v3.js";
@@ -27,8 +47,17 @@ function loadFlutterwaveScript() {
   document.body.appendChild(s);
 }
 
-function startFlutterwaveCheckout(email: string) {
-  if (!FLW_PUBLIC_KEY) {
+async function startFlutterwaveCheckout(email: string) {
+  let key = FLW_PUBLIC_KEY;
+  if (!key) {
+    try {
+      key = await fetchFlutterwavePublicKey();
+    } catch {
+      toast.error("Checkout is temporarily unavailable. Please try again shortly.");
+      return;
+    }
+  }
+  if (!key) {
     toast.error("Checkout is temporarily unavailable. Please try again shortly.");
     return;
   }
@@ -37,7 +66,7 @@ function startFlutterwaveCheckout(email: string) {
     return;
   }
   window.FlutterwaveCheckout({
-    public_key: FLW_PUBLIC_KEY,
+    public_key: key,
     tx_ref: `playbook-${Date.now()}`,
     amount: PLAYBOOK_PRICE,
     currency: PLAYBOOK_CURRENCY,
@@ -111,6 +140,7 @@ function OfferBox({ progressKey }: { progressKey: string }) {
   }, [progressKey]);
   useEffect(() => {
     loadFlutterwaveScript();
+    fetchFlutterwavePublicKey().catch(() => {});
   }, []);
   const handleBuy = () => {
     if (!showEmail) {
