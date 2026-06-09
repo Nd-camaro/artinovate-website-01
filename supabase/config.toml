@@ -1,1 +1,4 @@
 project_id = "nsrnoxsxjmmhfwdrowpp"
+
+[functions.flutterwave-public-key]
+verify_jwt = false
