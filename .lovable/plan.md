@@ -1,51 +1,24 @@
-## Goal
-Remove the Selar checkout URL from `/playbook` and replace it with a Flutterwave checkout flow triggered from the same buy button.
 
-## Approach
-Use Flutterwave's **Inline Checkout** (`FlutterwaveCheckout` from `https://checkout.flutterwave.com/v3.js`). It's the lowest-friction option that keeps users on-site, needs only the public key, and avoids spinning up an edge function.
 
-Defaults I'm choosing (since you skipped the questions):
-- Price: **$30 USD** (round digital-product price; easy to change in one constant)
-- Currency: `USD`
-- Payment options: `card, banktransfer, ussd`
-- Public key: stored as `VITE_FLUTTERWAVE_PUBLIC_KEY` in `.env` — you paste your `FLWPUBK-...` test/live key there. If unset, the button falls back to a friendly "checkout unavailable" toast so the page never breaks.
+## SEO Fixes: Sitemap, Denylist, and Canonical Tags
 
-If you'd rather use NGN, a Payment Link, or a different price, tell me after the plan and I'll adjust the single constants block.
+### Fix 1 — Delete `public/sitemap.xml`
+Remove the stale static file. The build script generates the correct one at `dist/sitemap.xml`.
 
-## Changes
+### Fix 2 — Add denylist to `scripts/generate-sitemap.mjs`
+Insert a `REDIRECTED_SLUGS` set containing the 9 redirected slugs. Filter fetched posts against this set before writing URLs. The `SITE_URL` is already `https://www.artinovate.com` so no domain change needed.
 
-### 1. `src/pages/Playbook.tsx`
-- Remove `const CHECKOUT_URL = "https://selar.com/2186224016"`.
-- Add a config block:
-  ```ts
-  const FLW_PUBLIC_KEY = import.meta.env.VITE_FLUTTERWAVE_PUBLIC_KEY ?? "";
-  const PLAYBOOK_PRICE = 30;
-  const PLAYBOOK_CURRENCY = "USD";
-  ```
-- Add a `useEffect` that injects `<script src="https://checkout.flutterwave.com/v3.js">` once (idempotent — checks if already present).
-- Replace the existing `<a href={CHECKOUT_URL} target="_blank">` buy button with a `<button>` that calls a new `handleCheckout()` function. Visual styling, copy, layout, and animations stay identical.
-- `handleCheckout()` calls `window.FlutterwaveCheckout({...})` with:
-  - `public_key`, `tx_ref` (`playbook-${Date.now()}`), `amount`, `currency`
-  - `payment_options: "card,banktransfer,ussd"`
-  - `customer`: prompts for email via a lightweight inline state (small modal/input) OR uses `window.prompt` for v1 simplicity — I'll use a minimal on-page email input that appears when the button is clicked, styled to match the sharp-edge dark aesthetic (no border-radius).
-  - `customizations`: title "ArtiNovate Playbook", description, logo from existing asset
-  - `callback`: closes modal + shows success toast (`sonner`)
-  - `onclose`: no-op
-- Add a TypeScript declaration `declare global { interface Window { FlutterwaveCheckout?: (opts: any) => void } }` at the top of the file.
+### Fix 3 — Expand `netlify/edge-functions/inject-meta.ts` for static routes
+After the homepage block (line 42) and before the `/insights/:slug` block (line 44), add a handler for `/about`, `/contact`, and `/insights`:
+- Match `pathname` against a map of `{ "/about": "https://www.artinovate.com/about", ... }`
+- Get the response HTML via `context.next()`
+- Replace the existing `<link rel="canonical" ...>` with the correct URL
+- Return the modified response
 
-### 2. `.env`
-- Append `VITE_FLUTTERWAVE_PUBLIC_KEY=` (empty). You paste your public key here. Public keys are safe to ship in client code.
+No other files are touched. The edge function's homepage and insight-slug logic remain unchanged.
 
-### 3. No other files change
-- Nav, footer, routes, other pages untouched.
-- No backend / edge function added. (Verification can be layered in later if you want server-side confirmation.)
+### Files modified
+1. **Delete**: `public/sitemap.xml`
+2. **Edit**: `scripts/generate-sitemap.mjs` — add slug denylist filter
+3. **Edit**: `netlify/edge-functions/inject-meta.ts` — add static route canonical injection
 
-## Out of scope (flag if you want them)
-- Server-side transaction verification via edge function
-- Webhook handling / order persistence in Supabase
-- Email receipts / fulfillment automation
-- Switching currency to NGN or using a hosted Payment Link instead
-
-## Verification
-- Load `/playbook`, click the buy button, confirm Flutterwave modal opens in test mode with the configured amount/currency.
-- Confirm no remaining references to `selar` in the repo (`rg -i selar`).

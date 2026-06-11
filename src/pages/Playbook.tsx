@@ -1,92 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
-import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
 import mockup from "@/assets/playbook-3d-mockup.png.asset.json";
 import backCover from "@/assets/playbook-back-cover-poster.png.asset.json";
 import satoshi from "@/assets/playbook-satoshi-reading.png.asset.json";
 
-// Flutterwave inline checkout config. Public key is fetched at runtime
-// from an edge function backed by the FLUTTERWAVE_PUBLIC_KEY secret.
-let FLW_PUBLIC_KEY = "";
-let flwKeyPromise: Promise<string> | null = null;
-
-async function fetchFlutterwavePublicKey(): Promise<string> {
-  if (FLW_PUBLIC_KEY) return FLW_PUBLIC_KEY;
-  if (flwKeyPromise) return flwKeyPromise;
-  flwKeyPromise = (async () => {
-    const { data, error } = await supabase.functions.invoke("flutterwave-public-key");
-    if (error) {
-      flwKeyPromise = null;
-      throw error;
-    }
-    const key = (data as { publicKey?: string } | null)?.publicKey ?? "";
-    FLW_PUBLIC_KEY = key;
-    return key;
-  })();
-  return flwKeyPromise;
-}
-
-const PLAYBOOK_PRICE = 25;
-const PLAYBOOK_CURRENCY = "USD";
-const FLW_SCRIPT_SRC = "https://checkout.flutterwave.com/v3.js";
-
-declare global {
-  interface Window {
-    FlutterwaveCheckout?: (opts: Record<string, unknown>) => void;
-  }
-}
-
-function loadFlutterwaveScript() {
-  if (typeof document === "undefined") return;
-  if (document.querySelector(`script[src="${FLW_SCRIPT_SRC}"]`)) return;
-  const s = document.createElement("script");
-  s.src = FLW_SCRIPT_SRC;
-  s.async = true;
-  document.body.appendChild(s);
-}
-
-async function startFlutterwaveCheckout(email: string) {
-  let key = FLW_PUBLIC_KEY;
-  if (!key) {
-    try {
-      key = await fetchFlutterwavePublicKey();
-    } catch {
-      toast.error("Checkout is temporarily unavailable. Please try again shortly.");
-      return;
-    }
-  }
-  if (!key) {
-    toast.error("Checkout is temporarily unavailable. Please try again shortly.");
-    return;
-  }
-  if (typeof window === "undefined" || typeof window.FlutterwaveCheckout !== "function") {
-    toast.error("Checkout is still loading. Please try again in a moment.");
-    return;
-  }
-  window.FlutterwaveCheckout({
-    public_key: key,
-    tx_ref: `playbook-${Date.now()}`,
-    amount: PLAYBOOK_PRICE,
-    currency: PLAYBOOK_CURRENCY,
-    payment_options: "card,banktransfer,ussd",
-    customer: { email },
-    customizations: {
-      title: "ArtiNovate Playbook",
-      description: "AI-Powered Digital Presence Infrastructure Playbook",
-      logo: "https://arti-mind-path.lovable.app/favicon.ico",
-    },
-    callback: (data: { status?: string }) => {
-      if (data?.status === "successful" || data?.status === "completed") {
-        toast.success("Payment received. Check your email for delivery.");
-      } else {
-        toast.message("Payment closed.");
-      }
-    },
-    onclose: () => {},
-  });
-}
+const CHECKOUT_URL = "https://selar.com/2186224016";
 
 const syne = { fontFamily: "'Syne', sans-serif" };
 const mono = { fontFamily: "'IBM Plex Mono', monospace" };
@@ -132,28 +51,10 @@ function SectionLabel({ children, center = false }: { children: React.ReactNode;
 
 function OfferBox({ progressKey }: { progressKey: string }) {
   const [fill, setFill] = useState(0);
-  const [email, setEmail] = useState("");
-  const [showEmail, setShowEmail] = useState(false);
   useEffect(() => {
     const t = setTimeout(() => setFill(14), 800);
     return () => clearTimeout(t);
   }, [progressKey]);
-  useEffect(() => {
-    loadFlutterwaveScript();
-    fetchFlutterwavePublicKey().catch(() => {});
-  }, []);
-  const handleBuy = () => {
-    if (!showEmail) {
-      setShowEmail(true);
-      return;
-    }
-    const trimmed = email.trim();
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
-      toast.error("Enter a valid email to continue.");
-      return;
-    }
-    startFlutterwaveCheckout(trimmed);
-  };
   return (
     <div className="relative bg-[#0F0F0F] border border-[#1A1A1A] border-t-2 border-t-[#00D4D4] p-8 text-left">
       <span style={mono} className="absolute -top-0 left-0 bg-[#00D4D4] text-black text-[9px] uppercase tracking-[0.2em] px-2.5 py-[3px]">
@@ -185,33 +86,15 @@ function OfferBox({ progressKey }: { progressKey: string }) {
       <div style={mono} className="text-[11px] text-[#00D4D4] border-t border-[#1A1A1A] pt-3 mt-3">
         TOTAL VALUE: $147 · YOU PAY: $25
       </div>
-      {showEmail && (
-        <input
-          type="email"
-          inputMode="email"
-          autoComplete="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              e.preventDefault();
-              handleBuy();
-            }
-          }}
-          placeholder="your@email.com"
-          style={mono}
-          className="block w-full bg-black border border-[#1A1A1A] focus:border-[#00D4D4] outline-none text-white text-[13px] tracking-[0.04em] px-4 py-[14px] mt-5 placeholder:text-[#444444]"
-          autoFocus
-        />
-      )}
-      <button
-        type="button"
-        onClick={handleBuy}
+      <a
+        href={CHECKOUT_URL}
+        target="_blank"
+        rel="noopener noreferrer"
         style={syne}
-        className="block w-full bg-[#00D4D4] text-black text-center uppercase font-extrabold text-[14px] tracking-[0.06em] py-[18px] mt-3 hover:opacity-[0.88] transition-opacity"
+        className="block w-full bg-[#00D4D4] text-black text-center uppercase font-extrabold text-[14px] tracking-[0.06em] py-[18px] mt-5 hover:opacity-[0.88] transition-opacity"
       >
-        {showEmail ? "CONTINUE TO PAYMENT — $25" : "GET INSTANT ACCESS — $25"}
-      </button>
+        GET INSTANT ACCESS — $25
+      </a>
       <div style={mono} className="text-[10px] text-[#555555] text-center mt-2.5">
         Instant PDF delivery · Secure checkout · Blueprint for first 100 only
       </div>
