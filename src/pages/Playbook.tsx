@@ -165,7 +165,7 @@ export default function Playbook() {
             delay={150}
             className="relative w-full lg:w-[55%] lg:min-h-screen"
           >
-            <div className="relative w-full h-[70vw] lg:h-screen overflow-hidden" style={{ filter: "drop-shadow(0 0 60px rgba(0,212,212,0.12))" }}>
+            <div className="relative w-full h-[70vw] lg:h-screen overflow-hidden" style={{ filter: "drop-shadow(0 0 60px hsl(var(--primary) / 0.12))" }}>
               <img
                 src={mockup.url}
                 alt="Your AI-Powered Digital Presence Infrastructure Playbook — 3D book mockup"
@@ -174,12 +174,12 @@ export default function Playbook() {
               {/* Desktop right gradient */}
               <div
                 className="absolute inset-0 hidden lg:block"
-                style={{ background: "linear-gradient(to right, transparent 25%, rgba(0,0,0,0.55) 65%, hsl(var(--background)) 100%)" }}
+                style={{ background: "linear-gradient(to right, transparent 25%, hsl(var(--background) / 0.55) 65%, hsl(var(--background)) 100%)" }}
               />
               {/* Mobile bottom gradient */}
               <div
                 className="absolute inset-0 lg:hidden"
-                style={{ background: "linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.6) 70%, hsl(var(--background)) 100%)" }}
+                style={{ background: "linear-gradient(to bottom, transparent 30%, hsl(var(--background) / 0.6) 70%, hsl(var(--background)) 100%)" }}
               />
             </div>
           </HeroLoadFade>
@@ -197,7 +197,7 @@ export default function Playbook() {
                 <h1
                   className="mt-6 font-bold text-foreground leading-none"
                 >
-                  <span style={{ display: "block", fontSize: "clamp(42px,6vw,80px)", letterSpacing: "-0.02em" }}>
+                  <span className="block text-4xl md:text-5xl lg:text-6xl tracking-tighter">
                     The playbook<br />
                     that turns<br />
                     <span className="text-primary">$300K/yr</span><br />
@@ -222,7 +222,7 @@ export default function Playbook() {
                   ].map(([num, label]) => (
                     <div key={label}>
                       <div className="text-3xl font-bold text-primary leading-none">{num}</div>
-                      <div className="mt-2 text-[9px] text-muted-foreground uppercase tracking-wider">{label}</div>
+                      <div className="mt-2 text-[10px] text-muted-foreground uppercase tracking-wider">{label}</div>
                     </div>
                   ))}
                 </div>
@@ -242,7 +242,7 @@ export default function Playbook() {
           <FadeUp>
             <SectionLabel>THE HONEST CALCULATION</SectionLabel>
             <h2 className="font-bold text-foreground leading-tight">
-              <span style={{ fontSize: "clamp(28px,4vw,52px)", display: "inline-block" }}>
+              <span className="inline-block text-3xl md:text-4xl lg:text-5xl">
                 What you're actually<br />paying for right now.
               </span>
             </h2>
@@ -324,7 +324,7 @@ export default function Playbook() {
           <FadeUp>
             <SectionLabel>WHAT'S INSIDE</SectionLabel>
             <h2 className="font-bold text-foreground leading-tight">
-              <span style={{ fontSize: "clamp(28px,4vw,52px)", display: "inline-block" }}>
+              <span className="inline-block text-3xl md:text-4xl lg:text-5xl">
                 11 chapters.<br />Everything you need to build.
               </span>
             </h2>
@@ -348,7 +348,7 @@ export default function Playbook() {
         <div className="max-w-[1280px] mx-auto px-5 md:px-10 lg:px-20 pb-24 lg:pb-32">
           <div className="bg-card border border-border border-l-[3px] border-l-primary p-6 md:p-10 lg:p-12 grid md:grid-cols-2 gap-10">
             <FadeUp>
-              <span className="inline-block bg-primary text-primary-foreground text-[9px] uppercase tracking-widest px-2.5 py-1">
+              <span className="inline-block bg-primary text-primary-foreground text-[10px] uppercase tracking-widest px-2.5 py-1">
                 BONUS · FIRST 100 COPIES ONLY
               </span>
               <h3 className="font-bold text-foreground text-2xl md:text-3xl leading-tight mt-4">
@@ -361,16 +361,16 @@ export default function Playbook() {
                 {pipelineModules.map((m) => (
                   <span
                     key={m}
-                    className="text-[9px] text-primary px-2.5 py-1"
+                    className="text-[10px] text-primary px-2.5 py-1"
                   >
-                    <span style={{ border: "1px solid rgba(0,212,212,0.3)", padding: "4px 10px", display: "inline-block" }}>{m}</span>
+                    <span className="inline-block border border-primary/30 px-2.5 py-1">{m}</span>
                   </span>
                 ))}
               </div>
             </FadeUp>
             <FadeUp delay={150}>
               <div className="bg-background border border-border p-7">
-                <div className="text-[9px] text-muted-foreground uppercase tracking-widest mb-4">PIPELINE FLOW</div>
+                <div className="text-[10px] text-muted-foreground uppercase tracking-widest mb-4">PIPELINE FLOW</div>
                 <div className="text-xs text-foreground space-y-3">
                   <div className="flex flex-wrap items-center gap-2">
                     <Node>SHEETS</Node><Arrow>→</Arrow><Node>PERPLEXITY</Node><Arrow>→</Arrow><Node>GEMINI</Node>
@@ -400,7 +400,7 @@ export default function Playbook() {
           <FadeUp>
             <SectionLabel>BUILT FOR</SectionLabel>
             <h2 className="font-bold text-foreground leading-tight">
-              <span style={{ fontSize: "clamp(28px,4vw,52px)", display: "inline-block" }}>
+              <span className="inline-block text-3xl md:text-4xl lg:text-5xl">
                 If your organization is serious,<br />this is for you.
               </span>
             </h2>
@@ -434,7 +434,7 @@ export default function Playbook() {
           </FadeUp>
           <div className="lg:order-2 flex flex-col justify-center">
             <FadeUp>
-              <div className="text-[9px] text-muted-foreground uppercase tracking-widest">WRITTEN BY</div>
+              <div className="text-[10px] text-muted-foreground uppercase tracking-widest">WRITTEN BY</div>
               <div className="font-bold text-foreground text-4xl leading-none mt-3">ND Nwankwo</div>
               <div className="text-xs text-primary mt-2">Founder, ArtiNovate</div>
             </FadeUp>
@@ -456,7 +456,7 @@ export default function Playbook() {
         <FadeUp>
           <SectionLabel center>ONE DECISION</SectionLabel>
           <h2 className="font-bold text-foreground leading-tight">
-            <span style={{ fontSize: "clamp(36px,5vw,64px)", display: "inline-block" }}>
+            <span className="inline-block text-4xl md:text-5xl lg:text-6xl">
               Build once.<br /><span className="text-primary">Compound forever.</span>
             </span>
           </h2>
