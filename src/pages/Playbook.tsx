@@ -1,15 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
+import { Button } from "@/components/ui/button";
 import mockup from "@/assets/playbook-3d-mockup.png.asset.json";
 import backCover from "@/assets/playbook-back-cover-poster.png.asset.json";
 import satoshi from "@/assets/playbook-satoshi-reading.png.asset.json";
 
 const CHECKOUT_URL = "https://selar.com/2186224016";
-
-const syne = { fontFamily: "'Syne', sans-serif" };
-const mono = { fontFamily: "'IBM Plex Mono', monospace" };
-const inter = { fontFamily: "'Inter', sans-serif" };
 
 const chapters = [
   ["You Exist. No One Knows.", "The invisible organization problem and what it costs."],
@@ -43,8 +40,8 @@ const pipelineModules = [
 function SectionLabel({ children, center = false }: { children: React.ReactNode; center?: boolean }) {
   return (
     <div className={`flex items-center gap-3 mb-6 ${center ? "justify-center" : ""}`}>
-      <span className="block h-px w-6 bg-[#00D4D4]" />
-      <span style={mono} className="text-[10px] uppercase tracking-[0.2em] text-[#00D4D4]">{children}</span>
+      <span className="block h-px w-6 bg-primary" />
+      <span className="label-mono text-primary">{children}</span>
     </div>
   );
 }
@@ -56,19 +53,19 @@ function OfferBox({ progressKey }: { progressKey: string }) {
     return () => clearTimeout(t);
   }, [progressKey]);
   return (
-    <div className="relative bg-[#0F0F0F] border border-[#1A1A1A] border-t-2 border-t-[#00D4D4] p-8 text-left">
-      <span style={mono} className="absolute -top-0 left-0 bg-[#00D4D4] text-black text-[9px] uppercase tracking-[0.2em] px-2.5 py-[3px]">
+    <div className="relative bg-card border border-border border-t-2 border-t-primary p-8 text-left rounded-lg">
+      <span className="font-mono absolute top-0 left-0 bg-primary text-primary-foreground text-xs uppercase tracking-widest px-2.5 py-1">
         JUNE OFFER — FIRST 100 COPIES
       </span>
       <div className="mt-6 flex items-end gap-4">
-        <span style={syne} className="text-[20px] text-[#555555] line-through font-bold">$50</span>
-        <span style={syne} className="text-[56px] text-white font-extrabold leading-none">$25</span>
-        <span style={mono} className="text-[10px] text-[#00D4D4] tracking-[0.1em] pb-2">JUNE ONLY</span>
+        <span className="text-xl text-muted-foreground line-through font-bold tracking-tight">$50</span>
+        <span className="text-5xl text-foreground font-bold leading-none tracking-tight">$25</span>
+        <span className="font-mono text-xs uppercase tracking-widest text-primary pb-2">JUNE ONLY</span>
       </div>
-      <div className="mt-3" style={mono}>
-        <div className="text-[11px] text-[#00D4D4]">⬛ 86 of 100 blueprint copies remaining</div>
-        <div className="mt-2 h-[2px] bg-[#1A1A1A] w-full">
-          <div className="h-full bg-[#00D4D4] transition-all duration-1000 ease-out" style={{ width: `${fill}%` }} />
+      <div className="mt-3 font-mono">
+        <div className="text-xs text-primary">⬛ 86 of 100 blueprint copies remaining</div>
+        <div className="mt-2 h-0.5 bg-border w-full">
+          <div className="h-full bg-primary transition-all duration-1000 ease-out" style={{ width: `${fill}%` }} />
         </div>
       </div>
       <div className="mt-5 space-y-2">
@@ -77,34 +74,25 @@ function OfferBox({ progressKey }: { progressKey: string }) {
           ["The Make.com 14-Module Pipeline Blueprint [FIRST 100]", "$97"],
         ].map(([item, val]) => (
           <div key={item} className="flex items-baseline gap-3">
-            <span className="text-[#00D4D4]">→</span>
-            <span className="text-white text-[13px] flex-1">{item}</span>
-            <span style={mono} className="text-[11px] text-[#555555]">{val}</span>
+            <span className="text-primary">→</span>
+            <span className="text-foreground text-sm flex-1">{item}</span>
+            <span className="font-mono text-xs text-muted-foreground">{val}</span>
           </div>
         ))}
       </div>
-      <div style={mono} className="text-[11px] text-[#00D4D4] border-t border-[#1A1A1A] pt-3 mt-3">
+      <div className="font-mono text-xs text-primary border-t border-border pt-3 mt-3">
         TOTAL VALUE: $147 · YOU PAY: $25
       </div>
-      <a
-        href={CHECKOUT_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        style={syne}
-        className="block w-full bg-[#00D4D4] text-black text-center uppercase font-extrabold text-[14px] tracking-[0.06em] py-[18px] mt-5 hover:opacity-[0.88] transition-opacity"
-      >
-        GET INSTANT ACCESS — $25
-      </a>
-      <div style={mono} className="text-[10px] text-[#555555] text-center mt-2.5">
+      <Button asChild variant="hero" size="lg" className="w-full mt-5 uppercase tracking-wide">
+        <a href={CHECKOUT_URL} target="_blank" rel="noopener noreferrer">
+          Get instant access — $25
+        </a>
+      </Button>
+      <div className="font-mono text-xs text-muted-foreground text-center mt-3">
         Instant PDF delivery · Secure checkout · Blueprint for first 100 only
       </div>
-      <div
-        style={mono}
-        className="mt-3.5 text-[10px] text-[#00D4D4] text-center tracking-[0.06em] px-3.5 py-2.5"
-      >
-        <div style={{ backgroundColor: "rgba(0,212,212,0.05)", border: "1px solid rgba(0,212,212,0.2)", padding: "10px 14px" }}>
-          ⚑ Blueprint bonus expires when 100 copies sell. Price returns to $50 on July 1.
-        </div>
+      <div className="font-mono text-xs text-primary text-center mt-4 bg-primary/5 border border-primary/20 px-4 py-2.5 rounded">
+        ⚑ Blueprint bonus expires when 100 copies sell. Price returns to $50 on July 1.
       </div>
     </div>
   );

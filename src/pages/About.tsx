@@ -4,6 +4,7 @@ import { PageHero } from "@/components/PageHero";
 import { useDocumentHead } from "@/hooks/useDocumentHead";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
+import { useScheduling } from "@/contexts/SchedulingContext";
 import heroImage from "@/assets/hero-about.jpg";
 import { Layers, Server, Cpu, Zap } from "lucide-react";
 
@@ -37,6 +38,7 @@ const principles = [
 ];
 
 export default function About() {
+  const { openScheduler } = useScheduling();
   useDocumentHead({
     title: "About ArtiNovate | AI Automation Agency for Web3",
     description: "Learn about ArtiNovate's infrastructure-first approach to building autonomous AI-powered digital presence systems for Web3 and blockchain organizations.",
@@ -181,7 +183,7 @@ export default function About() {
               <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-6">
                 Ready to build infrastructure that works?
               </h2>
-              <Button variant="hero" size="default" className="h-10 px-6 text-sm">
+              <Button variant="hero" size="default" className="h-10 px-6 text-sm" onClick={openScheduler}>
                 Start a conversation
               </Button>
             </motion.div>

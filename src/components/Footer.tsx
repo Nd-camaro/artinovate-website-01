@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { useScheduling } from "@/contexts/SchedulingContext";
 import artinovateLogo from "@/assets/artinovate-logo.png";
 
 const footerLinks = {
@@ -25,6 +26,22 @@ const footerLinks = {
 };
 
 export function Footer() {
+  const { pathname } = useLocation();
+  const { openScheduler } = useScheduling();
+
+  const handleNavClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string,
+  ) => {
+    if (pathname !== href) return; // let Link navigate normally
+    e.preventDefault();
+    if (href === "/contact") {
+      openScheduler();
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
   return <footer className="bg-graphite border-t border-border py-16">
       <div className="container mx-auto px-6 lg:px-12">
         <div className="grid md:grid-cols-3 gap-12 mb-12">
@@ -49,7 +66,11 @@ export function Footer() {
             </h4>
             <ul className="space-y-3">
               {footerLinks.navigation.map(link => <li key={link.label}>
-                  <Link to={link.href} className="text-sm text-foreground/80 hover:text-primary transition-colors">
+                  <Link
+                    to={link.href}
+                    onClick={(e) => handleNavClick(e, link.href)}
+                    className="text-sm text-foreground/80 hover:text-primary transition-colors"
+                  >
                     {link.label}
                   </Link>
                 </li>)}
