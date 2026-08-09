@@ -15,7 +15,7 @@ export default {
   	extend: {
   		fontFamily: {
   			sans: [
-  				'Manrope',
+  				'Inter',
   				'ui-sans-serif',
   				'system-ui',
   				'sans-serif',
@@ -24,18 +24,16 @@ export default {
   				'Segoe UI Symbol',
   				'Noto Color Emoji'
   			],
-  			display: [
-  				'League Gothic',
-  				'Manrope',
-  				'ui-sans-serif',
-  				'system-ui',
-  				'sans-serif'
-  			],
   			mono: [
-  				'Manrope',
-  				'ui-sans-serif',
-  				'system-ui',
-  				'sans-serif'
+  				'IBM Plex Mono',
+  				'ui-monospace',
+  				'SFMono-Regular',
+  				'Menlo',
+  				'Monaco',
+  				'Consolas',
+  				'Liberation Mono',
+  				'Courier New',
+  				'monospace'
   			],
   			serif: [
   				'ui-serif',
