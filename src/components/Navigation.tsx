@@ -50,7 +50,7 @@ export function Navigation() {
               <Link
                 key={item.label}
                 to={item.href}
-                className={`text-sm transition-colors duration-200 relative group ${
+                className={`text-sm font-bold transition-colors duration-200 relative group ${
                   location.pathname === item.href 
                     ? "text-foreground" 
                     : "text-muted-foreground hover:text-foreground"
@@ -90,7 +90,7 @@ export function Navigation() {
                 <Link
                   key={item.label}
                   to={item.href}
-                  className={`text-base py-2 transition-colors ${
+                  className={`text-base font-bold py-2 transition-colors ${
                     location.pathname === item.href 
                       ? "text-foreground" 
                       : "text-muted-foreground hover:text-foreground"
