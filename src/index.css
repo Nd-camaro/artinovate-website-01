@@ -81,16 +81,30 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Manrope', sans-serif;
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Inter', sans-serif;
+  /* Display headlines: League Gothic */
+  h1, h2 {
+    font-family: 'League Gothic', 'Manrope', sans-serif;
+    font-weight: 400;
     @apply tracking-tight;
   }
 
+  /* Sub-headings and strong UI text: Manrope Bold */
+  h3, h4, h5, h6 {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    @apply tracking-tight;
+  }
+
+  button, .label-mono {
+    font-family: 'Manrope', sans-serif;
+  }
+
   .font-mono {
-    font-family: 'IBM Plex Mono', monospace;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
   }
 }
 
