@@ -195,6 +195,17 @@
   .label-mono {
     @apply font-mono text-xs uppercase tracking-widest text-muted-foreground;
   }
+
+  /* Section heading cluster (below hero): centered, larger League Gothic */
+  .section-cluster {
+    @apply text-center;
+  }
+
+  .section-heading {
+    @apply text-5xl md:text-6xl lg:text-7xl font-normal mx-auto max-w-4xl;
+    letter-spacing: 0.015em;
+    line-height: 1.1;
+  }
 }
 
 @layer utilities {

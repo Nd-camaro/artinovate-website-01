@@ -141,9 +141,9 @@ export default function Insights() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.6 }}
-              className="max-w-2xl"
+              className="max-w-2xl mx-auto section-cluster"
             >
-              <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-4">
+              <h2 className="section-heading mb-4">
                 Want to discuss your specific situation?
               </h2>
               <p className="text-muted-foreground mb-6">

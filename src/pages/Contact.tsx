@@ -121,9 +121,9 @@ export default function Contact() {
             margin: "-100px"
           }} transition={{
             duration: 0.6
-          }} className="max-w-3xl mb-12">
+          }} className="max-w-3xl mx-auto mb-12 section-cluster">
               <span className="label-mono text-primary mb-4 block">What Happens Next</span>
-              <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+              <h2 className="section-heading">
                 A structured path to clarity
               </h2>
             </motion.div>
