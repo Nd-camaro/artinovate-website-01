@@ -189,7 +189,7 @@ export function HeroSection() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: skipAnimation ? 0 : 0.4, duration: 0.4 }}
-            className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter mb-6 leading-[1.05]"
+            className="text-5xl md:text-7xl lg:text-8xl font-normal tracking-[0.015em] mb-6 leading-[1.1]"
           >
             <Typewriter
               lines={[HEADLINE_LINE_1, HEADLINE_LINE_2]}
