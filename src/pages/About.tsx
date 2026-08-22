@@ -68,10 +68,10 @@ export default function About() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.6 }}
-              className="max-w-3xl"
+              className="max-w-3xl mx-auto section-cluster"
             >
               <span className="label-mono text-primary mb-4 block">Philosophy</span>
-              <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-8">
+              <h2 className="section-heading mb-8">
                 Digital presence is operational infrastructure
               </h2>
             </motion.div>
@@ -101,10 +101,10 @@ export default function About() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.6 }}
-              className="max-w-3xl mb-12"
+              className="max-w-3xl mx-auto mb-12 section-cluster"
             >
               <span className="label-mono text-primary mb-4 block">Who We Serve</span>
-              <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+              <h2 className="section-heading">
                 Organizations that value reliability
               </h2>
             </motion.div>
@@ -137,10 +137,10 @@ export default function About() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.6 }}
-              className="max-w-3xl mb-12"
+              className="max-w-3xl mx-auto mb-12 section-cluster"
             >
               <span className="label-mono text-primary mb-4 block">Operating Principles</span>
-              <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+              <h2 className="section-heading">
                 How we build systems
               </h2>
             </motion.div>

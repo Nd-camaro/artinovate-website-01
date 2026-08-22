@@ -31,10 +31,10 @@ export function CoreFunctionsSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8 }}
-          className="mb-16 text-center lg:text-left"
+          className="mb-16 section-cluster"
         >
           <span className="label-mono text-primary mb-4 block">System Overview</span>
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tight max-w-2xl">
+          <h2 className="section-heading">
             One system. Three functions.
           </h2>
         </motion.div>

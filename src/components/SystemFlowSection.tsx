@@ -40,10 +40,10 @@ export function SystemFlowSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8 }}
-          className="mb-16"
+          className="mb-16 section-cluster"
         >
           <span className="label-mono text-primary mb-4 block">The Process</span>
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tight max-w-2xl">
+          <h2 className="section-heading">
             From strategy to autonomous operation
           </h2>
         </motion.div>

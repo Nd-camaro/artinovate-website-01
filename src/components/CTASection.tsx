@@ -47,7 +47,7 @@ export function CTASection() {
         }}>
             <span className="label-mono text-primary mb-6 block">Ready to Begin?</span>
             
-            <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter mb-6 leading-[1.1]">
+            <h2 className="section-heading mb-6">
               Turn your digital presence into an{" "}
               <span className="text-gradient">autonomous growth asset</span>
             </h2>
