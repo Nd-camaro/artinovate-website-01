@@ -27,7 +27,7 @@ export default function InsightDetail() {
   const { slug } = useParams<{ slug: string }>();
   const { openScheduler } = useScheduling();
 
-  const { data: insight, isLoading, error } = useQuery({
+  const { data: insight, isLoading, error } = useQuery<InsightPost>({
     queryKey: ["insight_post", slug],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -38,7 +38,7 @@ export default function InsightDetail() {
         .single();
 
       if (error) throw error;
-      return data;
+      return data as InsightPost;
     },
     enabled: !!slug,
   });
