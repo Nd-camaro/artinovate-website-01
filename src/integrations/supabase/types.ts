@@ -10,109 +10,70 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "14.1"
+    PostgrestVersion: "14.17"
   }
   public: {
     Tables: {
       insight_posts: {
         Row: {
-          alt_texts: Json | null
           author_id: string | null
-          backlinks_count: number | null
           canonical_url: string | null
           content: string
-          conversion_goal: string | null
           created_at: string
-          cta_config: Json | null
-          cta_enabled: boolean | null
-          cta_text: string | null
-          cta_url: string | null
           excerpt: string | null
-          external_links: Json | null
-          faq_json_ld: Json | null
+          featured_image_alt: Json | null
           featured_image_url: string | null
           id: string
-          internal_links: Json | null
           meta_description: string | null
           meta_title: string | null
-          page_views: number | null
           published_at: string | null
           reading_time: number | null
-          schema_type: string | null
-          secondary_keywords: Json | null
           slug: string
-          social_shares: number | null
           status: Database["public"]["Enums"]["post_status"]
           target_keyword: string | null
           title: string
+          topic_id: string | null
           updated_at: string
-          word_count: number | null
         }
         Insert: {
-          alt_texts?: Json | null
           author_id?: string | null
-          backlinks_count?: number | null
           canonical_url?: string | null
           content: string
-          conversion_goal?: string | null
           created_at?: string
-          cta_config?: Json | null
-          cta_enabled?: boolean | null
-          cta_text?: string | null
-          cta_url?: string | null
           excerpt?: string | null
-          external_links?: Json | null
-          faq_json_ld?: Json | null
+          featured_image_alt?: Json | null
           featured_image_url?: string | null
           id?: string
-          internal_links?: Json | null
           meta_description?: string | null
           meta_title?: string | null
-          page_views?: number | null
           published_at?: string | null
           reading_time?: number | null
-          schema_type?: string | null
-          secondary_keywords?: Json | null
           slug: string
-          social_shares?: number | null
           status?: Database["public"]["Enums"]["post_status"]
           target_keyword?: string | null
           title: string
+          topic_id?: string | null
           updated_at?: string
-          word_count?: number | null
         }
         Update: {
-          alt_texts?: Json | null
           author_id?: string | null
-          backlinks_count?: number | null
           canonical_url?: string | null
           content?: string
-          conversion_goal?: string | null
           created_at?: string
-          cta_config?: Json | null
-          cta_enabled?: boolean | null
-          cta_text?: string | null
-          cta_url?: string | null
           excerpt?: string | null
-          external_links?: Json | null
-          faq_json_ld?: Json | null
+          featured_image_alt?: Json | null
           featured_image_url?: string | null
           id?: string
-          internal_links?: Json | null
           meta_description?: string | null
           meta_title?: string | null
-          page_views?: number | null
           published_at?: string | null
           reading_time?: number | null
-          schema_type?: string | null
-          secondary_keywords?: Json | null
           slug?: string
-          social_shares?: number | null
           status?: Database["public"]["Enums"]["post_status"]
           target_keyword?: string | null
           title?: string
+          topic_id?: string | null
           updated_at?: string
-          word_count?: number | null
         }
         Relationships: []
       }
