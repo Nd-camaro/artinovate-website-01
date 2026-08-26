@@ -10,6 +10,12 @@ import { ArrowLeft, Calendar } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { useScheduling } from "@/contexts/SchedulingContext";
+import type { Tables, Json } from "@/integrations/supabase/types";
+
+interface InsightPost extends Tables<"insight_posts"> {
+  faq_json_ld?: Json | null;
+  cta_config?: Json | null;
+}
 
 interface CTAConfig {
   text?: string;
