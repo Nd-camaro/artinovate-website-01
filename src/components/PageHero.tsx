@@ -49,7 +49,7 @@ export function PageHero({ image, imageAlt, label, headline, subheading, scrollT
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.6 }}
-            className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tighter mb-4 leading-[0.95]"
+            className="text-5xl md:text-7xl lg:text-8xl font-normal tracking-[0.015em] mb-4 leading-[1.1]"
           >
             {headline}
           </motion.h1>
