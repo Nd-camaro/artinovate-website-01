@@ -9,9 +9,71 @@ import { useScheduling } from "@/contexts/SchedulingContext";
 
 const SESSION_KEY = "artinovate_typewriter_played";
 
-// Fixed two-line headline for all breakpoints
-const HEADLINE_LINE_1 = "Autonomous AI-Powered";
-const HEADLINE_LINE_2 = "Digital Presence";
+// Fixed headline line + rotating category terms
+const HEADLINE_FIXED = "Digital Presence for";
+const ROTATING_TERMS = ["Web3", "Digital Assets", "Tokenization", "Fintech"];
+const HOLD_MS = 2000;
+const OUT_MS = 190;
+
+const prefersReducedMotion = () =>
+  typeof window !== "undefined" &&
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+interface CrystallineTermProps {
+  active: boolean;
+}
+
+/**
+ * Rotating cyan category term. Between transitions the word is completely
+ * static and sharp; changes use a short, controlled per-character
+ * crystalline reconfiguration (~190ms out + ~220ms in).
+ */
+const CrystallineTerm = ({ active }: CrystallineTermProps) => {
+  const [index, setIndex] = useState(0);
+  const [phase, setPhase] = useState<"idle" | "out" | "in">("in");
+
+  useEffect(() => {
+    if (!active || prefersReducedMotion()) return;
+
+    let outTimer: ReturnType<typeof setTimeout>;
+    const holdTimer = setTimeout(() => {
+      setPhase("out");
+      outTimer = setTimeout(() => {
+        setIndex((i) => (i + 1) % ROTATING_TERMS.length);
+        setPhase("in");
+      }, OUT_MS);
+    }, HOLD_MS);
+
+    return () => {
+      clearTimeout(holdTimer);
+      clearTimeout(outTimer);
+    };
+  }, [active, index]);
+
+  const longest = ROTATING_TERMS.reduce((a, b) => (b.length > a.length ? b : a));
+  const term = ROTATING_TERMS[index];
+
+  return (
+    <span className="relative inline-block text-primary align-top">
+      {/* Reserve width of the longest term so the headline never reflows */}
+      <span className="invisible" aria-hidden="true">
+        {longest}
+      </span>
+      <span className="absolute inset-0 whitespace-nowrap" aria-live="polite">
+        {term.split("").map((char, i) => (
+          <span
+            key={`${index}-${i}`}
+            className={`crystal-char ${phase === "out" ? "is-out" : "is-in"}`}
+            style={{ animationDelay: `${i * 14}ms` }}
+          >
+            {char === " " ? "\u00A0" : char}
+          </span>
+        ))}
+      </span>
+    </span>
+  );
+};
+
 
 interface TypewriterProps {
   lines: string[];
