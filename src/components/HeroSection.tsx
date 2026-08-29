@@ -336,11 +336,11 @@ export function HeroSection() {
             transition={{ delay: skipAnimation ? 0 : 0.3, duration: 0.5 }}
           >
             <span className="label-mono text-primary mb-6 block">
-              AI Automation Agency
+              AI Powered
             </span>
           </motion.div>
 
-          {/* Main headline - fixed two lines on all breakpoints */}
+          {/* Main headline - fixed line + rotating cyan category term */}
           <motion.h1
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -348,32 +348,26 @@ export function HeroSection() {
             className="text-5xl md:text-7xl lg:text-8xl font-normal tracking-[0.015em] mb-6 leading-[1.1]"
           >
             <Typewriter
-              lines={[HEADLINE_LINE_1, HEADLINE_LINE_2]}
+              lines={[HEADLINE_FIXED]}
               isActive={typewriterActive || skipAnimation}
               onComplete={handleTypewriterComplete}
               skipAnimation={skipAnimation}
             />
+            <span className="block">
+              <CrystallineTerm active={typewriterDone || skipAnimation} />
+            </span>
           </motion.h1>
 
           {/* Subheading */}
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={showSubhead ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="text-lg md:text-xl text-muted-foreground font-light mb-3"
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            className="text-lg md:text-xl text-muted-foreground font-light mb-10"
           >
-            For Web3 and digital asset organizations.
+            Publish. Engage. Capture.
           </motion.p>
 
-          {/* Supporting line */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={showSupporting ? { opacity: 0.7 } : {}}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="font-mono text-xs md:text-sm text-primary mb-10"
-          >
-            Publishes. Engages. Captures.
-          </motion.p>
 
           {/* CTA Buttons */}
           <motion.div
