@@ -65,7 +65,7 @@ This is an infrastructure migration, not a redesign. Homepage layout, hero video
 
 7. Run the checks:
    1. Homepage raw HTML (curl, no JS) contains its own title, description, canonical, OG/Twitter and structured data.
-   2. An individual `/insights/:slug` raw HTML contains its own title, description, canonical, OG/Twitter and Article + FAQ JSON-LD.
+   2. An individual `/insights/:slug` raw HTML contains its own title, description, canonical, OG/Twitter metadata and Article JSON-LD — plus FAQ JSON-LD only when that post contains valid, genuine FAQ content (never fabricated or empty).
    3. All 9 legacy URLs return real `HTTP 301` with the correct `Location` header — verified by curl, not by React.
    4. `scripts/generate-sitemap.mjs` still runs in the build and emits the same URL set.
    5. Hero video autoplays, loops, shows the poster, and keeps its reduced-motion / save-data / IntersectionObserver guards.
