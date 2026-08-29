@@ -105,6 +105,55 @@
 }
 
 @layer components {
+  /* Crystalline cube transition for rotating hero term */
+  .crystal-char {
+    display: inline-block;
+    will-change: transform, opacity;
+    transform-origin: 50% 55%;
+    backface-visibility: hidden;
+  }
+
+  .crystal-char.is-out {
+    animation: crystal-out 190ms cubic-bezier(0.4, 0, 0.9, 0.35) both;
+  }
+
+  .crystal-char.is-in {
+    animation: crystal-in 220ms cubic-bezier(0.16, 0.84, 0.44, 1) both;
+  }
+
+  @keyframes crystal-out {
+    0% {
+      opacity: 1;
+      transform: perspective(500px) rotateX(0deg) rotateY(0deg) scale(1);
+      text-shadow: none;
+    }
+    100% {
+      opacity: 0;
+      transform: perspective(500px) rotateX(10deg) rotateY(-12deg) scale(0.94) translateY(-2px);
+      text-shadow: 0 0 2px hsl(var(--primary) / 0.55);
+    }
+  }
+
+  @keyframes crystal-in {
+    0% {
+      opacity: 0;
+      transform: perspective(500px) rotateX(-10deg) rotateY(12deg) scale(0.94) translateY(2px);
+      text-shadow: 0 0 2px hsl(var(--primary) / 0.55);
+    }
+    100% {
+      opacity: 1;
+      transform: perspective(500px) rotateX(0deg) rotateY(0deg) scale(1);
+      text-shadow: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .crystal-char.is-out,
+    .crystal-char.is-in {
+      animation: none;
+    }
+  }
+
   /* Typewriter cursor */
   .typewriter-cursor {
     @apply inline-block w-[3px] h-[1em] bg-primary ml-1;
@@ -115,6 +164,7 @@
     0%, 50% { opacity: 1; }
     51%, 100% { opacity: 0; }
   }
+
 
   /* Path glow effect */
   .path-glow {
