@@ -73,7 +73,7 @@ const CrystallineTerm = ({ active }: CrystallineTermProps) => {
         {longest}
       </span>
       <span className="absolute inset-0 whitespace-nowrap" aria-live="polite">
-        {term.split("").map((char, i) => {
+        {(term ?? "").split("").map((char, i) => {
           const glyph = char === " " ? "\u00A0" : char;
           return (
             <span key={`${index}-${i}`} className="glass-char">
@@ -245,7 +245,7 @@ const HeroVideoBackground = () => {
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !document.hidden) safePlay();
+        if (entry?.isIntersecting && !document.hidden) safePlay();
         else el.pause();
       },
       { threshold: 0.05 }
