@@ -84,7 +84,7 @@ export function SchedulingModal() {
               </div>
               <button
                 onClick={closeScheduler}
-                className="p-2 -mr-2 -mt-1 rounded-md text-muted-foreground hover:text-foreground hover:bg-card/50 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/50"
+                className="p-2 -mr-2 -mt-1 rounded-md text-muted-foreground hover:text-foreground hover:bg-card/50 transition-colors focus:outline-hidden focus:ring-2 focus:ring-primary/50"
                 aria-label="Close modal"
               >
                 <X className="w-5 h-5" />

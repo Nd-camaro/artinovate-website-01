@@ -2,7 +2,7 @@ const SUPABASE_URL = "https://nsrnoxsxjmmhfwdrowpp.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5zcm5veHN4am1taGZ3ZHJvd3BwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyNDcwNzEsImV4cCI6MjA4MzgyMzA3MX0.7NicTKI9HCC42NrJAz1gMTahjKN3sBHLk0OHjleWRfk";
 const SITE_URL = "https://www.artinovate.com";
 
-import { writeFileSync } from "fs";
+import { writeFileSync, existsSync, mkdirSync } from "fs";
 
 const REDIRECTED_SLUGS = new Set([
   "autonomous-ai-powered-website-web3-context",
@@ -68,8 +68,11 @@ ${urls.join("\n")}
 </urlset>
 `;
 
-  writeFileSync("dist/sitemap.xml", xml);
-  console.log("sitemap.xml generated successfully.");
+  // TanStack Start serves static assets from dist/client (Nitro build output)
+  const outDir = existsSync("dist/client") ? "dist/client" : existsSync(".output/public") ? ".output/public" : "dist";
+  mkdirSync(outDir, { recursive: true });
+  writeFileSync(`${outDir}/sitemap.xml`, xml);
+  console.log(`sitemap.xml generated successfully in ${outDir}.`);
 }
 
 main();

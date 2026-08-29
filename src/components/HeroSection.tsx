@@ -73,7 +73,7 @@ const CrystallineTerm = ({ active }: CrystallineTermProps) => {
         {longest}
       </span>
       <span className="absolute inset-0 whitespace-nowrap" aria-live="polite">
-        {term.split("").map((char, i) => {
+        {(term ?? "").split("").map((char, i) => {
           const glyph = char === " " ? "\u00A0" : char;
           return (
             <span key={`${index}-${i}`} className="glass-char">
@@ -182,7 +182,7 @@ const Typewriter = ({
             {/* Cursor on the last line being typed */}
             {idx === displayedLines.length - 1 && (
               <motion.span
-                className="inline-block w-[2px] h-[0.75em] bg-primary/80 ml-0.5 align-middle rounded-sm"
+                className="inline-block w-[2px] h-[0.75em] bg-primary/80 ml-0.5 align-middle rounded-xs"
                 initial={{ opacity: 0 }}
                 animate={{
                   opacity: cursorVisible ? [0.4, 0.8, 0.4] : 0,
@@ -245,7 +245,7 @@ const HeroVideoBackground = () => {
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !document.hidden) safePlay();
+        if (entry?.isIntersecting && !document.hidden) safePlay();
         else el.pause();
       },
       { threshold: 0.05 }
@@ -322,6 +322,7 @@ export function HeroSection() {
       const timer = setTimeout(() => setTypewriterActive(true), 600);
       return () => clearTimeout(timer);
     }
+    return undefined;
   }, []);
 
   const handleTypewriterComplete = () => {
@@ -336,6 +337,7 @@ export function HeroSection() {
       const timer = setTimeout(() => setShowSupporting(true), 400);
       return () => clearTimeout(timer);
     }
+    return undefined;
   }, [showSubhead, skipAnimation]);
 
   useEffect(() => {
@@ -343,6 +345,7 @@ export function HeroSection() {
       const timer = setTimeout(() => setShowCTA(true), 300);
       return () => clearTimeout(timer);
     }
+    return undefined;
   }, [showSupporting, skipAnimation]);
 
   return (

@@ -1,0 +1,17 @@
+{
+  "customizations": [
+    { "token": "--background/--foreground/--card/--popover/--primary/--secondary/--muted/--accent/--destructive/--border/--input/--ring (ArtiNovate dark palette)", "source": "src/index.css", "reappliedIn": "src/styles.css" },
+    { "token": "--carbon/--graphite/--graphite-light/--accent-cyan/--pale-grey/--signal-blue/--electric-cyan", "source": "src/index.css + tailwind.config.ts", "reappliedIn": "src/styles.css" },
+    { "token": "--gradient-glow/--gradient-path/--gradient-card/--shadow-glow/--shadow-subtle", "source": "src/index.css", "reappliedIn": "src/styles.css" },
+    { "token": "sidebar color tokens", "source": "src/index.css", "reappliedIn": "src/styles.css" },
+    { "token": "font-sans/font-display/font-mono/font-serif (Manrope + League Gothic)", "source": "tailwind.config.ts", "reappliedIn": "src/styles.css" },
+    { "token": "animations accordion-down/up, fade-in, fade-in-up, slide-in-right, sweep, draw-line, glow-pulse, float", "source": "tailwind.config.ts", "reappliedIn": "src/styles.css" },
+    { "token": "container settings (center, 2rem padding, 2xl 1400px)", "source": "tailwind.config.ts", "reappliedIn": "src/styles.css" },
+    { "token": "glass-cube hero transition classes (.glass-char/.glass-frag/.frag-*/is-out/is-in + keyframes)", "source": "src/index.css", "reappliedIn": "src/styles.css" },
+    { "token": ".typewriter-cursor + blink keyframes", "source": "src/index.css", "reappliedIn": "src/styles.css" },
+    { "token": ".path-glow/.section-card/.btn-glow/.node-pulse/.scroll-indicator/.line-draw/.bg-grid-pattern/.text-gradient/.label-mono", "source": "src/index.css", "reappliedIn": "src/styles.css" },
+    { "token": ".section-cluster/.section-heading editorial heading classes", "source": "src/index.css", "reappliedIn": "src/styles.css" },
+    { "token": ".transition-smooth/.transition-fast utilities", "source": "src/index.css", "reappliedIn": "src/styles.css" },
+    { "token": "base typography rules (body Manrope, h1/h2 League Gothic, h3-h6 Manrope Bold)", "source": "src/index.css", "reappliedIn": "src/styles.css" }
+  ]
+}
