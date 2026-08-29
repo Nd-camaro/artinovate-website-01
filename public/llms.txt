@@ -1,0 +1,16 @@
+# ArtiNovate
+
+> ArtiNovate builds AI-powered websites and autonomous digital presence systems for Web3 enterprises, crypto funds, DeFi protocols, DAOs, and digital asset firms.
+
+The system has three functions: it publishes authoritative content, engages visitors with intelligent assistants, and captures qualified demand. Engagements start with a strategy call.
+
+## Pages
+
+- [Home](/): What the autonomous digital presence system does and how it works.
+- [About](/about): ArtiNovate's infrastructure-first approach and principles.
+- [Insights](/insights): Articles on AI automation, Web3 digital strategy, and autonomous systems.
+- [Contact](/contact): Book a strategy call with ArtiNovate.
+
+## Optional
+
+- [Privacy Policy](/privacy): How ArtiNovate handles personal data.
