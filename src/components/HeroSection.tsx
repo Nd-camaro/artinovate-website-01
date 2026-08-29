@@ -354,8 +354,11 @@ export function HeroSection() {
               skipAnimation={skipAnimation}
             />
             <span className="block">
-              <CrystallineTerm active={typewriterDone || skipAnimation} />
+              {(typewriterDone || skipAnimation) && (
+                <CrystallineTerm active={typewriterDone || skipAnimation} />
+              )}
             </span>
+
           </motion.h1>
 
           {/* Subheading */}
