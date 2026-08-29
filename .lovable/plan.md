@@ -1,21 +1,30 @@
-# Finish SSR Migration — Minimal Completion Path
-
-## Goal
-Complete the already-executed TanStack Start migration with the fewest remaining edits. No refactoring, no redesign, no optional cleanup.
+# Finish SSR Migration — Four Remaining Steps
 
 ## Current state
-- Build: OK (latest log entry clean). Typecheck: 0 errors. Dev server: 200.
-- All routes migrated, SSR metadata live, 301 redirects verified, sitemap serving.
-- Nothing is currently blocking the preview.
+Build OK, typecheck clean (0 errors), dev server 200. Nothing is blocking the preview. All routes, SSR metadata, 301 redirects and the sitemap are already live.
 
-## Remaining steps (in order)
+## Step 1 — Fix the FAQ schema source
+Inspected `insight_posts`: it has no FAQ column (columns are author_id, canonical_url, content, created_at, excerpt, featured_image_alt, featured_image_url, id, meta_description, meta_title, published_at, reading_time, slug, status, target_keyword, title, topic_id, updated_at).
 
-1. **Fix FAQ schema source** — `parseFaqSchema` reads `post.faq_json_ld`, but that column does not exist in `insight_posts`. Point it at the real FAQ column (or remove the branch if no FAQ data exists in the table). One small edit in `src/routes/insights/$slug.tsx`.
-2. **Finish verification gates** — probe `/contact`, a 404 URL, and a detail page end-to-end; check runtime errors log for hydration issues.
-3. **Flip the deploy pipeline** — write `.lovable/project.json` (`tanstack_start_ts_current`) and record migration completion.
-4. **Remove Netlify artifacts** — delete `netlify/`, `netlify.toml`, `public/_redirects` after the above pass.
+Action in `src/routes/insights/$slug.tsx`:
+- Drop the `faq_json_ld` field from the local `InsightPost` interface
+- Delete the `parseFaqSchema` helper and its call in `head()`
+- Article JSON-LD stays exactly as-is
 
-## Explicitly out of scope
-- Any component redesign or copy changes
-- Dependency upgrades beyond what the migration requires
-- Native TanStack rewrite of compat-shim imports (optional follow-up)
+No database change, no fabricated FAQ data.
+
+## Step 2 — Remaining verification
+- Probe `/contact` (200, correct SSR title/canonical)
+- Probe a 404 URL (renders not-found, no 500)
+- Probe one insight detail page end-to-end (200, Article JSON-LD present)
+- Read runtime/console logs for hydration errors
+- Re-run `bun run build` and `tsc --noEmit`
+
+## Step 3 — Flip the pipeline
+Only if every check passes: write `.lovable/project.json` with `{"schemaVersion": 1, "template": "tanstack_start_ts_current"}`, read it back, and record migration completion.
+
+## Step 4 — Remove Netlify
+Only after Step 3: delete `netlify/`, `netlify.toml`, `public/_redirects`.
+
+## Out of scope
+No refactors, redesigns, copy changes, dependency upgrades, compat-shim rewrites, Supabase schema changes, new features, or cleanup beyond the four steps above.
