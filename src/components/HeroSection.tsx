@@ -322,6 +322,7 @@ export function HeroSection() {
       const timer = setTimeout(() => setTypewriterActive(true), 600);
       return () => clearTimeout(timer);
     }
+    return undefined;
   }, []);
 
   const handleTypewriterComplete = () => {
@@ -336,6 +337,7 @@ export function HeroSection() {
       const timer = setTimeout(() => setShowSupporting(true), 400);
       return () => clearTimeout(timer);
     }
+    return undefined;
   }, [showSubhead, skipAnimation]);
 
   useEffect(() => {
@@ -343,6 +345,7 @@ export function HeroSection() {
       const timer = setTimeout(() => setShowCTA(true), 300);
       return () => clearTimeout(timer);
     }
+    return undefined;
   }, [showSupporting, skipAnimation]);
 
   return (
