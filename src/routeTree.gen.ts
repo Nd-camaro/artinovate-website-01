@@ -10,7 +10,6 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as SplatRouteImport } from './routes/$'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as PrivacyRouteImport } from './routes/privacy'
@@ -20,11 +19,6 @@ import { Route as InsightsSlugRouteImport } from './routes/insights/$slug'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SplatRoute = SplatRouteImport.update({
-  id: '/$',
-  path: '/$',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -55,7 +49,6 @@ const InsightsSlugRoute = InsightsSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/$': typeof SplatRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/privacy': typeof PrivacyRoute
@@ -64,7 +57,6 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/$': typeof SplatRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/privacy': typeof PrivacyRoute
@@ -74,7 +66,6 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/$': typeof SplatRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/privacy': typeof PrivacyRoute
@@ -84,26 +75,12 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
-    | '/$'
-    | '/about'
-    | '/contact'
-    | '/privacy'
-    | '/insights/$slug'
-    | '/insights/'
+    '/' | '/about' | '/contact' | '/privacy' | '/insights/$slug' | '/insights/'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/$'
-    | '/about'
-    | '/contact'
-    | '/privacy'
-    | '/insights/$slug'
-    | '/insights'
+  to: '/' | '/about' | '/contact' | '/privacy' | '/insights/$slug' | '/insights'
   id:
     | '__root__'
     | '/'
-    | '/$'
     | '/about'
     | '/contact'
     | '/privacy'
@@ -113,7 +90,6 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  SplatRoute: typeof SplatRoute
   AboutRoute: typeof AboutRoute
   ContactRoute: typeof ContactRoute
   PrivacyRoute: typeof PrivacyRoute
@@ -128,13 +104,6 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/$': {
-      id: '/$'
-      path: '/$'
-      fullPath: '/$'
-      preLoaderRoute: typeof SplatRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -177,7 +146,6 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  SplatRoute: SplatRoute,
   AboutRoute: AboutRoute,
   ContactRoute: ContactRoute,
   PrivacyRoute: PrivacyRoute,
