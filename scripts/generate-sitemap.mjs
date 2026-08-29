@@ -68,8 +68,8 @@ ${urls.join("\n")}
 </urlset>
 `;
 
-  // TanStack Start (Nitro) serves static assets from .output/public
-  const outDir = existsSync(".output/public") ? ".output/public" : "dist";
+  // TanStack Start serves static assets from dist/client (Nitro build output)
+  const outDir = existsSync("dist/client") ? "dist/client" : existsSync(".output/public") ? ".output/public" : "dist";
   mkdirSync(outDir, { recursive: true });
   writeFileSync(`${outDir}/sitemap.xml`, xml);
   console.log(`sitemap.xml generated successfully in ${outDir}.`);
