@@ -60,7 +60,42 @@ export function useDocumentHead(config: HeadConfig, enabled = true) {
       });
     };
 
+    const replaceMetaProperty = (property: string, content: string) => {
+      let el = document.querySelector(
+        `meta[property="${property}"]`
+      ) as HTMLMetaElement | null;
+      let created = false;
+      if (!el) {
+        el = document.createElement("meta");
+        el.setAttribute("property", property);
+        document.head.appendChild(el);
+        created = true;
+      }
+      const prev = el.content;
+      el.content = content;
+      cleanups.push(() => {
+        if (created) {
+          el?.remove();
+        } else if (el) {
+          el.content = prev;
+        }
+      });
+    };
+
     if (description) replaceMetaContent("description", description);
+
+    // Keep social preview tags in sync with the current route
+    if (title) {
+      replaceMetaProperty("og:title", title);
+      replaceMetaContent("twitter:title", title);
+    }
+    if (description) {
+      replaceMetaProperty("og:description", description);
+      replaceMetaContent("twitter:description", description);
+    }
+    if (canonicalUrl) {
+      replaceMetaProperty("og:url", canonicalUrl);
+    }
 
     if (canonicalUrl) {
       const link = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;

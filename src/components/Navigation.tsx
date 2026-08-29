@@ -39,7 +39,7 @@ export function Navigation() {
           <Link to="/" className="hover:opacity-90 transition-opacity duration-200">
             <img 
               src={artinovateLogo} 
-              alt="ArtiNovate" 
+              alt="ArtiNovate — AI-powered digital presence systems" 
               className="h-9 md:h-11 w-auto"
             />
           </Link>
@@ -69,6 +69,8 @@ export function Navigation() {
           {/* Mobile Menu Toggle */}
           <button
             className="md:hidden p-2 text-foreground"
+            aria-label={isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-expanded={isMobileMenuOpen}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
