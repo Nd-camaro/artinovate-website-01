@@ -10,7 +10,6 @@ import { useScheduling } from "@/contexts/SchedulingContext";
 import type { Tables, Json } from "@/integrations/supabase/types";
 
 interface InsightPost extends Tables<"insight_posts"> {
-  faq_json_ld?: Json | null;
   cta_config?: Json | null;
 }
 
@@ -41,34 +40,6 @@ function parseCTAConfig(config: unknown): CTAConfig | null {
   }
 
   return null;
-}
-
-/**
- * Returns a valid FAQPage schema object, or null. Emitted only when the
- * stored value parses to a real FAQ structure (mainEntity Q&A entries).
- */
-function parseFaqSchema(raw: Json | null | undefined): object | null {
-  if (!raw) return null;
-  let parsed: unknown = raw;
-  if (typeof raw === "string") {
-    try {
-      parsed = JSON.parse(raw);
-    } catch {
-      return null;
-    }
-  }
-  if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) return null;
-  const candidate = parsed as { "@type"?: unknown; mainEntity?: unknown };
-  if (candidate["@type"] && candidate["@type"] !== "FAQPage") return null;
-  if (!Array.isArray(candidate.mainEntity) || candidate.mainEntity.length === 0) return null;
-  const valid = candidate.mainEntity.every(
-    (item) =>
-      typeof item === "object" &&
-      item !== null &&
-      typeof (item as { name?: unknown }).name === "string" &&
-      typeof (item as { acceptedAnswer?: { text?: unknown } }).acceptedAnswer?.text === "string",
-  );
-  return valid ? (parsed as object) : null;
 }
 
 function buildArticleSchema(post: InsightPost) {
