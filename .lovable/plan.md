@@ -58,14 +58,28 @@ Implementation: one route (or a small slug→slug map consulted in the `/insight
 **Phase 3 — Redirects.**
 6. Implement the 9 legacy slugs as server 301s and confirm each returns `HTTP/1.1 301` with the right `Location` (curl, no JS).
 
-**Phase 4 — Verify, then remove Netlify.**
-7. Publish. Verify with `curl` (JS disabled) on `/`, `/insights`, one insight post, and each legacy URL: correct `<title>`, description, canonical, `og:*`, `twitter:*`, JSON-LD in the raw HTML; 301s resolving.
-8. Validate one post in Google's Rich Results Test and in LinkedIn/X post inspectors.
-9. Only now delete `netlify.toml`, `netlify/edge-functions/inject-meta.ts`, and `public/_redirects`.
+**Phase 4 — Verification gate (all 10 must pass before any Netlify file is deleted).**
+
+This is an infrastructure migration, not a redesign. Homepage layout, hero video implementation, hero typography, typewriter, crystalline/glass glitch animation, spacing, type system, colors, CTA behavior, scheduling modal, Voiceflow, insight-page design and Supabase behavior are all preserved as-is.
+
+7. Run the checks:
+   1. Homepage raw HTML (curl, no JS) contains its own title, description, canonical, OG/Twitter and structured data.
+   2. An individual `/insights/:slug` raw HTML contains its own title, description, canonical, OG/Twitter and Article + FAQ JSON-LD.
+   3. All 9 legacy URLs return real `HTTP 301` with the correct `Location` header — verified by curl, not by React.
+   4. `scripts/generate-sitemap.mjs` still runs in the build and emits the same URL set.
+   5. Hero video autoplays, loops, shows the poster, and keeps its reduced-motion / save-data / IntersectionObserver guards.
+   6. Typewriter and crystalline cyan-term rotation behave exactly as before (including the sessionStorage skip on repeat visits).
+   7. Desktop and mobile screenshots compared against pre-migration captures — typography, spacing, Tailwind tokens, borders, shadows, custom animation CSS.
+   8. Supabase-powered insights load on direct URL navigation and on client-side navigation.
+   9. Voiceflow widget and the Calendly scheduling modal initialize correctly under SSR.
+   10. No hydration errors, no SSR `window`/`document`/`sessionStorage` errors, no console errors, no broken routes.
+8. Validate one post in Google's Rich Results Test and in the LinkedIn/X post inspectors.
+9. Only after 1–10 pass: delete `netlify.toml`, `netlify/edge-functions/inject-meta.ts`, and `public/_redirects`.
 10. Re-submit the sitemap in Search Console and request re-indexing of the homepage.
 
 **Phase 5 — Homepage on-page copy.**
 11. Apply the on-page semantic work from the earlier SEO plan (ProblemSection heading + supporting paragraph establishing Web3 website design, one supporting line under "One system. Three functions.").
+
 
 ## Risks
 
