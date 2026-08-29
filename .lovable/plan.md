@@ -51,7 +51,8 @@ Implementation: one route (or a small slug→slug map consulted in the `/insight
 2. Verify the build is green and the app renders as before (hero video, typewriter, glass-cube rotation, scheduling modal, chat widget, Supabase queries).
 
 **Phase 2 — Move metadata into SSR.**
-3. Port `/insights/$slug`: loader fetches the post from Supabase; `head()` emits meta_title, meta_description, canonical_url, `og:*`, `twitter:*`, Article JSON-LD and FAQ JSON-LD. Retire `useDocumentHead` on this route and the inline `<script>` JSON-LD currently in `InsightDetail.tsx`.
+3. Port `/insights/$slug`: loader fetches the post from Supabase; `head()` emits meta_title, meta_description, canonical_url, `og:*`, `twitter:*` and Article JSON-LD. Retire `useDocumentHead` on this route and the inline `<script>` JSON-LD currently in `InsightDetail.tsx`.
+   - **FAQ JSON-LD is conditional.** Emit it only when the post's `faq_json_ld` column holds real, non-empty FAQ content authored for that article (parses to a `FAQPage` with at least one question/answer pair). Never fabricate, template, or emit an empty FAQ block. Posts without genuine FAQ content ship Article schema only.
 4. Port `/about`, `/contact`, `/insights`, `/privacy` to `head()` and retire `useDocumentHead` there too (or keep the hook only as a thin fallback — cleaner to remove it).
 5. Port the homepage `head()`: this is where the SEO repositioning lands — title `Web3 Website Design Agency | ArtiNovate`, the new meta description, canonical, mirrored OG/Twitter, plus Organization and Service JSON-LD.
 
