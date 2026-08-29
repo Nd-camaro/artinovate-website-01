@@ -182,7 +182,7 @@ const Typewriter = ({
             {/* Cursor on the last line being typed */}
             {idx === displayedLines.length - 1 && (
               <motion.span
-                className="inline-block w-[2px] h-[0.75em] bg-primary/80 ml-0.5 align-middle rounded-sm"
+                className="inline-block w-[2px] h-[0.75em] bg-primary/80 ml-0.5 align-middle rounded-xs"
                 initial={{ opacity: 0 }}
                 animate={{
                   opacity: cursorVisible ? [0.4, 0.8, 0.4] : 0,
