@@ -37,6 +37,9 @@ export function CoreFunctionsSection() {
           <h2 className="section-heading">
             One system. Three functions.
           </h2>
+          <p className="text-muted-foreground leading-relaxed max-w-2xl mx-auto mt-6">
+            A modern Web3 website should do three things on its own:
+          </p>
         </motion.div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">

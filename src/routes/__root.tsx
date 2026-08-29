@@ -32,6 +32,7 @@ const OG_IMAGE =
 const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
+  "@id": "https://www.artinovate.com/#organization",
   name: "ArtiNovate",
   url: "https://www.artinovate.com",
   logo: "https://artinovate.com/assets/artinovate-logo-BsiajO-W.png",

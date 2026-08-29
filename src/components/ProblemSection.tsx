@@ -32,8 +32,11 @@ export function ProblemSection() {
         >
           <span className="label-mono text-primary mb-4 block">The Problem</span>
           <h2 className="section-heading">
-            Most digital operations lack real infrastructure
+            Most Web3 websites go quiet after launch
           </h2>
+          <p className="text-muted-foreground leading-relaxed max-w-2xl mx-auto mt-6">
+            ArtiNovate is a Web3 website design agency building digital presence systems for digital asset firms, tokenization platforms, DeFi companies and fintech businesses that publish, engage and capture instead of going static after launch.
+          </p>
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-8">
