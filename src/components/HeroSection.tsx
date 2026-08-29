@@ -10,7 +10,7 @@ import { useScheduling } from "@/contexts/SchedulingContext";
 const SESSION_KEY = "artinovate_typewriter_played";
 
 // Fixed headline line + rotating category terms
-const HEADLINE_FIXED = "Digital Presence for";
+const HEADLINE_FIXED = "Digital Presence";
 const ROTATING_TERMS = ["Web3", "Digital Assets", "Tokenization", "Fintech"];
 const HOLD_MS = 2000;
 const OUT_MS = 190;
@@ -354,6 +354,7 @@ export function HeroSection() {
               skipAnimation={skipAnimation}
             />
             <span className="block">
+              for{" "}
               {(typewriterDone || skipAnimation) && (
                 <CrystallineTerm active={typewriterDone || skipAnimation} />
               )}
