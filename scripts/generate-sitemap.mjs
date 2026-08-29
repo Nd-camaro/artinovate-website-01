@@ -21,6 +21,7 @@ const staticPages = [
   { path: "/about", priority: "0.8" },
   { path: "/insights", priority: "0.8" },
   { path: "/contact", priority: "0.8" },
+  { path: "/privacy", priority: "0.3" },
 ];
 
 async function main() {
