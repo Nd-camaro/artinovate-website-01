@@ -1,69 +1,81 @@
-# Netlify Dependency Audit — Migration to Lovable-Native Hosting
+# Revised Architecture: Lovable-Native SSR, No Netlify
 
-Audit only. Nothing is changed by this document.
+Answering the two questions first, then the revised order.
 
-## 1. Current Netlify dependencies
+## Q1 — Can this project get real SSR on Lovable?
 
-| # | Item | Location |
-|---|---|---|
-| 1 | Build/publish config | `netlify.toml` `[build]` (`npm run build`, publish `dist`) |
-| 2 | Edge function registration | `netlify.toml` `[[edge_functions]]` for `/` and `/insights/*` |
-| 3 | Edge function code | `netlify/edge-functions/inject-meta.ts` |
-| 4 | 301 redirects | `netlify.toml` — 9 legacy insight slugs |
-| 5 | SPA fallback | `public/_redirects` (`/* /index.html 200`) |
-| 6 | Headers | None defined anywhere (no `[[headers]]`, no `_headers` file) |
-| 7 | Environment variables | None Netlify-specific. Supabase URL and anon key are hardcoded in the edge function and in `scripts/generate-sitemap.mjs`; app vars live in `.env` as `VITE_*` |
-| 8 | Deployment-specific logic | Only the sitemap step inside `npm run build` writing `dist/sitemap.xml` — host-agnostic |
+Yes. This is a Lovable Classic project (Vite 5 + React 18 + React Router + shadcn), which is exactly the eligible input for Lovable's built-in "Migrate to TanStack Start" upgrade. TanStack Start renders on the server, so `/insights/:slug` returns fully-formed HTML — title, description, canonical, `og:*`, `twitter:*` and Article/FAQ JSON-LD all present in the initial response before any JS runs. That satisfies every stated priority: Googlebot, LinkedIn, X, WhatsApp and Slack all get the correct post-specific preview, and no critical metadata depends on client JS.
 
-## 2. What each one does
+Mechanically, each route file exposes a `loader` and a `head()`:
 
-- **Edge function, homepage branch**: injects Organization JSON-LD into `/`.
-- **Edge function, static routes**: rewrites `<link rel="canonical">` for `/about`, `/contact`, `/insights`.
-- **Edge function, insight posts**: fetches the post from Supabase and server-rewrites `<title>`, `meta description`, canonical, strips shell JSON-LD, injects FAQ + Article JSON-LD. This is the only genuinely server-side capability in the project — it is what makes per-post social previews and crawler-visible post titles work without JS.
-- **Redirects**: consolidate 9 duplicate/off-topic legacy insight URLs onto canonical posts; the same slugs are also excluded from the sitemap denylist in `scripts/generate-sitemap.mjs`.
-- **`public/_redirects`**: SPA deep-link fallback.
-- **Client-side head**: `src/hooks/useDocumentHead.ts` already sets title, description, canonical, `og:*`, `twitter:*` and JSON-LD per route on `/about`, `/contact`, `/insights`, `/insights/:slug`, `/privacy`. The homepage currently gets everything from static `index.html`.
+```
+export const Route = createFileRoute('/insights/$slug')({
+  loader: ({ params }) => fetchPost(params.slug),
+  head: ({ loaderData }) => ({
+    meta: [ title, description, og:*, twitter:* ],
+    links: [ canonical ],
+    scripts: [ Article JSON-LD, FAQ JSON-LD ],
+  }),
+})
+```
 
-## 3. Still required?
+That is a one-for-one, strictly better replacement for `netlify/edge-functions/inject-meta.ts` — same data source (Supabase), same output, but rendered by the framework instead of string-replaced into a shell by a third-party edge runtime.
 
-| Dependency | Still required |
+Prerendering is also available on the same stack for pages that never change per-request, but SSR is the right default here because insight posts come from Supabase and change without a rebuild.
+
+## Q2 — Native server-side redirects?
+
+Yes. TanStack Start supports true HTTP redirects from the server. Throwing `redirect({ to, statusCode: 301 })` from a route's `beforeLoad` during SSR produces a real 301 response with a `Location` header — not a client-side `<Navigate>`. So the 9 legacy insight slugs get proper 301s, equivalent to what `netlify.toml` does today. Client-side `<Navigate>` is dropped from the plan entirely.
+
+Implementation: one route (or a small slug→slug map consulted in the `/insights/$slug` route's `beforeLoad`) that throws a 301 redirect when the incoming slug is in the legacy set. The existing `REDIRECTED_SLUGS` denylist in `scripts/generate-sitemap.mjs` becomes the shared source of truth.
+
+## Revised architecture (end state)
+
+| Concern | Handled by |
 |---|---|
-| `netlify.toml` build block | No — Lovable builds and serves `dist` itself |
-| Edge function: homepage Organization JSON-LD | No — can live statically in `index.html` |
-| Edge function: static-route canonicals | No — `useDocumentHead` already sets these client-side; Googlebot executes JS |
-| Edge function: insight-post meta/JSON-LD | Partly — Googlebot is fine without it, but non-JS social crawlers (LinkedIn, Slack, X, Facebook) will fall back to the sitewide preview |
-| 9 x 301 redirects | Yes, functionally — old URLs are indexed and need to keep resolving |
-| `public/_redirects` | No — Lovable hosting has built-in SPA fallback (harmless to keep) |
-| Headers / env vars | N/A — none exist |
+| Hosting / build / deploy | Lovable |
+| SPA fallback | N/A — server-rendered routes |
+| Homepage title, description, canonical, OG, Twitter | `head()` in the index route |
+| Organization + Service JSON-LD | `head()` scripts on `__root` / index route |
+| Insight post title, description, canonical, OG, Twitter | `head()` in `/insights/$slug`, from the loader's Supabase data |
+| Article + FAQ JSON-LD | `head()` scripts in `/insights/$slug` |
+| Static-route canonicals (`/about`, `/contact`, `/insights`, `/privacy`) | `head()` per route (replaces both the edge function and `useDocumentHead`) |
+| 9 legacy 301s | Server-thrown `redirect(..., 301)` |
+| Sitemap | `scripts/generate-sitemap.mjs`, unchanged |
+| Netlify | Removed entirely |
 
-## 4. Lovable-native replacement for each
+## Revised migration order
 
-1. **Homepage SEO (title, description, canonical, OG, Twitter, Organization + Service JSON-LD)** — put all of it statically in `index.html`. This is strictly better than the edge function: it is visible to every crawler including non-JS ones, with no runtime dependency. Service JSON-LD and FAQ JSON-LD are already there; Organization JSON-LD moves in from the edge function.
-2. **Static-route canonicals (`/about`, `/contact`, `/insights`)** — already handled by `useDocumentHead`; no work needed beyond confirming each page passes the right `canonicalUrl`.
-3. **Insight-post metadata** — `useDocumentHead` in `src/pages/InsightDetail.tsx` already applies title/description/canonical/JSON-LD after data loads. Accepted trade-off: social-preview crawlers see the sitewide preview instead of the per-post one. If per-post social previews are a hard requirement, the clean answer is real SSR by upgrading to Lovable's latest template ([what the upgrade gives you](https://lovable.dev/blog/building-apps-using-tanstack-start)) — not keeping Netlify around for one function.
-4. **301 redirects** — Lovable static hosting has no redirect config file. The Lovable-native equivalent is a client-side redirect route: a small route table of the 9 legacy slugs mapped to their canonical slug, rendered by a `<Navigate replace>` in the React Router config. It is a 200-then-JS-redirect rather than a true 301, so Google consolidates more slowly, but the slugs are already excluded from the sitemap and have low link equity. Alternative if a true 301 matters: keep DNS on a redirect-capable layer, or use Cloudflare rules in front of the Lovable domain.
-5. **SPA fallback** — drop `public/_redirects` or leave it; Lovable handles it natively.
-6. **Sitemap** — unchanged; `scripts/generate-sitemap.mjs` runs in `npm run build` and is host-agnostic.
-7. **Supabase keys in the edge function** — disappear with the function. The build script keeps its own copy of the publishable anon key, which is fine.
+**Phase 1 — Upgrade the stack (do this first).**
+1. Run the TanStack Start migration. It rewrites entry points, converts the 6 routes in `src/App.tsx` to file routes, and carries `index.html`'s head tags, analytics and JSON-LD into `__root.tsx`. Netlify files are left untouched at this stage — nothing is removed until SSR output is verified.
+2. Verify the build is green and the app renders as before (hero video, typewriter, glass-cube rotation, scheduling modal, chat widget, Supabase queries).
 
-## 5. Safest migration order
+**Phase 2 — Move metadata into SSR.**
+3. Port `/insights/$slug`: loader fetches the post from Supabase; `head()` emits meta_title, meta_description, canonical_url, `og:*`, `twitter:*`, Article JSON-LD and FAQ JSON-LD. Retire `useDocumentHead` on this route and the inline `<script>` JSON-LD currently in `InsightDetail.tsx`.
+4. Port `/about`, `/contact`, `/insights`, `/privacy` to `head()` and retire `useDocumentHead` there too (or keep the hook only as a thin fallback — cleaner to remove it).
+5. Port the homepage `head()`: this is where the SEO repositioning lands — title `Web3 Website Design Agency | ArtiNovate`, the new meta description, canonical, mirrored OG/Twitter, plus Organization and Service JSON-LD.
 
-1. Move the Organization JSON-LD from the edge function into `index.html` (additive, no removals).
-2. Confirm `/about`, `/contact`, `/insights`, `/privacy` and `/insights/:slug` each set title, description, canonical, OG/Twitter and JSON-LD through `useDocumentHead` — patch any gaps.
-3. Add the 9 legacy-slug redirect routes in React Router and verify each resolves to the canonical post.
-4. Publish through Lovable and verify live: view-source on `/` and one insight post, check canonical, OG tags, JSON-LD via Rich Results Test, and hit all 9 legacy URLs.
-5. Only after step 4 passes: delete `netlify.toml` and `netlify/edge-functions/inject-meta.ts`. Optionally remove `public/_redirects`.
-6. Point the custom domain fully at Lovable and re-submit the sitemap in Search Console.
+**Phase 3 — Redirects.**
+6. Implement the 9 legacy slugs as server 301s and confirm each returns `HTTP/1.1 301` with the right `Location` (curl, no JS).
 
-## 6. Risks
+**Phase 4 — Verify, then remove Netlify.**
+7. Publish. Verify with `curl` (JS disabled) on `/`, `/insights`, one insight post, and each legacy URL: correct `<title>`, description, canonical, `og:*`, `twitter:*`, JSON-LD in the raw HTML; 301s resolving.
+8. Validate one post in Google's Rich Results Test and in LinkedIn/X post inspectors.
+9. Only now delete `netlify.toml`, `netlify/edge-functions/inject-meta.ts`, and `public/_redirects`.
+10. Re-submit the sitemap in Search Console and request re-indexing of the homepage.
 
-- **Social previews for insight posts** (highest-impact): non-JS crawlers lose per-post title/description/image. Mitigation: accept the sitewide preview, or move to SSR.
-- **Redirect strength**: JS redirects are weaker than 301s for consolidating the 9 legacy URLs. Low practical risk — they are already out of the sitemap.
-- **Canonical rendering**: if a page ships without a `canonicalUrl`, it inherits the homepage canonical from `index.html`, which would mis-attribute the page. Step 2 exists to prevent this.
-- **Duplicate JSON-LD**: `useDocumentHead` strips existing JSON-LD when a route supplies its own — moving Organization schema into `index.html` is safe, but verify the homepage does not end up with two Organization blocks.
-- **Deployment**: none material — Lovable already builds this project; the `netlify.toml` build block is redundant.
-- **Deleting the edge function before verification** would silently drop post canonicals for crawlers, which is why removal is last.
+**Phase 5 — Homepage on-page copy.**
+11. Apply the on-page semantic work from the earlier SEO plan (ProblemSection heading + supporting paragraph establishing Web3 website design, one supporting line under "One system. Three functions.").
+
+## Risks
+
+- **Migration is the largest change here.** It rewrites entry points, moves to React 19 / Tailwind v4, and flips TypeScript to strict. Expect a build-error pass. It is reversible from chat history.
+- **Tailwind v4 visual regressions**: `shadow`/`rounded`/`ring`/`outline-none` scale renames and custom token porting can shift the design subtly. The hero glass-cube CSS, `.section-heading`, `.section-cluster` and `.glass-frag` keyframes in `src/index.css` all need explicit porting into the new `styles.css` and visual verification.
+- **Framer Motion and the hero video** run client-side; they need SSR-safety checks (`window`/`sessionStorage` access in `HeroSection.tsx` is already inside effects, which is correct, but must be re-verified).
+- **Voiceflow chat widget** injects a script — needs to move into the root route's `scripts` or stay in a client effect.
+- **Netlify removal is last on purpose.** Removing it before Phase 4 passes would silently drop post canonicals and previews.
+- **Indexing lag**: expect a few weeks for Google to reprocess after the homepage retitle and the SSR switch.
 
 ## Recommendation
 
-Netlify is not required. One capability (server-rendered per-post metadata) genuinely degrades; everything else is equal or better handled natively. Proceed with the order above, then return to the homepage SEO repositioning work — which becomes simpler, since all homepage metadata will live in one place (`index.html`).
+Run the TanStack Start migration first, then move all metadata into `head()`, then server 301s, then delete Netlify. The homepage SEO repositioning is folded into step 5 rather than done twice.
