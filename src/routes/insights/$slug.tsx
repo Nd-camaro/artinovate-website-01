@@ -104,10 +104,6 @@ export const Route = createFileRoute("/insights/$slug")({
     const scripts: { type: string; children: string }[] = [
       { type: "application/ld+json", children: JSON.stringify(buildArticleSchema(post)) },
     ];
-    const faqSchema = parseFaqSchema(post.faq_json_ld);
-    if (faqSchema) {
-      scripts.push({ type: "application/ld+json", children: JSON.stringify(faqSchema) });
-    }
 
     return {
       meta: [
