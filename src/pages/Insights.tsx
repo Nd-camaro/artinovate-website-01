@@ -16,6 +16,19 @@ export default function Insights() {
     title: "Web3 AI Automation Insights | ArtiNovate",
     description: "Insights on AI automation, autonomous digital presence systems, and Web3 digital strategy from ArtiNovate.",
     canonicalUrl: "https://www.artinovate.com/insights",
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      name: "ArtiNovate Insights",
+      description:
+        "Insights on AI automation, autonomous digital presence systems, and Web3 digital strategy from ArtiNovate.",
+      url: "https://www.artinovate.com/insights",
+      isPartOf: {
+        "@type": "WebSite",
+        name: "ArtiNovate",
+        url: "https://www.artinovate.com",
+      },
+    },
   });
 
   const { openScheduler } = useScheduling();
@@ -55,6 +68,7 @@ export default function Insights() {
         {/* Insights Grid */}
         <section id="content" className="py-16 lg:py-24 bg-background">
           <div className="container mx-auto px-6 lg:px-12">
+            <h2 className="section-heading section-cluster mb-10">Latest Insights</h2>
             {isLoading ? (
               // Neutral reserved space while loading - no content claims
               <div className="min-h-[200px]" />
@@ -121,7 +135,9 @@ export default function Insights() {
                             </p>
                           )}
                           <span className="inline-flex items-center gap-1 text-sm text-primary opacity-0 group-hover:opacity-100 transition-opacity mt-auto">
-                            Read more <ArrowRight className="w-3 h-3" />
+                            Read full article
+                            <span className="sr-only">: {insight.title}</span>
+                            <ArrowRight className="w-3 h-3" />
                           </span>
                         </div>
                       </div>
