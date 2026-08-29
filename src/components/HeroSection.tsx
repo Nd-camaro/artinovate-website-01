@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, type CSSProperties } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
@@ -13,7 +13,19 @@ const SESSION_KEY = "artinovate_typewriter_played";
 const HEADLINE_FIXED = "Digital Presence";
 const ROTATING_TERMS = ["Web3", "Digital Assets", "Tokenization", "Fintech"];
 const HOLD_MS = 2000;
-const OUT_MS = 240;
+const OUT_MS = 260;
+
+// Glass-cube break: each character is split into 4 clipped quadrant fragments
+const QUADRANTS = [
+  { cls: "frag-tl", dx: -1, dy: -1 },
+  { cls: "frag-tr", dx: 1, dy: -1 },
+  { cls: "frag-bl", dx: -1, dy: 1 },
+  { cls: "frag-br", dx: 1, dy: 1 },
+];
+
+/** Deterministic per-fragment variance (-2..2) so motion is identical every cycle */
+const fragVariance = (charIndex: number, quadIndex: number) =>
+  ((charIndex * 7 + quadIndex * 13) % 5) - 2;
 
 const prefersReducedMotion = () =>
   typeof window !== "undefined" &&
