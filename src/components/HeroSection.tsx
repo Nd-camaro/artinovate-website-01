@@ -13,7 +13,7 @@ const SESSION_KEY = "artinovate_typewriter_played";
 const HEADLINE_FIXED = "Digital Presence";
 const ROTATING_TERMS = ["Web3", "Digital Assets", "Tokenization", "Fintech"];
 const HOLD_MS = 2000;
-const OUT_MS = 190;
+const OUT_MS = 240;
 
 const prefersReducedMotion = () =>
   typeof window !== "undefined" &&
