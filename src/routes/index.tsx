@@ -17,6 +17,12 @@ export const Route = createFileRoute("/")({
       { name: "twitter:description", content: DESCRIPTION },
     ],
     links: [{ rel: "canonical", href: "https://www.artinovate.com/" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify(serviceSchema),
+      },
+    ],
   }),
   component: Index,
 });
