@@ -19,7 +19,8 @@ Reposition the homepage for the "Web3 website design agency" search category whi
 Add one homepage-only Service schema:
 - `@type: "Service"`, `name: "Premium Web3 Website Design"`
 - `description: "ArtiNovate designs AI-powered Web3 websites for digital asset, tokenization, DeFi and fintech companies, combining publishing, visitor engagement and lead capture in one digital presence system."`
-- `provider` referencing the existing ArtiNovate Organization (via `@id`/name+url) so it links to — not duplicates — the root Organization block.
+- `provider` referencing the existing ArtiNovate Organization via stable `@id` `https://www.artinovate.com/#organization` so it links to — not duplicates — the root Organization block.
+- Also update the Organization schema in `src/routes/__root.tsx` to include `"@id": "https://www.artinovate.com/#organization"` (and matching `url` `https://www.artinovate.com`) so both blocks resolve to the same entity.
 
 ### 3. ProblemSection — `src/components/ProblemSection.tsx`
 - Change heading text to: `Most Web3 websites go quiet after launch` (same `section-heading` styling).
