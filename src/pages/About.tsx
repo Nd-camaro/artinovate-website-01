@@ -43,6 +43,15 @@ export default function About() {
     title: "About ArtiNovate | AI Automation Agency for Web3",
     description: "Learn about ArtiNovate's infrastructure-first approach to building autonomous AI-powered digital presence systems for Web3 and blockchain organizations.",
     canonicalUrl: "https://www.artinovate.com/about",
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      name: "ArtiNovate",
+      url: "https://www.artinovate.com",
+      description:
+        "ArtiNovate builds autonomous AI-powered digital presence systems for Web3 and digital asset organizations.",
+      sameAs: ["https://www.linkedin.com/company/artinovate-aaa/"],
+    },
   });
 
   return (

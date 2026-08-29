@@ -21,10 +21,10 @@ const staticPages = [
   { path: "/about", priority: "0.8" },
   { path: "/insights", priority: "0.8" },
   { path: "/contact", priority: "0.8" },
+  { path: "/privacy", priority: "0.3" },
 ];
 
 async function main() {
-  const today = new Date().toISOString().split("T")[0];
 
   // Fetch published posts
   let posts = [];
@@ -48,18 +48,16 @@ async function main() {
   const urls = staticPages.map(
     (p) => `  <url>
     <loc>${SITE_URL}${p.path}</loc>
-    <lastmod>${today}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>${p.priority}</priority>
   </url>`
   );
 
   for (const post of posts.filter(p => !REDIRECTED_SLUGS.has(p.slug))) {
-    const lastmod = post.updated_at ? post.updated_at.split("T")[0] : today;
+    const lastmod = post.updated_at ? post.updated_at.split("T")[0] : null;
     urls.push(`  <url>
     <loc>${SITE_URL}/insights/${post.slug}</loc>
-    <lastmod>${lastmod}</lastmod>
-    <changefreq>weekly</changefreq>
+${lastmod ? `    <lastmod>${lastmod}</lastmod>\n` : ""}    <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>`);
   }
