@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router-compat";
 import { Navigation } from "@/components/Navigation";
 import { PageHero } from "@/components/PageHero";
 import { useDocumentHead } from "@/hooks/useDocumentHead";
