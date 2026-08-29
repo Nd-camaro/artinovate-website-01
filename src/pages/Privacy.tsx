@@ -1,16 +1,9 @@
 import { Link } from "@/lib/router-compat";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
-import { useDocumentHead } from "@/hooks/useDocumentHead";
 import { motion } from "framer-motion";
 
 export default function Privacy() {
-  useDocumentHead({
-    title: "Privacy Policy | ArtiNovate",
-    description: "ArtiNovate Privacy Policy — how we handle information on artinovate.com.",
-    canonicalUrl: "https://www.artinovate.com/privacy",
-  });
-
   return (
     <div className="min-h-screen bg-black text-white overflow-x-hidden">
       <Navigation />

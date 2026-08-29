@@ -2,7 +2,6 @@ import { motion } from "framer-motion";
 import { Link } from "@/lib/router-compat";
 import { Navigation } from "@/components/Navigation";
 import { PageHero } from "@/components/PageHero";
-import { useDocumentHead } from "@/hooks/useDocumentHead";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/hero-insights.jpg";
@@ -12,25 +11,6 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
 export default function Insights() {
-  useDocumentHead({
-    title: "Web3 AI Automation Insights | ArtiNovate",
-    description: "Insights on AI automation, autonomous digital presence systems, and Web3 digital strategy from ArtiNovate.",
-    canonicalUrl: "https://www.artinovate.com/insights",
-    jsonLd: {
-      "@context": "https://schema.org",
-      "@type": "CollectionPage",
-      name: "ArtiNovate Insights",
-      description:
-        "Insights on AI automation, autonomous digital presence systems, and Web3 digital strategy from ArtiNovate.",
-      url: "https://www.artinovate.com/insights",
-      isPartOf: {
-        "@type": "WebSite",
-        name: "ArtiNovate",
-        url: "https://www.artinovate.com",
-      },
-    },
-  });
-
   const { openScheduler } = useScheduling();
 
   const { data: insights = [], isLoading } = useQuery({
