@@ -81,7 +81,22 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   }),
   component: RootComponent,
   errorComponent: RootErrorComponent,
+  notFoundComponent: RootNotFound,
 });
+
+function RootNotFound() {
+  return (
+    <div className="min-h-screen bg-background text-foreground flex items-center justify-center">
+      <div className="text-center px-6">
+        <h1 className="text-4xl font-bold mb-4">404</h1>
+        <p className="text-muted-foreground mb-8">Oops! Page not found</p>
+        <a href="/" className="text-primary underline hover:text-primary/90">
+          Return to Home
+        </a>
+      </div>
+    </div>
+  );
+}
 
 function RootErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
