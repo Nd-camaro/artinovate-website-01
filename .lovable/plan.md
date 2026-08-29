@@ -15,7 +15,7 @@ No database change, no fabricated FAQ data.
 
 ## Step 2 — Remaining verification
 - Probe `/contact` (200, correct SSR title/canonical)
-- Probe a 404 URL (renders not-found, no 500)
+- Probe a 404 URL and assert the HTTP status is a real **404** (not a Not Found page returning 200). The current `src/routes/$.tsx` splat renders the NotFound component with a 200 status, so as part of this step: remove the splat route and register `notFoundComponent` on `__root.tsx` (which returns true 404 status for unmatched URLs), then re-probe.
 - Probe one insight detail page end-to-end (200, Article JSON-LD present)
 - Read runtime/console logs for hydration errors
 - Re-run `bun run build` and `tsc --noEmit`
