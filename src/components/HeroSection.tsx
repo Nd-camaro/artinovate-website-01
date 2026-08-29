@@ -37,8 +37,9 @@ interface CrystallineTermProps {
 
 /**
  * Rotating cyan category term. Between transitions the word is completely
- * static and sharp; changes use a short, controlled per-character
- * crystalline reconfiguration (~190ms out + ~220ms in).
+ * static and sharp; on change it breaks into per-character glass cube
+ * fragments that scatter, then the next term's fragments assemble in
+ * (~260ms out + ~300ms in).
  */
 const CrystallineTerm = ({ active }: CrystallineTermProps) => {
   const [index, setIndex] = useState(0);
@@ -72,15 +73,39 @@ const CrystallineTerm = ({ active }: CrystallineTermProps) => {
         {longest}
       </span>
       <span className="absolute inset-0 whitespace-nowrap" aria-live="polite">
-        {term.split("").map((char, i) => (
-          <span
-            key={`${index}-${i}`}
-            className={`crystal-char ${phase === "out" ? "is-out" : "is-in"}`}
-            style={{ animationDelay: `${i * 14}ms` }}
-          >
-            {char === " " ? "\u00A0" : char}
-          </span>
-        ))}
+        {term.split("").map((char, i) => {
+          const glyph = char === " " ? "\u00A0" : char;
+          return (
+            <span key={`${index}-${i}`} className="glass-char">
+              {/* Invisible glyph reserves the character's exact space */}
+              <span className="invisible">{glyph}</span>
+              {QUADRANTS.map((q, qi) => {
+                const v = fragVariance(i, qi);
+                const dist = 3 + ((i * 3 + qi * 5) % 4); // 3..6px scatter
+                const rot = 10 + ((i * 5 + qi * 7) % 7); // 10..16deg
+                const style = {
+                  "--dx": q.dx * (dist + v),
+                  "--dy": q.dy * (dist - v * 0.5),
+                  "--rx": q.dy * rot,
+                  "--ry": q.dx * -rot,
+                  animationDelay: `${i * 12 + qi * 20}ms`,
+                } as CSSProperties;
+                return (
+                  <span
+                    key={qi}
+                    aria-hidden="true"
+                    className={`glass-frag ${q.cls} ${
+                      phase === "out" ? "is-out" : "is-in"
+                    }`}
+                    style={style}
+                  >
+                    {glyph}
+                  </span>
+                );
+              })}
+            </span>
+          );
+        })}
       </span>
     </span>
   );
