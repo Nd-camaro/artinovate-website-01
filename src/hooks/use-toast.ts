@@ -39,8 +39,7 @@ type Action =
     }
   | {
       type: ActionType["DISMISS_TOAST"];
-      toastId?: string | undefined;
-      toastId?: ToasterToast["id"];
+      toastId?: ToasterToast["id"] | undefined;
     }
   | {
       type: ActionType["REMOVE_TOAST"];
