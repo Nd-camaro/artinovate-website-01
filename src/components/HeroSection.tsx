@@ -2,7 +2,9 @@ import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
-import heroImage from "@/assets/hero-home.jpg";
+import heroLoopWebm from "@/assets/hero-loop.webm.asset.json";
+import heroLoopMp4 from "@/assets/hero-loop.mp4.asset.json";
+import heroPoster from "@/assets/hero-poster.jpg.asset.json";
 import { useScheduling } from "@/contexts/SchedulingContext";
 
 const SESSION_KEY = "artinovate_typewriter_played";
@@ -100,6 +102,105 @@ const Typewriter = ({
   );
 };
 
+/**
+ * Decorative full-bleed hero background.
+ * Poster paints instantly (LCP-safe); the seamless muted loop fades in on top
+ * once it can play. Skipped entirely for reduced-motion / save-data / 2G users.
+ */
+const HeroVideoBackground = () => {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [enableVideo, setEnableVideo] = useState(false);
+  const [videoReady, setVideoReady] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    const connection = (navigator as Navigator & {
+      connection?: { saveData?: boolean; effectiveType?: string };
+    }).connection;
+    const lowBandwidth =
+      connection?.saveData === true ||
+      connection?.effectiveType === "2g" ||
+      connection?.effectiveType === "slow-2g";
+
+    if (prefersReducedMotion || lowBandwidth) return;
+
+    // Attach after first paint so the video never competes with initial render
+    const id = window.requestAnimationFrame(() => setEnableVideo(true));
+    return () => window.cancelAnimationFrame(id);
+  }, []);
+
+  // Pause when off-screen or when the tab is hidden
+  useEffect(() => {
+    if (!enableVideo) return;
+    const el = videoRef.current;
+    if (!el) return;
+
+    const safePlay = () => {
+      const p = el.play();
+      if (p && typeof p.catch === "function") p.catch(() => {});
+    };
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !document.hidden) safePlay();
+        else el.pause();
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(el);
+
+    const onVisibility = () => {
+      if (document.hidden) el.pause();
+      else safePlay();
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+
+    return () => {
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", onVisibility);
+    };
+  }, [enableVideo]);
+
+  return (
+    <>
+      <img
+        src={heroPoster.url}
+        alt="Cyan signal streams flowing through an abstract dark infrastructure structure"
+        className="absolute inset-0 w-full h-full object-cover object-center"
+        fetchPriority="high"
+        decoding="async"
+        width={1280}
+        height={720}
+      />
+      {enableVideo && (
+        <video
+          ref={videoRef}
+          className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-700 ease-out ${
+            videoReady ? "opacity-100" : "opacity-0"
+          }`}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster={heroPoster.url}
+          aria-hidden="true"
+          tabIndex={-1}
+          onCanPlay={() => setVideoReady(true)}
+        >
+          <source src={heroLoopWebm.url} type="video/webm" />
+          <source src={heroLoopMp4.url} type="video/mp4" />
+        </video>
+      )}
+    </>
+  );
+
+};
+
 export function HeroSection() {
   const { openScheduler } = useScheduling();
   const [typewriterActive, setTypewriterActive] = useState(false);
@@ -150,20 +251,13 @@ export function HeroSection() {
       id="hero"
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
-      {/* Hero background image with overlay */}
+      {/* Hero background video underlay with overlay */}
       <div className="absolute inset-0">
-        <img
-          src={heroImage}
-          alt="ArtiNovate autonomous AI digital presence system for Web3 protocols and DeFi funds"
-          className="w-full h-full object-cover object-top"
-          fetchPriority="high"
-          decoding="async"
-          width={1920}
-          height={1080}
-        />
+        <HeroVideoBackground />
         <div className="absolute inset-0 bg-background/40" />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 via-35% to-transparent" />
       </div>
+
 
       {/* Main content */}
       <motion.div
