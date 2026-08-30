@@ -101,11 +101,25 @@ Inbound (decision, not optional): the homepage hero's existing secondary button 
 
 Reuse as-is: `Navigation`, `Footer`, `PageHero`, `CTASection`, `ui/accordion`, `Button` (`hero`/`xl` variants), `useScheduling()`, existing `.section-heading` / `.section-cluster` / `.label-mono` type classes, existing framer-motion `whileInView` pattern.
 
-New, all scoped under `src/components/web3-design/` and used only by this page: `W3ProblemSection`, `W3SystemStack`, `W3FunctionsSection`, `W3AudienceSection`, `W3ApproachSection`, `W3RedesignSection`, `W3ProcessSection`, `W3ProofSection`, `W3FaqSection`. No global CSS or token changes.
+New, all scoped under `src/components/web3-design/` and used only by this page: `W3ProblemSection`, `W3SystemStack`, `W3FunctionsSection`, `W3AudienceSection`, `W3ApproachSection`, `W3RedesignSection`, `W3ProcessSection`, `W3ProofSection`, `W3FaqSection`.
 
-### Brand cyan
+### Brand cyan — global token corrected in this build
 
-`#36F4EE` is the locked ArtiNovate brand cyan. For this build: preserve the existing global token so the rest of the live site is not restyled; use the existing semantic tokens (`text-primary`, `bg-primary`, `border-primary`, `--accent-cyan`) for all UI so the new page stays visually consistent with the current site; use `#36F4EE` only in the newly generated hero artwork as the intended brand cyan. Never hardcode `#0A82CD` or any additional cyan on this page. The global token itself currently resolves to `187 100% 42%` (≈ `#00B0D4`) with a stale comment referencing `#0A82CD` — retuning it to `#36F4EE` is flagged as a separate controlled brand-system task after this page is complete and is explicitly out of scope here.
+`#36F4EE` is the canonical ArtiNovate electric cyan and the global semantic tokens are corrected to it in this same build. `#36F4EE` = `hsl(178 90% 58%)`.
+
+Tokens changed in `src/styles.css` only (single source of truth — no per-component hexes):
+
+- `:root` → `--primary`, `--accent`, `--ring`, `--accent-cyan`, `--electric-cyan`: `187 100% 42%` → `178 90% 58%`
+- `.dark` mirror → `--primary`, `--accent`, `--ring`: same change
+- `--gradient-glow` and `--gradient-path`: replace the `187 100% 42%` stop with `178 90% 58%`
+- Foreground pairings re-checked: `--primary-foreground` moves from white to a dark value (`0 0% 4%`) since `#36F4EE` is a light cyan and white text on it fails contrast; `--accent-foreground` already dark, unchanged
+- Stale comments referencing `#0A82CD` and `#00bdd6` corrected to `#36F4EE`
+
+Everything else — components, `text-primary`, `bg-primary`, `border-primary`, `.text-gradient`, `.path-glow`, `.btn-glow`, the crystalline glass-cube text shadows — inherits automatically. Any component that looks wrong after the change is fixed through the semantic system, never by restoring the old hue. The new pillar page uses the same tokens; `#36F4EE` appears literally only inside the generated hero artwork.
+
+### Visual regression pass (required after the token change)
+
+Playwright screenshots at 375px and 1280px for: `/`, `/web3-website-design`, `/about`, `/contact`, `/insights`, and one insight detail page. Each pass inspects buttons (primary/hero/secondary), links and hover states, keyboard focus rings, borders and card surfaces, hero accents and connector lines, the crystalline rotating-term animation, the scheduling modal, and the chat-widget launcher styling the site controls. Contrast re-verified: cyan-on-dark for accents and links, and dark-on-cyan for filled buttons, each ≥4.5:1 for text.
 
 ### Hero visual
 
@@ -113,15 +127,17 @@ One new generated asset, wide cinematic, in the locked ArtiNovate visual languag
 
 ## 16. Proof strategy
 
-Audit result: the project contains no client logos, testimonials, case studies, metrics or award claims anywhere in the codebase — so none can be used. The proof section will be demonstration proof, explicitly framed as such:
+Audit result: the project contains no client logos, testimonials, case studies, metrics or award claims anywhere in the codebase — so none can be used. The proof section will be demonstration proof, explicitly framed as such. It may truthfully reference:
 
-- This website as the working artifact — server-rendered, fast, publishing continuously, engaging via the assistant, capturing via the strategy-call flow.
-- The published insight library as evidence of the publishing system operating (link to `/insights`, no traffic or ranking claims).
-- System architecture transparency — what gets built and how the three functions connect.
-- The live assistant as an interactive demonstration.
+- The live server-rendered website as the working artifact.
+- The actively running Publish system — publishing continuously (Publish is live today, so this claim stays).
+- The published insight library (link to `/insights`).
+- The live Engage assistant as an interactive demonstration.
+- The strategy-call Capture flow.
+- The visible Publish / Engage / Capture architecture — what gets built and how the three functions connect.
 - A short honest line distinguishing demonstration proof from client case studies.
 
-No invented clients, results, conversion rates, traffic figures, team size or experience claims.
+No traffic, ranking, revenue or conversion claims. No invented clients, results, team size or experience claims.
 
 ## 17. Mobile / responsive
 
@@ -143,6 +159,9 @@ Static hero image (no video) with explicit width/height and `fetchPriority="high
 - New hero asset in `src/assets/`
 - `src/components/HeroSection.tsx` — relabel the existing secondary hero button to `Explore Our Services` and point it at `/web3-website-design` via `<Link>`; global navigation is untouched
 - `src/pages/About.tsx` — one contextual internal link
+- `src/styles.css` — global cyan token correction to `#36F4EE` (`178 90% 58%`) plus comment cleanup
+- `src/routes/index.tsx` — homepage title, description, og/twitter and Service JSON-LD repositioned to AI-powered digital presence
+- `src/routes/__root.tsx` — sitewide default title/description updated to the brand-level wording; Organization entity and `@id` unchanged
 - `scripts/generate-sitemap.mjs` — add the new static route
 - `src/routeTree.gen.ts` regenerates automatically
 
@@ -154,20 +173,22 @@ Static hero image (no video) with explicit width/height and `fetchPriority="high
 - Cannibalization with the homepage — internal linking alone does not resolve it; see the intent-separation section below.
 - Pricing sensitivity — the $5,000 line stays a starting point in copy and is excluded from schema.
 
-## 21b. Homepage vs pillar intent separation (recommendation, not implemented now)
+## 21b. Homepage vs pillar intent separation (implemented in this build)
 
-Today both URLs point at the same commercial phrase: the homepage title is `Web3 Website Design Agency | ArtiNovate` and the pillar was proposed as `Web3 Website Design & Redesign Agency | ArtiNovate`. Two pages with near-identical titles and the same buyer intent compete in the same SERP and split link equity — Google picks one, usually the homepage, and the dedicated page never becomes the destination.
+Two pages targeting the same commercial phrase compete in the same SERP and split link equity — Google picks one, usually the homepage, and the dedicated page never becomes the destination. So the separation ships together with the pillar page:
 
-Target end state:
+- `/web3-website-design` — the dedicated commercial destination for service intent: Web3 website design, Web3 design agency, website development, redesign, crypto web design. Title, description and Service schema as specified in sections 2–5 and 13. This remains the only page optimized for those service terms.
+- Homepage — the broader ArtiNovate brand and AI-powered digital-presence entry point. Not positioned as a marketing agency or any other category mismatch, even where volume exists.
 
-- `/web3-website-design` — the dedicated commercial destination. Service intent: design, build, redesign. Owns `web3 website design`, `web3 design agency`, `crypto web design agency`, `blockchain website design`, `web3 website development`, redesign language. Title as revised above (drops "Redesign Agency", leads with the exact-match phrase plus the primary volume term).
-- Homepage — brand and system entry point. Owns the ArtiNovate brand, the AI-powered digital-presence story, and the Publish / Engage / Capture system. It is intentionally not positioned as a marketing agency or any other category mismatch, even if those terms carry volume.
+Homepage changes in `src/routes/index.tsx` (metadata and schema only — hero copy, layout, animations and all visible sections untouched apart from the already-agreed secondary-button relabel):
 
-Recommended future homepage change, flagged for separate approval and **not** part of this implementation: retitle the homepage to something like `AI-Powered Digital Presence for Web3 | ArtiNovate` and shift its meta description off "Web3 website design" onto the Publish / Engage / Capture system, leaving the service phrase entirely to the pillar. Homepage Service JSON-LD would follow (`Digital Presence System` rather than `Premium Web3 Website Design`). Until you approve that, homepage metadata stays exactly as it is and the two pages are separated only by title wording, page intent and one-directional linking — an interim state, not the fix.
+- Title: `AI-Powered Digital Presence for Web3 | ArtiNovate`
+- Meta description: `AI-powered digital presence for Web3 and digital asset companies. ArtiNovate helps firms publish expertise, engage visitors and capture qualified intent.`
+- `og:title`, `og:description`, `twitter:title`, `twitter:description` mirror the above
+- Service JSON-LD renamed to `AI-Powered Digital Presence`, description: `ArtiNovate builds AI-powered digital presence systems for Web3 and digital asset companies that publish expertise, engage visitors and capture qualified intent.`
+- Canonical, og:image, favicon handling and the Organization entity + `@id` in `__root.tsx` all unchanged
 
-### Brand cyan token discrepancy
-
-Flagged as a separate brand-system issue to resolve after this page build, not during it: you have locked the ArtiNovate electric cyan at `#36F4EE`, while the current global CSS token (`--primary` / `--accent` / `--accent-cyan`) resolves to a different hue and its comment references `#0A82CD`. Retuning the token to `#36F4EE` would restyle the entire site, so it is intentionally excluded from this implementation. The new page will inherit the existing token and stay visually consistent with the rest of the site; the generated hero image will use `#36F4EE` as its light source, which remains legible and on-brand over the dark background regardless of the current token value.
+`src/routes/__root.tsx` currently carries the same old website-design title/description as sitewide defaults; those defaults are updated to the new brand-level wording so no stale "Web3 Website Design Agency" string remains as a fallback. Leaf routes keep their own metadata.
 
 ## 22. Verification checklist
 
@@ -183,4 +204,6 @@ Flagged as a separate brand-system issue to resolve after this page build, not d
 10. Keyboard pass: focus visible through nav, CTAs and accordion.
 11. `bun run build` and typecheck pass with zero errors.
 12. Homepage hero secondary button reads `Explore Our Services` and navigates to `/web3-website-design` through TanStack routing (client-side, scrolls to top); About link renders and points to the new page.
-13. No fabricated proof anywhere in the final copy.
+13. No fabricated proof anywhere in the final copy (Publish-live, insight library, Engage assistant and Capture flow are all verified as actually live before being referenced).
+14. Homepage raw SSR HTML shows the new brand-level title, description, og/twitter and the repositioned Service JSON-LD; one canonical, one Organization block with the unchanged `@id`; no "Web3 Website Design Agency" string remains on `/` or in root defaults.
+15. Cyan token migration: no remaining `187 100% 42%` or `#0A82CD` references in `src/styles.css`; Playwright regression pass at 375px and 1280px over `/`, `/web3-website-design`, `/about`, `/contact`, `/insights` and one insight detail page; buttons, links, focus rings, borders, cards, hero accents, crystalline animation, scheduling modal and chat launcher all visually correct; text contrast ≥4.5:1 for cyan-on-dark and dark-on-cyan.
