@@ -67,6 +67,16 @@ export default function About() {
               <h2 className="section-heading mb-8">
                 Digital presence is operational infrastructure
               </h2>
+              <p className="text-lg text-muted-foreground mb-8">
+                That principle shapes our{" "}
+                <Link
+                  to="/web3-website-design"
+                  className="text-primary underline underline-offset-4 hover:text-primary/80"
+                >
+                  Web3 website design
+                </Link>{" "}
+                work, where the site is built as a system rather than a static artifact.
+              </p>
             </motion.div>
 
             <div className="grid md:grid-cols-2 gap-6 max-w-4xl">
