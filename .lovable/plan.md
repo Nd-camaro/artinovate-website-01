@@ -101,11 +101,25 @@ Inbound (decision, not optional): the homepage hero's existing secondary button 
 
 Reuse as-is: `Navigation`, `Footer`, `PageHero`, `CTASection`, `ui/accordion`, `Button` (`hero`/`xl` variants), `useScheduling()`, existing `.section-heading` / `.section-cluster` / `.label-mono` type classes, existing framer-motion `whileInView` pattern.
 
-New, all scoped under `src/components/web3-design/` and used only by this page: `W3ProblemSection`, `W3SystemStack`, `W3FunctionsSection`, `W3AudienceSection`, `W3ApproachSection`, `W3RedesignSection`, `W3ProcessSection`, `W3ProofSection`, `W3FaqSection`. No global CSS or token changes.
+New, all scoped under `src/components/web3-design/` and used only by this page: `W3ProblemSection`, `W3SystemStack`, `W3FunctionsSection`, `W3AudienceSection`, `W3ApproachSection`, `W3RedesignSection`, `W3ProcessSection`, `W3ProofSection`, `W3FaqSection`.
 
-### Brand cyan
+### Brand cyan — global token corrected in this build
 
-`#36F4EE` is the locked ArtiNovate brand cyan. For this build: preserve the existing global token so the rest of the live site is not restyled; use the existing semantic tokens (`text-primary`, `bg-primary`, `border-primary`, `--accent-cyan`) for all UI so the new page stays visually consistent with the current site; use `#36F4EE` only in the newly generated hero artwork as the intended brand cyan. Never hardcode `#0A82CD` or any additional cyan on this page. The global token itself currently resolves to `187 100% 42%` (≈ `#00B0D4`) with a stale comment referencing `#0A82CD` — retuning it to `#36F4EE` is flagged as a separate controlled brand-system task after this page is complete and is explicitly out of scope here.
+`#36F4EE` is the canonical ArtiNovate electric cyan and the global semantic tokens are corrected to it in this same build. `#36F4EE` = `hsl(178 90% 58%)`.
+
+Tokens changed in `src/styles.css` only (single source of truth — no per-component hexes):
+
+- `:root` → `--primary`, `--accent`, `--ring`, `--accent-cyan`, `--electric-cyan`: `187 100% 42%` → `178 90% 58%`
+- `.dark` mirror → `--primary`, `--accent`, `--ring`: same change
+- `--gradient-glow` and `--gradient-path`: replace the `187 100% 42%` stop with `178 90% 58%`
+- Foreground pairings re-checked: `--primary-foreground` moves from white to a dark value (`0 0% 4%`) since `#36F4EE` is a light cyan and white text on it fails contrast; `--accent-foreground` already dark, unchanged
+- Stale comments referencing `#0A82CD` and `#00bdd6` corrected to `#36F4EE`
+
+Everything else — components, `text-primary`, `bg-primary`, `border-primary`, `.text-gradient`, `.path-glow`, `.btn-glow`, the crystalline glass-cube text shadows — inherits automatically. Any component that looks wrong after the change is fixed through the semantic system, never by restoring the old hue. The new pillar page uses the same tokens; `#36F4EE` appears literally only inside the generated hero artwork.
+
+### Visual regression pass (required after the token change)
+
+Playwright screenshots at 375px and 1280px for: `/`, `/web3-website-design`, `/about`, `/contact`, `/insights`, and one insight detail page. Each pass inspects buttons (primary/hero/secondary), links and hover states, keyboard focus rings, borders and card surfaces, hero accents and connector lines, the crystalline rotating-term animation, the scheduling modal, and the chat-widget launcher styling the site controls. Contrast re-verified: cyan-on-dark for accents and links, and dark-on-cyan for filled buttons, each ≥4.5:1 for text.
 
 ### Hero visual
 
