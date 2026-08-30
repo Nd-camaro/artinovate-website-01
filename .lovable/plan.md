@@ -2,28 +2,57 @@
 
 A new flagship page at `/web3-website-design` that captures buyer-intent search for Web3 website design and redesign, then reframes the buyer toward ArtiNovate's Publish / Engage / Capture model. Built on the existing TanStack Start SSR architecture and the locked ArtiNovate visual system. No redesign of existing pages.
 
-## 1. Search intent and keyword strategy
+## 1. Search intent and keyword strategy (validated with Semrush, US database, this turn)
 
 Intent: commercial investigation — a Web3, digital asset, tokenization, DeFi or fintech company deciding who should build or rebuild their website.
 
-- Primary: web3 website design, web3 website design agency
-- Supporting: web3 web design agency, web3 website development, web3 website redesign, digital asset website design, tokenization website design, DeFi website design
+Semrush data (database: `us`; volume = estimated monthly searches; KD = keyword difficulty; intent inferred from term wording, Semrush intent labels are not exposed through the built-in tools):
 
-US volume on the exact head term is low (Semrush: ~10/mo, KD 0, CPC $3.99), so the page is planned as a low-competition, high-value capture page plus the cluster hub — not a volume play. Its commercial value comes from intent quality and from consolidating the existing 30+ Web3/AI insight articles into one pillar. Supporting terms are covered through natural section language (redesign section, audience section, FAQ), never as repeated exact-match blocks.
+| Keyword | Volume | KD | CPC | Intent |
+|---|---|---|---|---|
+| web3 design agency | 140/mo | 2 | $0 | commercial |
+| crypto web design agency | 110/mo | 17 | $0 | commercial |
+| crypto web design | 40/mo | 50 | $0 | commercial |
+| crypto website design | 30/mo | 0 | $0 | commercial |
+| blockchain website design | 30/mo | 0 | $0 | commercial |
+| web3 website development | 30/mo | 0 | $0 | commercial |
+| web3 web design agency | 20/mo | 0 | $0 | commercial |
+| blockchain web design agency | 20/mo | 0 | $0 | commercial |
+| crypto website development | 20/mo | 0 | $0 | commercial |
+| web3 website design | 10/mo | 0 | $3.99 | commercial |
+| web3 website design agency | 10/mo | 0 | $0 | commercial |
+| digital asset website design | 0/mo | 0 | $0 | commercial |
+| web3 website redesign | no data | — | — | — |
+| tokenization website design | no data | — | — | — |
+| defi website design | no data | — | — | — |
+
+Adjacent head terms checked for context: web3 development company 720/mo KD 17, web3 marketing agency 720/mo KD 14, web3 agency 260/mo KD 18.
+
+Stated limitations: the built-in Semrush tools return volume, CPC, competition and KD only — they do not expose Semrush's intent classification or close-variant lists for these terms. `serp_analysis` for "web3 website design" returned no SERP data (volume too low to be tracked), so no ranking-competitor list is available for the exact head term. Three terms above have no data at all in the US database; treat them as effectively zero-volume and use them only as on-page semantic language, never as targets.
+
+**Revised targeting decision (data-led, not plan-led):**
+
+- Primary target: **web3 design agency** (140/mo, KD 2) — the highest-volume, lowest-difficulty commercially-intended term in the cluster.
+- Co-primary exact-match: **web3 website design** — near-zero volume but the highest commercial signal in the set (only term with a real CPC, $3.99) and the phrase buyers type when they specifically want a site built. It stays in the H1 and URL.
+- Strong supporting: crypto web design agency, crypto website design, blockchain website design, web3 website development, web3 web design agency, blockchain web design agency, crypto website development.
+- Semantic-only (no measurable volume): web3 website redesign, tokenization website design, DeFi website design, digital asset website design. Covered through natural section language (redesign section, audience section, FAQ) — never as repeated exact-match blocks.
+
+The whole cluster is low-volume and very low-difficulty, so this remains a high-intent capture page and cluster hub rather than a volume play. Its commercial value is intent quality plus consolidating the existing 30+ Web3/AI insight articles.
 
 ## 2–5. URL, metadata, H1
 
-- URL: `https://www.artinovate.com/web3-website-design`
-- SEO title (57 chars): `Web3 Website Design & Redesign Agency | ArtiNovate`
+- URL: `https://www.artinovate.com/web3-website-design` (unchanged — matches the exact-match commercial phrase and reads cleanly)
+- SEO title (58 chars): `Web3 Website Design & Web3 Design Agency | ArtiNovate` — leads with the exact-match phrase, carries the highest-volume primary term, and no longer duplicates the homepage title pattern
 - Meta description (154 chars): `Premium Web3 website design and redesign for digital asset, tokenization, DeFi and fintech companies — sites that publish, engage visitors and capture intent.`
 - H1: `Web3 Website Design for Companies That Have Outgrown a Static Site`
 - Canonical: self-referencing, leaf route only. og:url matches.
+
 
 ## 6–10. Section architecture
 
 Each section answers one buyer question, in narrative order.
 
-**1. Hero** — Category positioning. Label `WEB3 WEBSITE DESIGN`, H1 as above, one-line support: ArtiNovate designs premium Web3 websites that operate as digital presence systems — they publish expertise, engage visitors and capture qualified intent. Primary CTA `Book a strategy call` (opens the existing scheduling modal), secondary `See how it works` (anchor scroll to the system section). Visual: existing `PageHero` pattern with a new abstract architectural still (dark structural forms, cyan signal pathways) — image, not video, to protect LCP. Motion: the existing fade/rise sequence only.
+**1. Hero** — Category positioning. Label `WEB3 WEBSITE DESIGN`, H1 as above, one-line support: ArtiNovate designs premium Web3 websites that operate as digital presence systems — they publish expertise, engage visitors and capture qualified intent. Primary CTA `Book a strategy call` (opens the existing scheduling modal), secondary `See how it works` (anchor scroll to the system section). Visual: existing `PageHero` pattern with a newly generated cinematic hero still (see "Hero visual" below) — image, not video, to protect LCP. Motion: the existing fade/rise sequence only.
 
 **2. Buyer problem — "Websites go stale the moment they launch"** — Commercially grounded: strategy shifts, products evolve, regulation moves, founder expertise gets published on other platforms, visitors leave with unanswered questions, high-intent traffic lands on static pages with weak conversion paths, the site stops reflecting how sophisticated the company has become. Three to four short cards, no prose walls. Visual: existing `ProblemSection` card language — bordered dark surfaces, muted copy, one cyan accent per card.
 
@@ -72,7 +101,15 @@ Inbound: add one contextual link from the homepage (inside `CoreFunctionsSection
 
 Reuse as-is: `Navigation`, `Footer`, `PageHero`, `CTASection`, `ui/accordion`, `Button` (`hero`/`xl` variants), `useScheduling()`, existing `.section-heading` / `.section-cluster` / `.label-mono` type classes, existing framer-motion `whileInView` pattern.
 
-New, all scoped under `src/components/web3-design/` and used only by this page: `W3ProblemSection`, `W3SystemStack`, `W3FunctionsSection`, `W3AudienceSection`, `W3ApproachSection`, `W3RedesignSection`, `W3ProcessSection`, `W3ProofSection`, `W3FaqSection`. No global CSS or token changes; one new hero image asset generated in the locked visual language (abstract architectural forms, cyan signal pathways — no coins, nodes, robots or people).
+New, all scoped under `src/components/web3-design/` and used only by this page: `W3ProblemSection`, `W3SystemStack`, `W3FunctionsSection`, `W3AudienceSection`, `W3ApproachSection`, `W3RedesignSection`, `W3ProcessSection`, `W3ProofSection`, `W3FaqSection`. No global CSS or token changes.
+
+### Brand cyan
+
+Every cyan on this page comes from the existing semantic tokens — `text-primary`, `bg-primary`, `border-primary`, `--accent-cyan` — never a hardcoded hex. Noted discrepancy for your call, flagged not changed: the token in `src/styles.css` is currently `--primary: 187 100% 42%` (≈ `#00B0D4`) and its comment reads "Accent Cyan - Unified accent color #0A82CD", while you state the brand cyan is `#36F4EE`. Retuning the global token to `#36F4EE` would restyle the whole site, so it is out of scope here; this page will simply inherit whatever the token holds, staying visually consistent either way. The generated hero image uses `#36F4EE` as its light source, which reads correctly over the dark background regardless.
+
+### Hero visual
+
+One new generated asset, wide cinematic, in the locked ArtiNovate visual language: a dark architectural digital environment of monolithic charcoal cubic forms, modular planes, matte-black and dark-anodized surfaces, with controlled electric-cyan `#36F4EE` signal pathways flowing through and beneath a refined website-like front structure — implying the visible site is only the surface of a deeper system that publishes, engages and captures. Composition weighted center-right/right with strong negative space for the headline, restrained low-key cinematic lighting, subtle smoked-glass depth, premium material realism, institutional high-trust mood. Excluded: people, robots, coins, blockchain symbols, dashboards, UI screenshots, network-node clichés, cyberpunk styling, blue-purple gradients, text, logos, watermarks. Saved to `src/assets/`, imported directly, descriptive alt text.
 
 ## 16. Proof strategy
 
@@ -115,7 +152,18 @@ Static hero image (no video) with explicit width/height and `fetchPriority="high
 - Thin-page risk if copy stays generic — mitigated by the approach and redesign sections carrying real expertise.
 - FAQPage schema misuse — only added if answers are fully visible on-page.
 - Nav crowding at five items on mobile — verified at 375px before shipping.
-- Cannibalization with the homepage, which now targets "Web3 website design agency" — resolved by keeping the homepage brand/system-led and this page service/buyer-led, with distinct titles and one-directional internal linking.
+- Cannibalization with the homepage — internal linking alone does not resolve it; see the intent-separation section below.
+
+## 21b. Homepage vs pillar intent separation (recommendation, not implemented now)
+
+Today both URLs point at the same commercial phrase: the homepage title is `Web3 Website Design Agency | ArtiNovate` and the pillar was proposed as `Web3 Website Design & Redesign Agency | ArtiNovate`. Two pages with near-identical titles and the same buyer intent compete in the same SERP and split link equity — Google picks one, usually the homepage, and the dedicated page never becomes the destination.
+
+Target end state:
+
+- `/web3-website-design` — the dedicated commercial destination. Service intent: design, build, redesign. Owns `web3 website design`, `web3 design agency`, `crypto web design agency`, `blockchain website design`, `web3 website development`, redesign language. Title as revised above (drops "Redesign Agency", leads with the exact-match phrase plus the primary volume term).
+- Homepage — brand and system entry point. Owns `artinovate`, `web3 agency` (260/mo, KD 18), `web3 marketing agency` (720/mo, KD 14) and the AI-powered digital-presence story, not the "website design agency" service phrase.
+
+Recommended future homepage change, flagged for separate approval and **not** part of this implementation: retitle the homepage to something like `AI-Powered Digital Presence for Web3 | ArtiNovate` and shift its meta description off "Web3 website design" onto the Publish / Engage / Capture system, leaving the service phrase entirely to the pillar. Homepage Service JSON-LD would follow (`Digital Presence System` rather than `Premium Web3 Website Design`). Until you approve that, homepage metadata stays exactly as it is and the two pages are separated only by title wording, page intent and one-directional linking — an interim state, not the fix.
 - Pricing sensitivity — the $5,000 line stays a starting point in copy and is excluded from schema.
 
 ## 22. Verification checklist
