@@ -119,9 +119,9 @@
   --popover: 0 0% 7%;
   --popover-foreground: 0 0% 95%;
 
-  /* Accent Cyan - Unified accent color #0A82CD */
-  --primary: 187 100% 42%;
-  --primary-foreground: 0 0% 100%;
+  /* Accent Cyan - Unified accent color #36F4EE */
+  --primary: 178 90% 58%;
+  --primary-foreground: 0 0% 4%;
 
   /* Graphite Grey - Secondary */
   --secondary: 0 0% 12%;
@@ -132,7 +132,7 @@
   --muted-foreground: 0 0% 55%;
 
   /* Accent Cyan - Same as primary for unified system */
-  --accent: 187 100% 42%;
+  --accent: 178 90% 58%;
   --accent-foreground: 0 0% 4%;
 
   --destructive: 0 84.2% 60.2%;
@@ -140,20 +140,20 @@
 
   --border: 0 0% 15%;
   --input: 0 0% 15%;
-  --ring: 187 100% 42%;
+  --ring: 178 90% 58%;
 
   --radius: 0.5rem;
 
-  /* Custom ArtiNovate tokens - Unified Accent Cyan #00bdd6 */
+  /* Custom ArtiNovate tokens - Unified Accent Cyan #36F4EE */
   --carbon: 0 0% 4%;
   --graphite: 0 0% 10%;
   --graphite-light: 0 0% 14%;
-  --accent-cyan: 187 100% 42%;
+  --accent-cyan: 178 90% 58%;
   --pale-grey: 0 0% 85%;
 
   /* Gradient definitions - Single accent color */
-  --gradient-glow: linear-gradient(135deg, hsl(216 100% 50% / 0.2), hsl(187 100% 42% / 0.2));
-  --gradient-path: linear-gradient(180deg, hsl(216 100% 50%), hsl(187 100% 42%));
+  --gradient-glow: linear-gradient(135deg, hsl(216 100% 50% / 0.2), hsl(178 90% 58% / 0.2));
+  --gradient-path: linear-gradient(180deg, hsl(216 100% 50%), hsl(178 90% 58%));
   --gradient-card: linear-gradient(145deg, hsl(0 0% 10%), hsl(0 0% 7%));
 
   /* Shadows - Unified accent */
@@ -169,7 +169,7 @@
   --sidebar-border: 0 0% 15%;
   --sidebar-ring: 216 100% 50%;
   --signal-blue: 216 100% 50%;
-  --electric-cyan: 187 100% 42%;
+  --electric-cyan: 178 90% 58%;
 }
 
 /* The site is dark-only; mirror tokens under .dark for any dark: utilities. */
@@ -180,19 +180,19 @@
   --card-foreground: 0 0% 95%;
   --popover: 0 0% 7%;
   --popover-foreground: 0 0% 95%;
-  --primary: 187 100% 42%;
-  --primary-foreground: 0 0% 100%;
+  --primary: 178 90% 58%;
+  --primary-foreground: 0 0% 4%;
   --secondary: 0 0% 12%;
   --secondary-foreground: 0 0% 85%;
   --muted: 0 0% 10%;
   --muted-foreground: 0 0% 55%;
-  --accent: 187 100% 42%;
+  --accent: 178 90% 58%;
   --accent-foreground: 0 0% 4%;
   --destructive: 0 84.2% 60.2%;
   --destructive-foreground: 0 0% 100%;
   --border: 0 0% 15%;
   --input: 0 0% 15%;
-  --ring: 187 100% 42%;
+  --ring: 178 90% 58%;
 }
 
 @layer base {
