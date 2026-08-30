@@ -101,7 +101,15 @@ Inbound: add one contextual link from the homepage (inside `CoreFunctionsSection
 
 Reuse as-is: `Navigation`, `Footer`, `PageHero`, `CTASection`, `ui/accordion`, `Button` (`hero`/`xl` variants), `useScheduling()`, existing `.section-heading` / `.section-cluster` / `.label-mono` type classes, existing framer-motion `whileInView` pattern.
 
-New, all scoped under `src/components/web3-design/` and used only by this page: `W3ProblemSection`, `W3SystemStack`, `W3FunctionsSection`, `W3AudienceSection`, `W3ApproachSection`, `W3RedesignSection`, `W3ProcessSection`, `W3ProofSection`, `W3FaqSection`. No global CSS or token changes; one new hero image asset generated in the locked visual language (abstract architectural forms, cyan signal pathways — no coins, nodes, robots or people).
+New, all scoped under `src/components/web3-design/` and used only by this page: `W3ProblemSection`, `W3SystemStack`, `W3FunctionsSection`, `W3AudienceSection`, `W3ApproachSection`, `W3RedesignSection`, `W3ProcessSection`, `W3ProofSection`, `W3FaqSection`. No global CSS or token changes.
+
+### Brand cyan
+
+Every cyan on this page comes from the existing semantic tokens — `text-primary`, `bg-primary`, `border-primary`, `--accent-cyan` — never a hardcoded hex. Noted discrepancy for your call, flagged not changed: the token in `src/styles.css` is currently `--primary: 187 100% 42%` (≈ `#00B0D4`) and its comment reads "Accent Cyan - Unified accent color #0A82CD", while you state the brand cyan is `#36F4EE`. Retuning the global token to `#36F4EE` would restyle the whole site, so it is out of scope here; this page will simply inherit whatever the token holds, staying visually consistent either way. The generated hero image uses `#36F4EE` as its light source, which reads correctly over the dark background regardless.
+
+### Hero visual
+
+One new generated asset, wide cinematic, in the locked ArtiNovate visual language: a dark architectural digital environment of monolithic charcoal cubic forms, modular planes, matte-black and dark-anodized surfaces, with controlled electric-cyan `#36F4EE` signal pathways flowing through and beneath a refined website-like front structure — implying the visible site is only the surface of a deeper system that publishes, engages and captures. Composition weighted center-right/right with strong negative space for the headline, restrained low-key cinematic lighting, subtle smoked-glass depth, premium material realism, institutional high-trust mood. Excluded: people, robots, coins, blockchain symbols, dashboards, UI screenshots, network-node clichés, cyberpunk styling, blue-purple gradients, text, logos, watermarks. Saved to `src/assets/`, imported directly, descriptive alt text.
 
 ## 16. Proof strategy
 
