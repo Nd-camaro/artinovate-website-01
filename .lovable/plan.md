@@ -153,6 +153,7 @@ Static hero image (no video) with explicit width/height and `fetchPriority="high
 - FAQPage schema misuse — only added if answers are fully visible on-page.
 - Nav crowding at five items on mobile — verified at 375px before shipping.
 - Cannibalization with the homepage — internal linking alone does not resolve it; see the intent-separation section below.
+- Pricing sensitivity — the $5,000 line stays a starting point in copy and is excluded from schema.
 
 ## 21b. Homepage vs pillar intent separation (recommendation, not implemented now)
 
