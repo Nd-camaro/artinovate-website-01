@@ -159,6 +159,9 @@ Static hero image (no video) with explicit width/height and `fetchPriority="high
 - New hero asset in `src/assets/`
 - `src/components/HeroSection.tsx` — relabel the existing secondary hero button to `Explore Our Services` and point it at `/web3-website-design` via `<Link>`; global navigation is untouched
 - `src/pages/About.tsx` — one contextual internal link
+- `src/styles.css` — global cyan token correction to `#36F4EE` (`178 90% 58%`) plus comment cleanup
+- `src/routes/index.tsx` — homepage title, description, og/twitter and Service JSON-LD repositioned to AI-powered digital presence
+- `src/routes/__root.tsx` — sitewide default title/description updated to the brand-level wording; Organization entity and `@id` unchanged
 - `scripts/generate-sitemap.mjs` — add the new static route
 - `src/routeTree.gen.ts` regenerates automatically
 
