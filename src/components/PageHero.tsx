@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
+import type { ReactNode } from "react";
 
 interface PageHeroProps {
   image: string;
@@ -8,9 +9,10 @@ interface PageHeroProps {
   headline: string;
   subheading?: string;
   scrollTarget?: string;
+  actions?: ReactNode;
 }
 
-export function PageHero({ image, imageAlt, label, headline, subheading, scrollTarget }: PageHeroProps) {
+export function PageHero({ image, imageAlt, label, headline, subheading, scrollTarget, actions }: PageHeroProps) {
   return (
     <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
       {/* Hero background image with overlay */}
@@ -64,6 +66,17 @@ export function PageHero({ image, imageAlt, label, headline, subheading, scrollT
             >
               {subheading}
             </motion.p>
+          )}
+
+          {actions && (
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.65, duration: 0.5 }}
+              className="mt-10 flex flex-col sm:flex-row items-start gap-4"
+            >
+              {actions}
+            </motion.div>
           )}
         </div>
       </div>
