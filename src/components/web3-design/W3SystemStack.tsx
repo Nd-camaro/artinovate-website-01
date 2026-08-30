@@ -66,6 +66,16 @@ export function W3SystemStack() {
             ))}
           </div>
         </div>
+
+        <div className="text-center mt-16">
+          <Link
+            to="/insights/$slug"
+            params={{ slug: "what-is-ai-content-engine-vs-blog" }}
+            className="text-primary underline underline-offset-4 hover:text-primary/80"
+          >
+            Read the insight: What an AI content engine actually is
+          </Link>
+        </div>
       </div>
     </section>
   );

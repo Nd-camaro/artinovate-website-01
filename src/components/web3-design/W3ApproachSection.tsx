@@ -37,15 +37,7 @@ export function W3ApproachSection() {
             Why Web3 website design requires a different approach
           </h2>
           <p className="text-lg text-muted-foreground mt-6">
-            The constraints are not the same as a standard corporate site. See also our note on{" "}
-            <Link
-              to="/insights/$slug"
-              params={{ slug: "credibility-architecture-building-institutional-trust-web3" }}
-              className="text-primary underline underline-offset-4 hover:text-primary/80"
-            >
-              credibility architecture
-            </Link>
-            .
+            The constraints are not the same as a standard corporate site.
           </p>
         </div>
 
