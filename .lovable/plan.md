@@ -204,4 +204,6 @@ Homepage changes in `src/routes/index.tsx` (metadata and schema only — hero co
 10. Keyboard pass: focus visible through nav, CTAs and accordion.
 11. `bun run build` and typecheck pass with zero errors.
 12. Homepage hero secondary button reads `Explore Our Services` and navigates to `/web3-website-design` through TanStack routing (client-side, scrolls to top); About link renders and points to the new page.
-13. No fabricated proof anywhere in the final copy.
+13. No fabricated proof anywhere in the final copy (Publish-live, insight library, Engage assistant and Capture flow are all verified as actually live before being referenced).
+14. Homepage raw SSR HTML shows the new brand-level title, description, og/twitter and the repositioned Service JSON-LD; one canonical, one Organization block with the unchanged `@id`; no "Web3 Website Design Agency" string remains on `/` or in root defaults.
+15. Cyan token migration: no remaining `187 100% 42%` or `#0A82CD` references in `src/styles.css`; Playwright regression pass at 375px and 1280px over `/`, `/web3-website-design`, `/about`, `/contact`, `/insights` and one insight detail page; buttons, links, focus rings, borders, cards, hero accents, crystalline animation, scheduling modal and chat launcher all visually correct; text contrast ≥4.5:1 for cyan-on-dark and dark-on-cyan.
