@@ -129,7 +129,7 @@ Single column below `md`; multi-column grids collapse in source order. Hero H1 s
 
 ## 18. Accessibility
 
-One H1, then a clean H2 per section and H3 for sub-items. Semantic `section` with `aria-labelledby`. Accordion uses the existing accessible Radix primitive. Contrast: white/muted text on `#0B0D10`/`#161A20` verified ≥4.5:1; cyan `#0A82CD` used for accents and links, never as small body text on dark without a contrast check. Visible keyboard focus retained. Every `whileInView` animation respects `prefers-reduced-motion`. Hero image has descriptive alt; decorative diagram elements `aria-hidden`.
+One H1, then a clean H2 per section and H3 for sub-items. Semantic `section` with `aria-labelledby`. Accordion uses the existing accessible Radix primitive. Contrast: white/muted text on `#0B0D10`/`#161A20` verified ≥4.5:1; cyan from the existing semantic tokens used for accents and links, never as small body text on dark without a contrast check. Visible keyboard focus retained. Every `whileInView` animation respects `prefers-reduced-motion`. Hero image has descriptive alt; decorative diagram elements `aria-hidden`.
 
 ## 19. Performance / Core Web Vitals
 
@@ -141,8 +141,7 @@ Static hero image (no video) with explicit width/height and `fetchPriority="high
 - New `src/pages/Web3WebsiteDesign.tsx` — page composition
 - New `src/components/web3-design/*.tsx` — nine section components
 - New hero asset in `src/assets/`
-- `src/components/Navigation.tsx` — new nav item (pending your approval)
-- `src/pages/Index.tsx` or `CoreFunctionsSection.tsx` — one contextual internal link
+- `src/components/HeroSection.tsx` — relabel the existing secondary hero button to `Explore Our Services` and point it at `/web3-website-design` via `<Link>`; global navigation is untouched
 - `src/pages/About.tsx` — one contextual internal link
 - `scripts/generate-sitemap.mjs` — add the new static route
 - `src/routeTree.gen.ts` regenerates automatically
