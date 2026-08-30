@@ -4,15 +4,15 @@ Three scoped tasks. No redesign, no SEO/schema/routing/pricing/positioning chang
 
 ## 1. Standardize the internal-page hero scale
 
-Today `/insights`, `/about` and `/contact` already share the `PageHero` component (min-height 70vh), while `/web3-website-design` has its own hand-rolled hero section (also ~70vh, but with larger padding, CTA buttons and a wider content block) — which is why it reads too close to the homepage.
+Today `/insights`, `/about` and `/contact` already share the `PageHero` component (min-height 70vh) — and their current scale is the approved benchmark. It stays unchanged. `/web3-website-design` has its own hand-rolled hero (~70vh but with bigger padding, a larger headline block and stacked CTAs), which is why it reads too close to the homepage.
 
-Approach: make `PageHero` the single internal-page hero system and move the Web3 page onto it.
+Approach: migrate `/web3-website-design` into the existing `PageHero` system and reduce only that page as needed so all four pages sit in one internal-page family, clearly below the homepage flagship hero.
 
-Shared frame (applied to all four pages):
-- Height: fixed internal scale (roughly 52–56vh desktop, min ~420px; ~46vh mobile) — clearly below the homepage flagship hero.
+Shared frame (the current PageHero spec, kept as-is):
+- Height: existing internal scale (min-h 70vh) — no global PageHero size change.
 - Content bounds: same container and a single `max-w-3xl` text column, same left alignment, same top offset below the nav.
 - Vertical rhythm: same eyebrow → headline → subheading → CTA spacing scale on every page.
-- Headline scale: one internal-page size step (smaller than the homepage hero, larger than section headings), same responsive steps everywhere.
+- Headline scale: the existing internal-page sizes (below the homepage hero, above section headings), same responsive steps everywhere.
 - Same image treatment: overlay + bottom gradient blend, same crop behaviour.
 - Same transition spacing into the following section, and the same optional scroll indicator / connector line.
 
