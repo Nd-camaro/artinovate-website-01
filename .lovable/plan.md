@@ -88,7 +88,7 @@ Outbound from this page (contextual, varied anchor text, ~5–7 links total):
 - Capture → `ai-lead-capture-system-how-it-works`, `lead-generation-digital-asset-consulting-firms`
 - Hub link to `/insights`
 
-Inbound: add one contextual link from the homepage (inside `CoreFunctionsSection` or the audience section body copy — a text link, not a new CTA button), and a link from `/about`. Navigation: recommend adding `Web3 Website Design` as a nav item between Home and About — flagged for your approval rather than done silently. Future Web3-website insight articles should link back here with varied anchors (e.g. "Web3 website design", "our approach to Web3 website redesign", "how we build Web3 sites").
+Inbound (decision, not optional): the homepage hero's existing secondary button becomes the primary internal link to this page. Its label changes from `Explore` to `Explore Our Services`, pointing at `/web3-website-design` via TanStack `<Link to="/web3-website-design">` (never an interpolated href), keeping the current hero button styling, responsive behaviour and animation untouched. The primary `Book a strategy call` button stays unchanged. No new homepage section, CTA or nav item is created for this page — global navigation does not change. Plus one contextual link from `/about`. Future Web3-website insight articles should link back here with varied anchors (e.g. "Web3 website design", "our approach to Web3 website redesign", "how we build Web3 sites").
 
 ## 13. Structured data
 
@@ -105,7 +105,7 @@ New, all scoped under `src/components/web3-design/` and used only by this page: 
 
 ### Brand cyan
 
-Every cyan on this page comes from the existing semantic tokens — `text-primary`, `bg-primary`, `border-primary`, `--accent-cyan` — never a hardcoded hex. Noted discrepancy for your call, flagged not changed: the token in `src/styles.css` is currently `--primary: 187 100% 42%` (≈ `#00B0D4`) and its comment reads "Accent Cyan - Unified accent color #0A82CD", while you state the brand cyan is `#36F4EE`. Retuning the global token to `#36F4EE` would restyle the whole site, so it is out of scope here; this page will simply inherit whatever the token holds, staying visually consistent either way. The generated hero image uses `#36F4EE` as its light source, which reads correctly over the dark background regardless.
+`#36F4EE` is the locked ArtiNovate brand cyan. For this build: preserve the existing global token so the rest of the live site is not restyled; use the existing semantic tokens (`text-primary`, `bg-primary`, `border-primary`, `--accent-cyan`) for all UI so the new page stays visually consistent with the current site; use `#36F4EE` only in the newly generated hero artwork as the intended brand cyan. Never hardcode `#0A82CD` or any additional cyan on this page. The global token itself currently resolves to `187 100% 42%` (≈ `#00B0D4`) with a stale comment referencing `#0A82CD` — retuning it to `#36F4EE` is flagged as a separate controlled brand-system task after this page is complete and is explicitly out of scope here.
 
 ### Hero visual
 
