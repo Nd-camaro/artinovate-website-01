@@ -127,15 +127,17 @@ One new generated asset, wide cinematic, in the locked ArtiNovate visual languag
 
 ## 16. Proof strategy
 
-Audit result: the project contains no client logos, testimonials, case studies, metrics or award claims anywhere in the codebase — so none can be used. The proof section will be demonstration proof, explicitly framed as such:
+Audit result: the project contains no client logos, testimonials, case studies, metrics or award claims anywhere in the codebase — so none can be used. The proof section will be demonstration proof, explicitly framed as such. It may truthfully reference:
 
-- This website as the working artifact — server-rendered, fast, publishing continuously, engaging via the assistant, capturing via the strategy-call flow.
-- The published insight library as evidence of the publishing system operating (link to `/insights`, no traffic or ranking claims).
-- System architecture transparency — what gets built and how the three functions connect.
-- The live assistant as an interactive demonstration.
+- The live server-rendered website as the working artifact.
+- The actively running Publish system — publishing continuously (Publish is live today, so this claim stays).
+- The published insight library (link to `/insights`).
+- The live Engage assistant as an interactive demonstration.
+- The strategy-call Capture flow.
+- The visible Publish / Engage / Capture architecture — what gets built and how the three functions connect.
 - A short honest line distinguishing demonstration proof from client case studies.
 
-No invented clients, results, conversion rates, traffic figures, team size or experience claims.
+No traffic, ranking, revenue or conversion claims. No invented clients, results, team size or experience claims.
 
 ## 17. Mobile / responsive
 
