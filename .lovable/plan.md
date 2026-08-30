@@ -40,8 +40,9 @@ A. Individual Insight article headings (`src/routes/insights/$slug.tsx` only)
 - Increase line-height on the article H1 and markdown H1/H2, and open up their top/bottom margins so headings breathe like the homepage rhythm. Keep font sizes, condensed character and the H1 > H2 > H3 hierarchy; verify mobile readability.
 - Insights listing typography untouched.
 
-B. "Book a 15-minute call" heading (Contact strategy-call block)
-- Increase line-height and the spacing between the STRATEGY CALL eyebrow, the heading and the supporting paragraph. Scoped to that heading only; font size and surrounding layout unchanged.
+B. Booking/scheduling popup heading (SchedulingModal)
+- The League Gothic heading in the booking modal (`src/components/SchedulingModal.tsx` header block) is the one that feels compressed — not the Contact page section.
+- Increase line-height and the vertical breathing room around that heading and its supporting label. Keep League Gothic, current size, the visual hierarchy and the rest of the modal layout exactly as-is; no broad restyle of the scheduling interface.
 
 ## Verification
 
