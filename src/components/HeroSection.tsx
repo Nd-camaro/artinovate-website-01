@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef, type CSSProperties } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { Link } from "@tanstack/react-router";
 import { ChevronDown } from "lucide-react";
 import heroLoopWebm from "@/assets/hero-loop.webm.asset.json";
 import heroLoopMp4 from "@/assets/hero-loop.mp4.asset.json";
