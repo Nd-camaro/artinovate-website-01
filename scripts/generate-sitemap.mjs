@@ -18,6 +18,7 @@ const REDIRECTED_SLUGS = new Set([
 
 const staticPages = [
   { path: "/", priority: "1.0" },
+  { path: "/web3-website-design", priority: "0.9" },
   { path: "/about", priority: "0.8" },
   { path: "/insights", priority: "0.8" },
   { path: "/contact", priority: "0.8" },
