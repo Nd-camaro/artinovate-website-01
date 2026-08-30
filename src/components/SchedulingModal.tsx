@@ -75,10 +75,10 @@ export function SchedulingModal() {
             {/* Header */}
             <div className="flex items-start justify-between p-5 md:p-6 border-b border-border/30 flex-shrink-0">
               <div>
-                <h2 className="text-lg md:text-xl font-semibold text-foreground">
+                <h2 className="text-lg md:text-xl font-semibold text-foreground leading-[1.25] py-1">
                   Schedule a strategy call
                 </h2>
-                <span className="font-mono text-xs text-muted-foreground mt-1 block">
+                <span className="font-mono text-xs text-muted-foreground mt-2 block">
                   Calendly scheduling
                 </span>
               </div>
