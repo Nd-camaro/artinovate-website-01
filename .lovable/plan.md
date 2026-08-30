@@ -170,20 +170,22 @@ Static hero image (no video) with explicit width/height and `fetchPriority="high
 - Cannibalization with the homepage — internal linking alone does not resolve it; see the intent-separation section below.
 - Pricing sensitivity — the $5,000 line stays a starting point in copy and is excluded from schema.
 
-## 21b. Homepage vs pillar intent separation (recommendation, not implemented now)
+## 21b. Homepage vs pillar intent separation (implemented in this build)
 
-Today both URLs point at the same commercial phrase: the homepage title is `Web3 Website Design Agency | ArtiNovate` and the pillar was proposed as `Web3 Website Design & Redesign Agency | ArtiNovate`. Two pages with near-identical titles and the same buyer intent compete in the same SERP and split link equity — Google picks one, usually the homepage, and the dedicated page never becomes the destination.
+Two pages targeting the same commercial phrase compete in the same SERP and split link equity — Google picks one, usually the homepage, and the dedicated page never becomes the destination. So the separation ships together with the pillar page:
 
-Target end state:
+- `/web3-website-design` — the dedicated commercial destination for service intent: Web3 website design, Web3 design agency, website development, redesign, crypto web design. Title, description and Service schema as specified in sections 2–5 and 13. This remains the only page optimized for those service terms.
+- Homepage — the broader ArtiNovate brand and AI-powered digital-presence entry point. Not positioned as a marketing agency or any other category mismatch, even where volume exists.
 
-- `/web3-website-design` — the dedicated commercial destination. Service intent: design, build, redesign. Owns `web3 website design`, `web3 design agency`, `crypto web design agency`, `blockchain website design`, `web3 website development`, redesign language. Title as revised above (drops "Redesign Agency", leads with the exact-match phrase plus the primary volume term).
-- Homepage — brand and system entry point. Owns the ArtiNovate brand, the AI-powered digital-presence story, and the Publish / Engage / Capture system. It is intentionally not positioned as a marketing agency or any other category mismatch, even if those terms carry volume.
+Homepage changes in `src/routes/index.tsx` (metadata and schema only — hero copy, layout, animations and all visible sections untouched apart from the already-agreed secondary-button relabel):
 
-Recommended future homepage change, flagged for separate approval and **not** part of this implementation: retitle the homepage to something like `AI-Powered Digital Presence for Web3 | ArtiNovate` and shift its meta description off "Web3 website design" onto the Publish / Engage / Capture system, leaving the service phrase entirely to the pillar. Homepage Service JSON-LD would follow (`Digital Presence System` rather than `Premium Web3 Website Design`). Until you approve that, homepage metadata stays exactly as it is and the two pages are separated only by title wording, page intent and one-directional linking — an interim state, not the fix.
+- Title: `AI-Powered Digital Presence for Web3 | ArtiNovate`
+- Meta description: `AI-powered digital presence for Web3 and digital asset companies. ArtiNovate helps firms publish expertise, engage visitors and capture qualified intent.`
+- `og:title`, `og:description`, `twitter:title`, `twitter:description` mirror the above
+- Service JSON-LD renamed to `AI-Powered Digital Presence`, description: `ArtiNovate builds AI-powered digital presence systems for Web3 and digital asset companies that publish expertise, engage visitors and capture qualified intent.`
+- Canonical, og:image, favicon handling and the Organization entity + `@id` in `__root.tsx` all unchanged
 
-### Brand cyan token discrepancy
-
-Flagged as a separate brand-system issue to resolve after this page build, not during it: you have locked the ArtiNovate electric cyan at `#36F4EE`, while the current global CSS token (`--primary` / `--accent` / `--accent-cyan`) resolves to a different hue and its comment references `#0A82CD`. Retuning the token to `#36F4EE` would restyle the entire site, so it is intentionally excluded from this implementation. The new page will inherit the existing token and stay visually consistent with the rest of the site; the generated hero image will use `#36F4EE` as its light source, which remains legible and on-brand over the dark background regardless of the current token value.
+`src/routes/__root.tsx` currently carries the same old website-design title/description as sitewide defaults; those defaults are updated to the new brand-level wording so no stale "Web3 Website Design Agency" string remains as a fallback. Leaf routes keep their own metadata.
 
 ## 22. Verification checklist
 
