@@ -150,7 +150,7 @@ Static hero image (no video) with explicit width/height and `fetchPriority="high
 
 - Thin-page risk if copy stays generic — mitigated by the approach and redesign sections carrying real expertise.
 - FAQPage schema misuse — only added if answers are fully visible on-page.
-- Nav crowding at five items on mobile — verified at 375px before shipping.
+- Nav crowding at five items on mobile — no longer applicable; navigation is unchanged.
 - Cannibalization with the homepage — internal linking alone does not resolve it; see the intent-separation section below.
 - Pricing sensitivity — the $5,000 line stays a starting point in copy and is excluded from schema.
 
@@ -182,5 +182,5 @@ Flagged as a separate brand-system issue to resolve after this page build, not d
 9. `prefers-reduced-motion: reduce` disables entrance motion.
 10. Keyboard pass: focus visible through nav, CTAs and accordion.
 11. `bun run build` and typecheck pass with zero errors.
-12. Homepage and About links render and point to the new page.
+12. Homepage hero secondary button reads `Explore Our Services` and navigates to `/web3-website-design` through TanStack routing (client-side, scrolls to top); About link renders and points to the new page.
 13. No fabricated proof anywhere in the final copy.
