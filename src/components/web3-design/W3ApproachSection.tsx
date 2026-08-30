@@ -49,6 +49,16 @@ export function W3ApproachSection() {
             </div>
           ))}
         </div>
+
+        <div className="text-center mt-16">
+          <Link
+            to="/insights/$slug"
+            params={{ slug: "credibility-architecture-building-institutional-trust-web3" }}
+            className="text-primary underline underline-offset-4 hover:text-primary/80"
+          >
+            Read more about credibility architecture
+          </Link>
+        </div>
       </div>
     </section>
   );

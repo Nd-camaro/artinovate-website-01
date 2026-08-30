@@ -58,6 +58,16 @@ export function W3RedesignSection() {
             </div>
           ))}
         </div>
+
+        <div className="text-center mt-16">
+          <Link
+            to="/insights/$slug"
+            params={{ slug: "website-impact-crypto-startup-credibility-investors" }}
+            className="text-primary underline underline-offset-4 hover:text-primary/80"
+          >
+            Read the insight: How your website shapes credibility with investors
+          </Link>
+        </div>
       </div>
     </section>
   );
