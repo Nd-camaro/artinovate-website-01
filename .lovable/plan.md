@@ -88,7 +88,7 @@ Outbound from this page (contextual, varied anchor text, ~5–7 links total):
 - Capture → `ai-lead-capture-system-how-it-works`, `lead-generation-digital-asset-consulting-firms`
 - Hub link to `/insights`
 
-Inbound: add one contextual link from the homepage (inside `CoreFunctionsSection` or the audience section body copy — a text link, not a new CTA button), and a link from `/about`. Navigation: recommend adding `Web3 Website Design` as a nav item between Home and About — flagged for your approval rather than done silently. Future Web3-website insight articles should link back here with varied anchors (e.g. "Web3 website design", "our approach to Web3 website redesign", "how we build Web3 sites").
+Inbound (decision, not optional): the homepage hero's existing secondary button becomes the primary internal link to this page. Its label changes from `Explore` to `Explore Our Services`, pointing at `/web3-website-design` via TanStack `<Link to="/web3-website-design">` (never an interpolated href), keeping the current hero button styling, responsive behaviour and animation untouched. The primary `Book a strategy call` button stays unchanged. No new homepage section, CTA or nav item is created for this page — global navigation does not change. Plus one contextual link from `/about`. Future Web3-website insight articles should link back here with varied anchors (e.g. "Web3 website design", "our approach to Web3 website redesign", "how we build Web3 sites").
 
 ## 13. Structured data
 
@@ -105,7 +105,7 @@ New, all scoped under `src/components/web3-design/` and used only by this page: 
 
 ### Brand cyan
 
-Every cyan on this page comes from the existing semantic tokens — `text-primary`, `bg-primary`, `border-primary`, `--accent-cyan` — never a hardcoded hex. Noted discrepancy for your call, flagged not changed: the token in `src/styles.css` is currently `--primary: 187 100% 42%` (≈ `#00B0D4`) and its comment reads "Accent Cyan - Unified accent color #0A82CD", while you state the brand cyan is `#36F4EE`. Retuning the global token to `#36F4EE` would restyle the whole site, so it is out of scope here; this page will simply inherit whatever the token holds, staying visually consistent either way. The generated hero image uses `#36F4EE` as its light source, which reads correctly over the dark background regardless.
+`#36F4EE` is the locked ArtiNovate brand cyan. For this build: preserve the existing global token so the rest of the live site is not restyled; use the existing semantic tokens (`text-primary`, `bg-primary`, `border-primary`, `--accent-cyan`) for all UI so the new page stays visually consistent with the current site; use `#36F4EE` only in the newly generated hero artwork as the intended brand cyan. Never hardcode `#0A82CD` or any additional cyan on this page. The global token itself currently resolves to `187 100% 42%` (≈ `#00B0D4`) with a stale comment referencing `#0A82CD` — retuning it to `#36F4EE` is flagged as a separate controlled brand-system task after this page is complete and is explicitly out of scope here.
 
 ### Hero visual
 
@@ -129,7 +129,7 @@ Single column below `md`; multi-column grids collapse in source order. Hero H1 s
 
 ## 18. Accessibility
 
-One H1, then a clean H2 per section and H3 for sub-items. Semantic `section` with `aria-labelledby`. Accordion uses the existing accessible Radix primitive. Contrast: white/muted text on `#0B0D10`/`#161A20` verified ≥4.5:1; cyan `#0A82CD` used for accents and links, never as small body text on dark without a contrast check. Visible keyboard focus retained. Every `whileInView` animation respects `prefers-reduced-motion`. Hero image has descriptive alt; decorative diagram elements `aria-hidden`.
+One H1, then a clean H2 per section and H3 for sub-items. Semantic `section` with `aria-labelledby`. Accordion uses the existing accessible Radix primitive. Contrast: white/muted text on `#0B0D10`/`#161A20` verified ≥4.5:1; cyan from the existing semantic tokens used for accents and links, never as small body text on dark without a contrast check. Visible keyboard focus retained. Every `whileInView` animation respects `prefers-reduced-motion`. Hero image has descriptive alt; decorative diagram elements `aria-hidden`.
 
 ## 19. Performance / Core Web Vitals
 
@@ -141,8 +141,7 @@ Static hero image (no video) with explicit width/height and `fetchPriority="high
 - New `src/pages/Web3WebsiteDesign.tsx` — page composition
 - New `src/components/web3-design/*.tsx` — nine section components
 - New hero asset in `src/assets/`
-- `src/components/Navigation.tsx` — new nav item (pending your approval)
-- `src/pages/Index.tsx` or `CoreFunctionsSection.tsx` — one contextual internal link
+- `src/components/HeroSection.tsx` — relabel the existing secondary hero button to `Explore Our Services` and point it at `/web3-website-design` via `<Link>`; global navigation is untouched
 - `src/pages/About.tsx` — one contextual internal link
 - `scripts/generate-sitemap.mjs` — add the new static route
 - `src/routeTree.gen.ts` regenerates automatically
@@ -151,7 +150,7 @@ Static hero image (no video) with explicit width/height and `fetchPriority="high
 
 - Thin-page risk if copy stays generic — mitigated by the approach and redesign sections carrying real expertise.
 - FAQPage schema misuse — only added if answers are fully visible on-page.
-- Nav crowding at five items on mobile — verified at 375px before shipping.
+- Nav crowding at five items on mobile — no longer applicable; navigation is unchanged.
 - Cannibalization with the homepage — internal linking alone does not resolve it; see the intent-separation section below.
 - Pricing sensitivity — the $5,000 line stays a starting point in copy and is excluded from schema.
 
@@ -183,5 +182,5 @@ Flagged as a separate brand-system issue to resolve after this page build, not d
 9. `prefers-reduced-motion: reduce` disables entrance motion.
 10. Keyboard pass: focus visible through nav, CTAs and accordion.
 11. `bun run build` and typecheck pass with zero errors.
-12. Homepage and About links render and point to the new page.
+12. Homepage hero secondary button reads `Explore Our Services` and navigates to `/web3-website-design` through TanStack routing (client-side, scrolls to top); About link renders and points to the new page.
 13. No fabricated proof anywhere in the final copy.
