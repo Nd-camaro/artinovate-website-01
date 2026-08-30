@@ -152,7 +152,18 @@ Static hero image (no video) with explicit width/height and `fetchPriority="high
 - Thin-page risk if copy stays generic — mitigated by the approach and redesign sections carrying real expertise.
 - FAQPage schema misuse — only added if answers are fully visible on-page.
 - Nav crowding at five items on mobile — verified at 375px before shipping.
-- Cannibalization with the homepage, which now targets "Web3 website design agency" — resolved by keeping the homepage brand/system-led and this page service/buyer-led, with distinct titles and one-directional internal linking.
+- Cannibalization with the homepage — internal linking alone does not resolve it; see the intent-separation section below.
+
+## 21b. Homepage vs pillar intent separation (recommendation, not implemented now)
+
+Today both URLs point at the same commercial phrase: the homepage title is `Web3 Website Design Agency | ArtiNovate` and the pillar was proposed as `Web3 Website Design & Redesign Agency | ArtiNovate`. Two pages with near-identical titles and the same buyer intent compete in the same SERP and split link equity — Google picks one, usually the homepage, and the dedicated page never becomes the destination.
+
+Target end state:
+
+- `/web3-website-design` — the dedicated commercial destination. Service intent: design, build, redesign. Owns `web3 website design`, `web3 design agency`, `crypto web design agency`, `blockchain website design`, `web3 website development`, redesign language. Title as revised above (drops "Redesign Agency", leads with the exact-match phrase plus the primary volume term).
+- Homepage — brand and system entry point. Owns `artinovate`, `web3 agency` (260/mo, KD 18), `web3 marketing agency` (720/mo, KD 14) and the AI-powered digital-presence story, not the "website design agency" service phrase.
+
+Recommended future homepage change, flagged for separate approval and **not** part of this implementation: retitle the homepage to something like `AI-Powered Digital Presence for Web3 | ArtiNovate` and shift its meta description off "Web3 website design" onto the Publish / Engage / Capture system, leaving the service phrase entirely to the pillar. Homepage Service JSON-LD would follow (`Digital Presence System` rather than `Premium Web3 Website Design`). Until you approve that, homepage metadata stays exactly as it is and the two pages are separated only by title wording, page intent and one-directional linking — an interim state, not the fix.
 - Pricing sensitivity — the $5,000 line stays a starting point in copy and is excluded from schema.
 
 ## 22. Verification checklist
