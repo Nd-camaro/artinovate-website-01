@@ -36,22 +36,13 @@ export default function Web3WebsiteDesign() {
 
         <div className="container mx-auto px-6 lg:px-12 relative z-20 pt-24 pb-16">
           <div className="max-w-3xl">
-            <motion.span
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.15, duration: 0.5 }}
-              className="label-mono text-primary mb-4 block"
-            >
-              Web3 Website Design
-            </motion.span>
-
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.25, duration: 0.6 }}
               className="text-5xl md:text-7xl lg:text-8xl font-normal tracking-[0.015em] mb-6 leading-[1.1]"
             >
-              Web3 Website Design for Companies That Have Outgrown a Static Site
+              Web3 Website Design for Companies That Have Outgrown Static Sites
             </motion.h1>
 
             <motion.p

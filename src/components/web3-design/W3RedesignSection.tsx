@@ -40,15 +40,7 @@ export function W3RedesignSection() {
             Your company evolved. The presence should catch up.
           </h2>
           <p className="text-lg text-muted-foreground mt-6">
-            A redesign is not a restart. We keep what is working — more on that in{" "}
-            <Link
-              to="/insights/$slug"
-              params={{ slug: "website-impact-crypto-startup-credibility-investors" }}
-              className="text-primary underline underline-offset-4 hover:text-primary/80"
-            >
-              how a website shapes credibility with investors
-            </Link>
-            .
+            A redesign is not a restart. We keep what is working and build on it.
           </p>
         </div>
 
@@ -65,6 +57,16 @@ export function W3RedesignSection() {
               </ul>
             </div>
           ))}
+        </div>
+
+        <div className="text-center mt-16">
+          <Link
+            to="/insights/$slug"
+            params={{ slug: "website-impact-crypto-startup-credibility-investors" }}
+            className="text-primary underline underline-offset-4 hover:text-primary/80"
+          >
+            Read the insight: How your website shapes credibility with investors
+          </Link>
         </div>
       </div>
     </section>

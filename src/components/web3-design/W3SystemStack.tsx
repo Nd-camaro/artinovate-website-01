@@ -34,15 +34,7 @@ export function W3SystemStack() {
             The website is the surface of a larger system
           </h2>
           <p className="text-lg text-muted-foreground mt-6">
-            We design and build the site first, then extend it with the infrastructure that keeps it working after launch. Read more in{" "}
-            <Link
-              to="/insights/$slug"
-              params={{ slug: "what-is-ai-content-engine-vs-blog" }}
-              className="text-primary underline underline-offset-4 hover:text-primary/80"
-            >
-              what an AI content engine actually is
-            </Link>
-            .
+            We design and build the site first, then extend it with the infrastructure that keeps it working after launch.
           </p>
         </div>
 
@@ -73,6 +65,16 @@ export function W3SystemStack() {
               </motion.div>
             ))}
           </div>
+        </div>
+
+        <div className="text-center mt-16">
+          <Link
+            to="/insights/$slug"
+            params={{ slug: "what-is-ai-content-engine-vs-blog" }}
+            className="text-primary underline underline-offset-4 hover:text-primary/80"
+          >
+            Read the insight: What an AI content engine actually is
+          </Link>
         </div>
       </div>
     </section>
