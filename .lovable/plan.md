@@ -153,6 +153,7 @@ Static hero image (no video) with explicit width/height and `fetchPriority="high
 - FAQPage schema misuse — only added if answers are fully visible on-page.
 - Nav crowding at five items on mobile — verified at 375px before shipping.
 - Cannibalization with the homepage — internal linking alone does not resolve it; see the intent-separation section below.
+- Pricing sensitivity — the $5,000 line stays a starting point in copy and is excluded from schema.
 
 ## 21b. Homepage vs pillar intent separation (recommendation, not implemented now)
 
@@ -161,10 +162,13 @@ Today both URLs point at the same commercial phrase: the homepage title is `Web3
 Target end state:
 
 - `/web3-website-design` — the dedicated commercial destination. Service intent: design, build, redesign. Owns `web3 website design`, `web3 design agency`, `crypto web design agency`, `blockchain website design`, `web3 website development`, redesign language. Title as revised above (drops "Redesign Agency", leads with the exact-match phrase plus the primary volume term).
-- Homepage — brand and system entry point. Owns `artinovate`, `web3 agency` (260/mo, KD 18), `web3 marketing agency` (720/mo, KD 14) and the AI-powered digital-presence story, not the "website design agency" service phrase.
+- Homepage — brand and system entry point. Owns the ArtiNovate brand, the AI-powered digital-presence story, and the Publish / Engage / Capture system. It is intentionally not positioned as a marketing agency or any other category mismatch, even if those terms carry volume.
 
 Recommended future homepage change, flagged for separate approval and **not** part of this implementation: retitle the homepage to something like `AI-Powered Digital Presence for Web3 | ArtiNovate` and shift its meta description off "Web3 website design" onto the Publish / Engage / Capture system, leaving the service phrase entirely to the pillar. Homepage Service JSON-LD would follow (`Digital Presence System` rather than `Premium Web3 Website Design`). Until you approve that, homepage metadata stays exactly as it is and the two pages are separated only by title wording, page intent and one-directional linking — an interim state, not the fix.
-- Pricing sensitivity — the $5,000 line stays a starting point in copy and is excluded from schema.
+
+### Brand cyan token discrepancy
+
+Flagged as a separate brand-system issue to resolve after this page build, not during it: you have locked the ArtiNovate electric cyan at `#36F4EE`, while the current global CSS token (`--primary` / `--accent` / `--accent-cyan`) resolves to a different hue and its comment references `#0A82CD`. Retuning the token to `#36F4EE` would restyle the entire site, so it is intentionally excluded from this implementation. The new page will inherit the existing token and stay visually consistent with the rest of the site; the generated hero image will use `#36F4EE` as its light source, which remains legible and on-brand over the dark background regardless of the current token value.
 
 ## 22. Verification checklist
 
