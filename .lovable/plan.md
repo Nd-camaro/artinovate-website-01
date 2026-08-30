@@ -169,7 +169,6 @@ Recommended future homepage change, flagged for separate approval and **not** pa
 ### Brand cyan token discrepancy
 
 Flagged as a separate brand-system issue to resolve after this page build, not during it: you have locked the ArtiNovate electric cyan at `#36F4EE`, while the current global CSS token (`--primary` / `--accent` / `--accent-cyan`) resolves to a different hue and its comment references `#0A82CD`. Retuning the token to `#36F4EE` would restyle the entire site, so it is intentionally excluded from this implementation. The new page will inherit the existing token and stay visually consistent with the rest of the site; the generated hero image will use `#36F4EE` as its light source, which remains legible and on-brand over the dark background regardless of the current token value.
-- Pricing sensitivity — the $5,000 line stays a starting point in copy and is excluded from schema.
 
 ## 22. Verification checklist
 
