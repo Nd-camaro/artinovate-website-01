@@ -1,16 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
 import Index from "@/pages/Index";
 
-const TITLE = "Web3 Website Design Agency | ArtiNovate";
+const TITLE = "AI-Powered Digital Presence for Web3 | ArtiNovate";
 const DESCRIPTION =
-  "Premium Web3 website design for digital asset, tokenization, DeFi and fintech companies. AI-powered digital presence that publishes, engages and captures.";
+  "AI-powered digital presence for Web3 and digital asset companies. ArtiNovate helps firms publish expertise, engage visitors and capture qualified intent.";
 
 const serviceSchema = {
   "@context": "https://schema.org",
   "@type": "Service",
-  name: "Premium Web3 Website Design",
+  name: "AI-Powered Digital Presence",
   description:
-    "ArtiNovate designs AI-powered Web3 websites for digital asset, tokenization, DeFi and fintech companies, combining publishing, visitor engagement and lead capture in one digital presence system.",
+    "ArtiNovate builds AI-powered digital presence systems for Web3 and digital asset companies that publish expertise, engage visitors and capture qualified intent.",
   provider: { "@id": "https://www.artinovate.com/#organization" },
 };
 

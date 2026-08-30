@@ -23,9 +23,9 @@ import { reportLovableError } from "@/lib/lovable-error-reporting";
 
 import appStyles from "@/styles.css?url";
 
-const SITE_TITLE = "Web3 Website Design Agency | ArtiNovate";
+const SITE_TITLE = "AI-Powered Digital Presence for Web3 | ArtiNovate";
 const SITE_DESCRIPTION =
-  "Premium Web3 website design for digital asset, tokenization, DeFi and fintech companies. AI-powered digital presence that publishes, engages and captures.";
+  "AI-powered digital presence for Web3 and digital asset companies. ArtiNovate helps firms publish expertise, engage visitors and capture qualified intent.";
 const OG_IMAGE =
   "https://id-preview--41a2ddcc-3761-4568-9d39-a329bd85bd62.lovable.app/og-image.png";
 

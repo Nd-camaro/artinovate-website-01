@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef, type CSSProperties } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { Link } from "@tanstack/react-router";
 import { ChevronDown } from "lucide-react";
 import heroLoopWebm from "@/assets/hero-loop.webm.asset.json";
 import heroLoopMp4 from "@/assets/hero-loop.mp4.asset.json";
@@ -422,6 +423,9 @@ export function HeroSection() {
           >
             <Button variant="hero" size="default" className="h-10 px-6 text-sm" onClick={openScheduler}>
               Book a strategy call
+            </Button>
+            <Button asChild variant="outline" size="default" className="h-10 px-6 text-sm">
+              <Link to="/web3-website-design">Explore Our Services</Link>
             </Button>
           </motion.div>
         </div>
