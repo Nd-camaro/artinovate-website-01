@@ -423,6 +423,9 @@ export function HeroSection() {
             <Button variant="hero" size="default" className="h-10 px-6 text-sm" onClick={openScheduler}>
               Book a strategy call
             </Button>
+            <Button asChild variant="outline" size="default" className="h-10 px-6 text-sm">
+              <Link to="/web3-website-design">Explore Our Services</Link>
+            </Button>
           </motion.div>
         </div>
       </motion.div>
