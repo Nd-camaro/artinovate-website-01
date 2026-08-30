@@ -2,22 +2,51 @@
 
 A new flagship page at `/web3-website-design` that captures buyer-intent search for Web3 website design and redesign, then reframes the buyer toward ArtiNovate's Publish / Engage / Capture model. Built on the existing TanStack Start SSR architecture and the locked ArtiNovate visual system. No redesign of existing pages.
 
-## 1. Search intent and keyword strategy
+## 1. Search intent and keyword strategy (validated with Semrush, US database, this turn)
 
 Intent: commercial investigation — a Web3, digital asset, tokenization, DeFi or fintech company deciding who should build or rebuild their website.
 
-- Primary: web3 website design, web3 website design agency
-- Supporting: web3 web design agency, web3 website development, web3 website redesign, digital asset website design, tokenization website design, DeFi website design
+Semrush data (database: `us`; volume = estimated monthly searches; KD = keyword difficulty; intent inferred from term wording, Semrush intent labels are not exposed through the built-in tools):
 
-US volume on the exact head term is low (Semrush: ~10/mo, KD 0, CPC $3.99), so the page is planned as a low-competition, high-value capture page plus the cluster hub — not a volume play. Its commercial value comes from intent quality and from consolidating the existing 30+ Web3/AI insight articles into one pillar. Supporting terms are covered through natural section language (redesign section, audience section, FAQ), never as repeated exact-match blocks.
+| Keyword | Volume | KD | CPC | Intent |
+|---|---|---|---|---|
+| web3 design agency | 140/mo | 2 | $0 | commercial |
+| crypto web design agency | 110/mo | 17 | $0 | commercial |
+| crypto web design | 40/mo | 50 | $0 | commercial |
+| crypto website design | 30/mo | 0 | $0 | commercial |
+| blockchain website design | 30/mo | 0 | $0 | commercial |
+| web3 website development | 30/mo | 0 | $0 | commercial |
+| web3 web design agency | 20/mo | 0 | $0 | commercial |
+| blockchain web design agency | 20/mo | 0 | $0 | commercial |
+| crypto website development | 20/mo | 0 | $0 | commercial |
+| web3 website design | 10/mo | 0 | $3.99 | commercial |
+| web3 website design agency | 10/mo | 0 | $0 | commercial |
+| digital asset website design | 0/mo | 0 | $0 | commercial |
+| web3 website redesign | no data | — | — | — |
+| tokenization website design | no data | — | — | — |
+| defi website design | no data | — | — | — |
+
+Adjacent head terms checked for context: web3 development company 720/mo KD 17, web3 marketing agency 720/mo KD 14, web3 agency 260/mo KD 18.
+
+Stated limitations: the built-in Semrush tools return volume, CPC, competition and KD only — they do not expose Semrush's intent classification or close-variant lists for these terms. `serp_analysis` for "web3 website design" returned no SERP data (volume too low to be tracked), so no ranking-competitor list is available for the exact head term. Three terms above have no data at all in the US database; treat them as effectively zero-volume and use them only as on-page semantic language, never as targets.
+
+**Revised targeting decision (data-led, not plan-led):**
+
+- Primary target: **web3 design agency** (140/mo, KD 2) — the highest-volume, lowest-difficulty commercially-intended term in the cluster.
+- Co-primary exact-match: **web3 website design** — near-zero volume but the highest commercial signal in the set (only term with a real CPC, $3.99) and the phrase buyers type when they specifically want a site built. It stays in the H1 and URL.
+- Strong supporting: crypto web design agency, crypto website design, blockchain website design, web3 website development, web3 web design agency, blockchain web design agency, crypto website development.
+- Semantic-only (no measurable volume): web3 website redesign, tokenization website design, DeFi website design, digital asset website design. Covered through natural section language (redesign section, audience section, FAQ) — never as repeated exact-match blocks.
+
+The whole cluster is low-volume and very low-difficulty, so this remains a high-intent capture page and cluster hub rather than a volume play. Its commercial value is intent quality plus consolidating the existing 30+ Web3/AI insight articles.
 
 ## 2–5. URL, metadata, H1
 
-- URL: `https://www.artinovate.com/web3-website-design`
-- SEO title (57 chars): `Web3 Website Design & Redesign Agency | ArtiNovate`
+- URL: `https://www.artinovate.com/web3-website-design` (unchanged — matches the exact-match commercial phrase and reads cleanly)
+- SEO title (58 chars): `Web3 Website Design & Web3 Design Agency | ArtiNovate` — leads with the exact-match phrase, carries the highest-volume primary term, and no longer duplicates the homepage title pattern
 - Meta description (154 chars): `Premium Web3 website design and redesign for digital asset, tokenization, DeFi and fintech companies — sites that publish, engage visitors and capture intent.`
 - H1: `Web3 Website Design for Companies That Have Outgrown a Static Site`
 - Canonical: self-referencing, leaf route only. og:url matches.
+
 
 ## 6–10. Section architecture
 
