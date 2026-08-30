@@ -80,7 +80,7 @@ export default function About() {
               </p>
             </motion.div>
 
-            <div className="grid md:grid-cols-2 gap-6 max-w-4xl">
+            <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
               {philosophyPoints.map((point, index) => (
                 <motion.div
                   key={index}
@@ -113,7 +113,7 @@ export default function About() {
               </h2>
             </motion.div>
 
-            <div className="grid md:grid-cols-3 gap-8 max-w-5xl">
+            <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
               {audienceSegments.map((segment, index) => (
                 <motion.div
                   key={index}
@@ -149,7 +149,7 @@ export default function About() {
               </h2>
             </motion.div>
 
-            <div className="grid md:grid-cols-2 gap-6 max-w-4xl">
+            <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
               {principles.map((principle, index) => (
                 <motion.div
                   key={index}
