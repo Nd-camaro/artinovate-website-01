@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Navigation } from "@/components/Navigation";
 import { PageHero } from "@/components/PageHero";
-import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/hero-contact.jpg";
 import { Calendar, CheckCircle, ArrowRight, MessageSquare, Target, Compass } from "lucide-react";
@@ -40,9 +38,6 @@ export default function Contact() {
     console.log("Form submitted:", formData);
   };
   return <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
-      <Navigation />
-      
-      
       <main>
         <PageHero image={heroImage} imageAlt="Dark cubic infrastructure with cyan signal routes converging into one illuminated destination" label="Contact" headline="Start with clarity" subheading="From first build to full automation" scrollTarget="#booking" />
 
@@ -173,6 +168,5 @@ export default function Contact() {
         </section>
       </main>
 
-      <Footer />
     </div>;
 }

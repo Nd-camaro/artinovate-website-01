@@ -1,12 +1,10 @@
 import { Link } from "@/lib/router-compat";
-import { Navigation } from "@/components/Navigation";
-import { Footer } from "@/components/Footer";
 import { motion } from "framer-motion";
 
 export default function Privacy() {
   return (
     <div className="min-h-screen bg-black text-white overflow-x-hidden">
-      <Navigation />
+
 
       <main className="pt-24 lg:pt-32 pb-20">
         <div className="max-w-[1280px] mx-auto px-5 md:px-10 lg:px-20">
@@ -205,7 +203,7 @@ export default function Privacy() {
         </div>
       </main>
 
-      <Footer />
+
     </div>
   );
 }

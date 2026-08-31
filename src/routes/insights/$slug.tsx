@@ -1,8 +1,6 @@
 import { createFileRoute, notFound, redirect, Link } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { INSIGHT_REDIRECTS } from "@/lib/insight-redirects";
-import { Navigation } from "@/components/Navigation";
-import { Footer } from "@/components/Footer";
 import { ArrowLeft, Calendar } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -130,7 +128,7 @@ export const Route = createFileRoute("/insights/$slug")({
 function InsightNotFound() {
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <Navigation />
+
       <main className="pt-24 pb-16">
         <div className="container mx-auto px-6 lg:px-12 max-w-3xl">
           <Link
@@ -146,7 +144,7 @@ function InsightNotFound() {
           </p>
         </div>
       </main>
-      <Footer />
+
     </div>
   );
 }
@@ -158,7 +156,7 @@ function InsightDetailPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
-      <Navigation />
+
 
       <main className="pt-24 pb-16 lg:pb-24">
         <article className="container mx-auto px-6 lg:px-12 max-w-3xl">
@@ -320,7 +318,7 @@ function InsightDetailPage() {
         </article>
       </main>
 
-      <Footer />
+
     </div>
   );
 }

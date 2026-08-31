@@ -1,8 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "@/lib/router-compat";
-import { Navigation } from "@/components/Navigation";
 import { PageHero } from "@/components/PageHero";
-import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/hero-insights.jpg";
 import { ArrowRight } from "lucide-react";
@@ -32,7 +30,7 @@ export default function Insights() {
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
-      <Navigation />
+
       
       
       <main>
@@ -184,7 +182,7 @@ export default function Insights() {
         </section>
       </main>
 
-      <Footer />
+
     </div>
   );
 }
