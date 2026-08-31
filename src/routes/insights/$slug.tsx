@@ -187,7 +187,7 @@ function InsightDetailPage() {
                 </span>
               )}
             </div>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-[1.35] md:leading-[1.3] mb-4">
+            <h1 className="font-display text-3xl font-normal tracking-[0.01em] leading-[1.4] mb-6 md:text-4xl md:leading-[1.35] lg:text-5xl">
               {insight.title}
             </h1>
             {insight.excerpt && (
@@ -218,12 +218,12 @@ function InsightDetailPage() {
               remarkPlugins={[remarkGfm]}
               components={{
                 h1: ({ children }) => (
-                  <h1 className="text-3xl font-bold tracking-tight leading-[1.4] mt-20 mb-10 text-foreground">
+                  <h1 className="font-display text-3xl font-normal tracking-[0.01em] leading-[1.45] mt-20 mb-10 text-foreground">
                     {children}
                   </h1>
                 ),
                 h2: ({ children }) => (
-                  <h2 className="text-2xl font-semibold tracking-tight leading-[1.35] mt-16 mb-8 text-foreground">
+                  <h2 className="font-display text-2xl font-normal tracking-[0.01em] leading-[1.45] mt-18 mb-8 text-foreground">
                     {children}
                   </h2>
                 ),
