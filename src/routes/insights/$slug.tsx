@@ -187,7 +187,7 @@ function InsightDetailPage() {
                 </span>
               )}
             </div>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-[1.25] md:leading-[1.2] mb-2">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-[1.35] md:leading-[1.3] mb-4">
               {insight.title}
             </h1>
             {insight.excerpt && (
@@ -218,17 +218,17 @@ function InsightDetailPage() {
               remarkPlugins={[remarkGfm]}
               components={{
                 h1: ({ children }) => (
-                  <h1 className="text-3xl font-bold tracking-tight leading-[1.3] mt-16 mb-8 text-foreground">
+                  <h1 className="text-3xl font-bold tracking-tight leading-[1.4] mt-20 mb-10 text-foreground">
                     {children}
                   </h1>
                 ),
                 h2: ({ children }) => (
-                  <h2 className="text-2xl font-semibold tracking-tight leading-[1.3] mt-14 mb-7 text-foreground">
+                  <h2 className="text-2xl font-semibold tracking-tight leading-[1.35] mt-16 mb-8 text-foreground">
                     {children}
                   </h2>
                 ),
                 h3: ({ children }) => (
-                  <h3 className="text-xl font-semibold tracking-tight leading-[1.35] mt-10 mb-5 text-foreground">
+                  <h3 className="text-xl font-semibold tracking-tight leading-[1.4] mt-12 mb-6 text-foreground">
                     {children}
                   </h3>
                 ),
@@ -283,6 +283,30 @@ function InsightDetailPage() {
                   </pre>
                 ),
                 hr: () => <hr className="border-border/50 my-10" />,
+                table: ({ children }) => (
+                  <div className="my-10 overflow-x-auto rounded-lg border border-border/50 bg-graphite/30">
+                    <table className="w-full table-auto border-collapse text-sm md:text-base">
+                      {children}
+                    </table>
+                  </div>
+                ),
+                thead: ({ children }) => (
+                  <thead className="bg-graphite/60">{children}</thead>
+                ),
+                tbody: ({ children }) => <tbody>{children}</tbody>,
+                tr: ({ children }) => (
+                  <tr className="border-b border-border/50 last:border-b-0">{children}</tr>
+                ),
+                th: ({ children }) => (
+                  <th className="min-w-[10rem] max-w-[22rem] px-5 py-4 text-left align-top font-bold text-primary leading-relaxed break-words border-r border-border/30 last:border-r-0">
+                    {children}
+                  </th>
+                ),
+                td: ({ children }) => (
+                  <td className="min-w-[10rem] max-w-[22rem] px-5 py-4 align-top text-secondary-foreground leading-relaxed break-words border-r border-border/30 last:border-r-0">
+                    {children}
+                  </td>
+                ),
                 img: ({ src, alt }) => (
                   <img src={src} alt={alt || ""} className="rounded-lg my-8 w-full" loading="lazy" />
                 ),
