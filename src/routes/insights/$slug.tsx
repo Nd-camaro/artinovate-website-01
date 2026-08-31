@@ -283,6 +283,30 @@ function InsightDetailPage() {
                   </pre>
                 ),
                 hr: () => <hr className="border-border/50 my-10" />,
+                table: ({ children }) => (
+                  <div className="my-10 overflow-x-auto rounded-lg border border-border/50 bg-graphite/30">
+                    <table className="w-full table-auto border-collapse text-sm md:text-base">
+                      {children}
+                    </table>
+                  </div>
+                ),
+                thead: ({ children }) => (
+                  <thead className="bg-graphite/60">{children}</thead>
+                ),
+                tbody: ({ children }) => <tbody>{children}</tbody>,
+                tr: ({ children }) => (
+                  <tr className="border-b border-border/50 last:border-b-0">{children}</tr>
+                ),
+                th: ({ children }) => (
+                  <th className="min-w-[10rem] max-w-[22rem] px-5 py-4 text-left align-top font-bold text-primary leading-relaxed break-words border-r border-border/30 last:border-r-0">
+                    {children}
+                  </th>
+                ),
+                td: ({ children }) => (
+                  <td className="min-w-[10rem] max-w-[22rem] px-5 py-4 align-top text-secondary-foreground leading-relaxed break-words border-r border-border/30 last:border-r-0">
+                    {children}
+                  </td>
+                ),
                 img: ({ src, alt }) => (
                   <img src={src} alt={alt || ""} className="rounded-lg my-8 w-full" loading="lazy" />
                 ),
