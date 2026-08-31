@@ -1,31 +1,36 @@
-# Insight Article UI: Heading Rhythm + Editorial Tables
+# Insight Article Renderer: Heading Rhythm + Robust Editorial Tables
 
-Scope: the individual Insight article renderer only (`src/routes/insights/$slug.tsx`). No SEO, content, images, routing, color-token, or other-page changes. Both fixes live in the shared renderer so all current and future articles inherit them.
+Scope: the shared individual-Insight article renderer only (`src/routes/insights/$slug.tsx`, the `ReactMarkdown` components map that every article uses). No article content, SEO, featured images, routing, global colors, or other-page changes. Insights listing and homepage untouched.
 
 ## 1. League Gothic heading breathing room
 
-Current state: article H1 uses `leading-[1.25] md:leading-[1.2]` and markdown H1/H2 use `leading-[1.3]` with tight `mt/mb` — multi-line condensed headings cluster.
+Current: article H1 at `leading-[1.25]/[1.2]`, markdown H1/H2 at `leading-[1.3]` — multi-line condensed headings cluster.
 
-Fixes in `src/routes/insights/$slug.tsx`:
-- Article H1: raise line-height to `leading-[1.35] md:leading-[1.3]` and increase bottom margin so multi-line League Gothic wraps breathe like the homepage rhythm.
-- Markdown H1: `leading-[1.4]`, larger top/bottom margins.
-- Markdown H2: `leading-[1.35]` with more generous `mt`/`mb`.
-- H3: modest line-height/margin increase for consistency.
-- Font (League Gothic), font sizes, weights, and the H1 > H2 > H3 hierarchy stay exactly as-is. Body typography and the Insights listing page are untouched.
+In `src/routes/insights/$slug.tsx` only:
+- Article H1: line-height up to `leading-[1.35] md:leading-[1.3]`, slightly larger bottom margin.
+- Markdown H1 → `leading-[1.4]`; H2 → `leading-[1.35]`; H3 → `leading-[1.4]`, each with more generous `mt`/`mb` so wrapped League Gothic headings breathe like the homepage rhythm.
+- League Gothic, font sizes, weights, and H1 > H2 > H3 hierarchy unchanged. Body typography untouched.
 
-## 2. Premium editorial markdown tables
+## 2. Robust dynamic markdown tables (any column count)
 
-Current state: ReactMarkdown renders raw `<table>` with no component overrides, so tables inherit cramped browser defaults.
+Add `table`, `thead`, `tbody`, `tr`, `th`, `td` overrides to the existing ReactMarkdown `components` map (remark-gfm already parses tables). Styling must work for any valid table shape, not just the current 3-column example:
 
-Add component overrides in the existing `components` map in `src/routes/insights/$slug.tsx` (remark-gfm already parses tables):
-- `table`: wrapped in a `div` with `overflow-x-auto` (contained horizontal scroll on mobile, never page-level overflow), full width, `border-collapse`, generous vertical margins.
-- `thead`/`th`: distinct header row — slightly raised graphite surface, Manrope 700 label styling, subtle bottom border using the semantic border token, restrained `text-primary` (#36F4EE) accent on header text only.
-- `td`/`tr`: generous cell padding (px/py scale), top-aligned text (`align-top`), comfortable `leading-relaxed`, subtle row-separator borders (`border-border/50`), alternating/charcoal row surface kept minimal and consistent with the dark theme.
-- Column widths: `table-auto` with sensible `min-w` so content dictates widths; no fixed pixel columns.
-- All styling via existing semantic tokens (graphite, border, primary, muted-foreground) — no new colors introduced.
+Structure & responsiveness:
+- Table wrapped in a `div.overflow-x-auto` with a subtle border/rounded container — wide tables scroll horizontally *inside* the wrapper; page-level horizontal overflow is impossible (verify `scrollWidth <= innerWidth`).
+- `table` uses `w-full` + `min-w` floor on cells (e.g. `min-w-[10rem]` on `td/th`) so columns are never squeezed into unreadability — below the floor the wrapper scrolls instead.
+- Content-driven widths: `table-auto`, no fixed pixel columns; narrow tables fit naturally, wide ones scroll.
+- Long URLs / unbroken strings: `break-words` (`overflow-wrap: anywhere` on cells) so long tokens wrap instead of blowing out the layout.
+- Semantic table structure preserved (real table/thead/tbody/tr/th/td elements).
+
+Editorial dark styling (existing semantic tokens only, no new colors):
+- Header row: raised graphite surface, Manrope 700 uppercase-ish label treatment, subtle bottom border, restrained `text-primary` (#36F4EE) accent on header cells only.
+- Body cells: generous padding, `align-top`, `leading-relaxed` for comfortable wrapping.
+- Row separation: subtle `border-border/50` row dividers; faint graphite tint on alternate rows at most.
+- Comfortable vertical margins around the whole table block.
 
 ## Verification
 
-- Typecheck/build OK.
-- Playwright pass at 1280px desktop and 390px mobile on a published article containing a multi-line heading and a 3-column table: confirm heading line-height/spacing visually, table structure (header row, padding, borders, top alignment), and contained horizontal scroll on mobile with zero page-level horizontal overflow (`document.documentElement.scrollWidth <= innerWidth`).
-- Spot-check the Insights listing page and homepage remain unchanged.
+- Build OK.
+- Playwright at 1280px and 390px on a live published article with a multi-line heading and the 3-column table (e.g. the advisory-firms infrastructure article): confirm heading rhythm, header hierarchy, padding, top alignment, contained scroll, no page-level overflow.
+- Also exercise a synthetic wide/long-content case (e.g. inject a 5–6 column table with a long unbroken URL via the page DOM or a test post) to confirm the scroll wrapper and `break-words` behavior without squeezing.
+- Spot-check Insights listing and homepage unchanged.
