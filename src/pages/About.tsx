@@ -1,8 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { Navigation } from "@/components/Navigation";
 import { PageHero } from "@/components/PageHero";
-import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { useScheduling } from "@/contexts/SchedulingContext";
 import heroImage from "@/assets/hero-about.jpg";
@@ -41,7 +39,7 @@ export default function About() {
   const { openScheduler } = useScheduling();
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
-      <Navigation />
+
       
       
       <main>
@@ -195,7 +193,7 @@ export default function About() {
         </section>
       </main>
 
-      <Footer />
+
     </div>
   );
 }

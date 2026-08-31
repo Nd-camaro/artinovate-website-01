@@ -1,6 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { Navigation } from "@/components/Navigation";
-import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import mockup from "@/assets/playbook-3d-mockup.png.asset.json";
 import backCover from "@/assets/playbook-back-cover-poster.png.asset.json";
@@ -155,7 +153,7 @@ export default function Playbook() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <Navigation />
+
 
       {/* SECTION 1 — HERO */}
       <section className="relative bg-background pt-16 lg:pt-0">
@@ -470,7 +468,7 @@ export default function Playbook() {
         </div>
       </section>
 
-      <Footer />
+
     </div>
   );
 }

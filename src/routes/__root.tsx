@@ -143,9 +143,7 @@ function RootComponent() {
             <Sonner />
             <div className="min-h-screen bg-background">
               <Navigation />
-              <main>
-                <Outlet />
-              </main>
+              <Outlet />
               <Footer />
               <SchedulingModal />
               <ChatWidget />
