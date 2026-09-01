@@ -240,6 +240,8 @@ const HeroVideoBackground = () => {
     if (!el) return;
 
     const safePlay = () => {
+      el.muted = true; // React's muted prop doesn't set the IDL property; mobile autoplay requires it
+      el.defaultMuted = true;
       const p = el.play();
       if (p && typeof p.catch === "function") p.catch(() => {});
     };
@@ -278,7 +280,13 @@ const HeroVideoBackground = () => {
       />
       {enableVideo && (
         <video
-          ref={videoRef}
+          ref={(el) => {
+            videoRef.current = el;
+            if (el) {
+              el.muted = true;
+              el.defaultMuted = true;
+            }
+          }}
           className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-700 ease-out ${
             videoReady ? "opacity-100" : "opacity-0"
           }`}
@@ -286,7 +294,8 @@ const HeroVideoBackground = () => {
           muted
           loop
           playsInline
-          preload="metadata"
+          disablePictureInPicture
+          preload="auto"
           poster={heroPoster.url}
           aria-hidden="true"
           tabIndex={-1}
