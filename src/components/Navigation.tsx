@@ -5,7 +5,7 @@ import { Link, useLocation } from "@/lib/router-compat";
 import artinovateLogo from "@/assets/artinovate-logo.png";
 
 const navItems = [
-  { label: "Home", href: "/" },
+  { label: "Services", href: "/web3-website-design" },
   { label: "About", href: "/about" },
   { label: "Insights", href: "/insights" },
   { label: "Contact", href: "/contact" },

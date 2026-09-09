@@ -22,8 +22,9 @@ export default function Web3WebsiteDesign() {
       <PageHero
         image={heroImage}
         imageAlt="Abstract dark architectural environment of charcoal cubic forms with electric cyan signal pathways running beneath a translucent surface plane"
+        label="Our Services"
         headline="Web3 Website Design for Companies That Have Outgrown Static Sites"
-        subheading="ArtiNovate designs premium Web3 websites that operate as digital presence systems — they publish expertise, engage visitors and capture qualified intent."
+        subheading="ArtiNovate designs premium Web3 websites that operate as digital presence systems that publish relevant industry insights, engage visitors and capture qualified intent."
         scrollTarget="#system"
         actions={
           <>
