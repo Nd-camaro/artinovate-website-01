@@ -6,7 +6,7 @@ const functions = [
   {
     number: "01",
     name: "Publish",
-    body: "The site continuously accumulates useful expertise, search visibility and authority on a domain you own.",
+    body: "Research your market, identify what your audience is actively searching for and paying attention to, then publish relevant industry insights around those opportunities.",
     link: {
       slug: "web3-startups-build-authority-ai-publishing",
       label: "how Web3 companies build authority through publishing",
@@ -15,7 +15,7 @@ const functions = [
   {
     number: "02",
     name: "Engage",
-    body: "Visitors can understand complex products and ask contextual questions without waiting on someone internally.",
+    body: "Help visitors understand the company, its offering and relevant subject matter through an interactive website experience.",
     link: {
       slug: "ai-chat-assistants-improve-visitor-engagement-web3-projects",
       label: "how assistants improve visitor engagement",
@@ -24,7 +24,7 @@ const functions = [
   {
     number: "03",
     name: "Capture",
-    body: "High-intent visitors are guided to the right conversion path or a booked conversation instead of exiting.",
+    body: "Turn qualified interest into enquiries, booked conversations or the appropriate next step.",
     link: {
       slug: "ai-lead-capture-system-how-it-works",
       label: "how the capture system works",

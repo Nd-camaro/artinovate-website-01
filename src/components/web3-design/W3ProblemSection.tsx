@@ -6,8 +6,8 @@ const cards = [
     body: "Strategy shifts, products evolve and regulation moves. The website stays where it was on launch day, describing a business that no longer exists.",
   },
   {
-    title: "Expertise gets published everywhere else",
-    body: "Founder and team insight ends up on social platforms and third-party media, building authority on domains you do not own.",
+    title: "Nothing is published where the market is looking",
+    body: "The subjects your audience is actively searching for are covered on social platforms and third-party media, building authority on domains you do not own.",
   },
   {
     title: "Visitors leave with questions unanswered",

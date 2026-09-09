@@ -22,8 +22,8 @@ const points = [
     body: "Compliance-sensitive wording is usually written defensively and reads that way. The craft is keeping the language accurate while still letting a buyer follow the argument.",
   },
   {
-    title: "Internal expertise has to become a buyer experience",
-    body: "Most teams already hold the insight that would win the deal. The design work is translating it into something a buyer can move through in sequence, rather than a documentation dump.",
+    title: "Market intelligence has to lead the content",
+    body: "Market intelligence informs what gets published. The company's expertise, perspective and offering can then be connected naturally to subjects the market already cares about.",
   },
 ];
 

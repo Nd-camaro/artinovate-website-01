@@ -10,7 +10,7 @@ const layers = [
   {
     label: "Layer 01",
     title: "Publishing infrastructure",
-    body: "A structured system for turning internal expertise into published articles on your own domain, continuously rather than in occasional bursts.",
+    body: "Market research identifies the subjects, questions and developments that matter to your audience. The publishing system turns those opportunities into relevant industry insights, giving your website a continuously expanding surface for discovery.",
   },
   {
     label: "Layer 02",
