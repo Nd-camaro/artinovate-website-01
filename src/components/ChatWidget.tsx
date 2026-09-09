@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 // Chat assistant enabled. Set to false to disable.
-const SHOW_CHAT_WIDGET = true;
+const SHOW_CHAT_WIDGET = false;
 
 declare global {
   interface Window {
