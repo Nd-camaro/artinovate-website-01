@@ -1,0 +1,1 @@
+Use the shared root body shell for global third-party embeds, so every page receives one copy without changing individual pages.
