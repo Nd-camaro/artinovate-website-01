@@ -1,6 +1,7 @@
 import { createFileRoute, notFound, redirect, Link } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { INSIGHT_REDIRECTS } from "@/lib/insight-redirects";
+import { fetchPublishedInsights } from "@/lib/insights-data";
 import { ArrowLeft, Calendar } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -80,15 +81,19 @@ export const Route = createFileRoute("/insights/$slug")({
       });
     }
 
-    const { data, error } = await supabase
-      .from("insight_posts")
-      .select("*")
-      .eq("slug", params.slug)
-      .eq("status", "published")
-      .single();
+    const [{ data, error }, all] = await Promise.all([
+      supabase
+        .from("insight_posts")
+        .select("*")
+        .eq("slug", params.slug)
+        .eq("status", "published")
+        .single(),
+      fetchPublishedInsights().catch(() => []),
+    ]);
 
     if (error || !data) throw notFound();
-    return { post: data as InsightPost };
+    const related = all.filter((p) => p.slug !== params.slug).slice(0, 3);
+    return { post: data as InsightPost, related };
   },
   head: ({ loaderData }) => {
     const post = loaderData?.post;
@@ -150,7 +155,7 @@ function InsightNotFound() {
 }
 
 function InsightDetailPage() {
-  const { post: insight } = Route.useLoaderData();
+  const { post: insight, related } = Route.useLoaderData();
   const { openScheduler } = useScheduling();
   const ctaConfig = parseCTAConfig(insight.cta_config);
 
@@ -338,6 +343,33 @@ function InsightDetailPage() {
                 {ctaConfig.buttonText || "Schedule a consultation"} →
               </span>
             </aside>
+          )}
+
+          {related.length > 0 && (
+            <nav aria-label="More insights" className="mt-16 pt-10 border-t border-border/50">
+              <h2 className="font-display text-2xl font-normal tracking-[0.01em] leading-[1.45] mb-6 text-foreground">
+                More insights
+              </h2>
+              <ul className="space-y-4">
+                {related.map((r) => (
+                  <li key={r.id}>
+                    <Link
+                      to="/insights/$slug"
+                      params={{ slug: r.slug }}
+                      className="block p-5 border border-border/50 rounded-lg bg-card/20 hover:border-primary/30 transition-colors"
+                    >
+                      <span className="block font-semibold text-foreground">{r.title}</span>
+                      {r.excerpt && (
+                        <span className="block text-sm text-muted-foreground mt-2">{r.excerpt}</span>
+                      )}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+              <Link to="/insights" className="inline-block mt-6 text-sm text-primary">
+                View all insights →
+              </Link>
+            </nav>
           )}
         </article>
       </main>

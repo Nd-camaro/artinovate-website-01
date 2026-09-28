@@ -1,32 +1,17 @@
 import { motion } from "framer-motion";
-import { Link } from "@/lib/router-compat";
+import { Link, getRouteApi } from "@tanstack/react-router";
 import { PageHero } from "@/components/PageHero";
 import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/hero-insights.jpg";
 import { ArrowRight } from "lucide-react";
 import { useScheduling } from "@/contexts/SchedulingContext";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+
+const routeApi = getRouteApi("/insights/");
 
 export default function Insights() {
   const { openScheduler } = useScheduling();
-
-  const { data: insights = [], isLoading } = useQuery({
-    queryKey: ["insight_posts"],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("insight_posts")
-        .select("*")
-        .eq("status", "published")
-        .not("published_at", "is", null)
-        .lte("published_at", new Date().toISOString())
-        .order("published_at", { ascending: false });
-
-      if (error) throw error;
-      return data || [];
-    },
-    staleTime: 1000 * 60 * 5, // Cache for 5 minutes
-  });
+  const { insights } = routeApi.useLoaderData();
+  const isLoading = false;
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
@@ -71,8 +56,9 @@ export default function Insights() {
                     viewport={{ once: true, margin: "-50px" }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
                   >
-                    <Link 
-                      to={`/insights/${insight.slug}`}
+                    <Link
+                      to="/insights/$slug"
+                      params={{ slug: insight.slug }}
                       className="group block h-full"
                     >
                       <div className="h-full flex flex-col border border-border/50 rounded-lg bg-card/20 hover:border-primary/30 hover:bg-card/40 transition-all duration-300 hover:-translate-y-1 overflow-hidden">

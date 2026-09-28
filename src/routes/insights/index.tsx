@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import Insights from "@/pages/Insights";
+import { fetchPublishedInsights } from "@/lib/insights-data";
 
 const TITLE = "Web3 AI Automation Insights | ArtiNovate";
 const DESCRIPTION =
@@ -19,6 +20,7 @@ const collectionPageSchema = {
 };
 
 export const Route = createFileRoute("/insights/")({
+  loader: async () => ({ insights: await fetchPublishedInsights() }),
   head: () => ({
     meta: [
       { title: TITLE },
