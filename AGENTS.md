@@ -1,1 +1,2 @@
 Use the shared root body shell for global third-party embeds, so every page receives one copy without changing individual pages.
+Declare favicons once in the shared root head and serve stable public icon paths, so crawlers see consistent icons on every page.
