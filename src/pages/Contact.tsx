@@ -12,7 +12,7 @@ const objectives = ["Launch initial digital presence", "Add AI engagement capabi
 const nextSteps = [{
   icon: MessageSquare,
   title: "Discovery call",
-  description: "15-minute conversation to understand your situation and goals."
+  description: "30-minute conversation to understand your situation and goals."
 }, {
   icon: Compass,
   title: "System mapping",
@@ -116,6 +116,7 @@ export default function Contact() {
                   <Button type="submit" variant="hero" size="default" className="h-10 px-6 text-sm inline-flex items-center gap-2">
                     Send message <ArrowRight className="w-4 h-4" />
                   </Button>
+                  <p className="text-xs text-muted-foreground">Opens your email app with your message ready to send.</p>
                   {draftOpened && <p role="status" className="text-sm text-muted-foreground">Your email app should open with your message ready to send. Please send it there to complete your enquiry.</p>}
                 </form>
               </motion.div>
