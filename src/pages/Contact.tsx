@@ -28,8 +28,8 @@ export default function Contact() {
   } = useScheduling();
   const [formData, setFormData] = useState({
     name: "",
-    email: ""
-    ,company: "",
+    email: "",
+    company: "",
     message: ""
   });
   const [draftOpened, setDraftOpened] = useState(false);
