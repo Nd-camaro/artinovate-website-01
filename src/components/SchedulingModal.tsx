@@ -9,6 +9,7 @@ export function SchedulingModal() {
   const { isOpen, closeScheduler } = useScheduling();
   const [isLoading, setIsLoading] = useState(true);
   const [iframeLoaded, setIframeLoaded] = useState(false);
+  const [hasOpened, setHasOpened] = useState(false);
 
   // Handle ESC key
   useEffect(() => {
@@ -29,13 +30,15 @@ export function SchedulingModal() {
     };
   }, [isOpen, closeScheduler]);
 
-  // Reset loading state when modal opens
+  // Track first open so the iframe stays mounted afterwards (instant reopens)
   useEffect(() => {
     if (isOpen) {
-      setIsLoading(true);
-      setIframeLoaded(false);
+      setHasOpened(true);
+      if (!iframeLoaded) {
+        setIsLoading(true);
+      }
     }
-  }, [isOpen]);
+  }, [isOpen, iframeLoaded]);
 
   const handleIframeLoad = useCallback(() => {
     setIsLoading(false);
