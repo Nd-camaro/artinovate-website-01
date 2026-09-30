@@ -79,11 +79,6 @@ export default function Insights() {
                         {/* Content */}
                         <div className="flex-1 p-6 flex flex-col">
                           <div className="flex items-center gap-3 mb-4">
-                            {insight.reading_time && (
-                              <span className="font-mono text-xs text-primary">
-                                {insight.reading_time} min read
-                              </span>
-                            )}
                             {insight.published_at && (
                               <span className="text-xs text-muted-foreground">
                                 {new Date(insight.published_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
