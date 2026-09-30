@@ -52,17 +52,21 @@ export function SchedulingModal() {
     }
   };
 
+  // After first open the modal stays mounted (hidden) so the Calendly iframe
+  // remains loaded and reopens are instant.
+  if (!hasOpened) return null;
+
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.2 }}
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6"
-          onClick={handleOverlayClick}
-        >
+    <motion.div
+      initial={false}
+      animate={{ opacity: isOpen ? 1 : 0 }}
+      transition={{ duration: 0.2 }}
+      className={`fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6 ${
+        isOpen ? "" : "invisible pointer-events-none"
+      }`}
+      onClick={handleOverlayClick}
+      aria-hidden={!isOpen}
+    >
           {/* Overlay */}
           <div className="absolute inset-0 bg-black/60" />
 
