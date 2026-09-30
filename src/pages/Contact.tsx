@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import { motion } from "framer-motion";
 import { PageHero } from "@/components/PageHero";
 import { Button } from "@/components/ui/button";
@@ -27,15 +27,18 @@ export default function Contact() {
     openScheduler
   } = useScheduling();
   const [formData, setFormData] = useState({
-    organizationType: "",
-    presenceStatus: "",
-    objective: "",
-    email: ""
+    name: "",
+    email: "",
+    company: "",
+    message: ""
   });
-  const handleSubmit = (e: React.FormEvent) => {
+  const [draftOpened, setDraftOpened] = useState(false);
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Handle form submission
-    console.log("Form submitted:", formData);
+    const subject = `Website enquiry from ${formData.name.trim()}`;
+    const body = `Name: ${formData.name.trim()}\nEmail: ${formData.email.trim()}\nCompany or website: ${formData.company.trim() || "Not provided"}\n\nWhat are you looking to build?\n${formData.message.trim()}`;
+    window.location.href = `mailto:ndnwankwo01@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    setDraftOpened(true);
   };
   return <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       <main>
@@ -44,7 +47,7 @@ export default function Contact() {
         {/* Booking Section */}
         <section id="booking" className="py-24 lg:py-32 bg-background">
           <div className="container mx-auto px-6 lg:px-12">
-            <div className="grid lg:grid-cols-2 gap-16 max-w-6xl">
+            <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 max-w-6xl mx-auto items-start">
               {/* Left: Booking info */}
               <motion.div initial={{
               opacity: 0,
@@ -85,12 +88,38 @@ export default function Contact() {
                   Schedule a call
                 </Button>
 
-                {/* Calendar embed placeholder */}
-                
               </motion.div>
 
-              {/* Right: Qualification form */}
-              
+              <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.6, delay: 0.1 }} className="min-w-0">
+                <span className="label-mono text-primary mb-5 block">Send a message</span>
+                <h2 className="text-3xl md:text-4xl font-bold tracking-[0.015em] leading-[1.2] mb-7">Prefer to write first?</h2>
+                <p className="text-muted-foreground mb-8 leading-relaxed">Tell us a little about what you have in mind.</p>
+                <form onSubmit={handleSubmit} className="space-y-5">
+                  <div className="grid sm:grid-cols-2 gap-5">
+                    <div>
+                      <label htmlFor="contact-name" className="block text-sm font-bold mb-2">Name</label>
+                      <input id="contact-name" name="name" type="text" autoComplete="name" required value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full h-12 rounded-md border border-border bg-card px-4 text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" />
+                    </div>
+                    <div>
+                      <label htmlFor="contact-email" className="block text-sm font-bold mb-2">Email</label>
+                      <input id="contact-email" name="email" type="email" autoComplete="email" required value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="w-full h-12 rounded-md border border-border bg-card px-4 text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" />
+                    </div>
+                  </div>
+                  <div>
+                    <label htmlFor="contact-company" className="block text-sm font-bold mb-2">Company or Website</label>
+                    <input id="contact-company" name="company" type="text" autoComplete="organization" value={formData.company} onChange={(e) => setFormData({ ...formData, company: e.target.value })} className="w-full h-12 rounded-md border border-border bg-card px-4 text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" />
+                  </div>
+                  <div>
+                    <label htmlFor="contact-message" className="block text-sm font-bold mb-2">What are you looking to build?</label>
+                    <textarea id="contact-message" name="message" rows={5} required value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} className="w-full rounded-md border border-border bg-card px-4 py-3 text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring resize-y" />
+                  </div>
+                  <Button type="submit" variant="hero" size="default" className="h-10 px-6 text-sm inline-flex items-center gap-2">
+                    Send message <ArrowRight className="w-4 h-4" />
+                  </Button>
+                  <p className="text-xs text-muted-foreground">Opens your email app with your message ready to send.</p>
+                  {draftOpened && <p role="status" className="text-sm text-muted-foreground">Your email app should open with your message ready to send. Please send it there to complete your enquiry.</p>}
+                </form>
+              </motion.div>
             </div>
           </div>
         </section>
@@ -116,7 +145,7 @@ export default function Contact() {
               </h2>
             </motion.div>
 
-            <div className="grid md:grid-cols-3 gap-8 max-w-4xl">
+            <div className="grid md:grid-cols-3 gap-8 md:gap-12 max-w-4xl mx-auto">
               {nextSteps.map((step, index) => <motion.div key={index} initial={{
               opacity: 0,
               y: 30
@@ -131,7 +160,7 @@ export default function Contact() {
               delay: index * 0.15
             }} className="relative">
                   {/* Connector line */}
-                  {index < nextSteps.length - 1 && <div className="hidden md:block absolute top-8 left-full w-full h-px bg-gradient-to-r from-primary/50 to-transparent" />}
+                  {index < nextSteps.length - 1 && <div className="hidden md:block absolute top-6 left-12 w-[calc(100%+3rem)] h-px bg-gradient-to-r from-primary/50 to-transparent" aria-hidden="true" />}
                   
                   <div className="flex flex-col items-start">
                     <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
@@ -161,7 +190,7 @@ export default function Contact() {
             duration: 0.5
           }} className="max-w-2xl text-center mx-auto">
               <p className="text-muted-foreground">
-                No fluff. No pressure. Just a clear conversation about building infrastructure that works.
+                The goal isn’t to put more technology in your business. It’s to make the technology you build actually produce something.
               </p>
             </motion.div>
           </div>

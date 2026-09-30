@@ -1,0 +1,2 @@
+- [x] Add the Contact page message form beside the existing strategy call.
+- [x] Center the three-step section, update the closing copy, and verify the page on desktop and mobile.
