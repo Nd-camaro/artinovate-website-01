@@ -72,9 +72,12 @@ export function SchedulingModal() {
 
           {/* Modal */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            initial={false}
+            animate={
+              isOpen
+                ? { opacity: 1, scale: 1, y: 0 }
+                : { opacity: 0, scale: 0.95, y: 20 }
+            }
             transition={{ duration: 0.25, ease: "easeOut" }}
             className="relative w-full h-full md:h-auto md:max-h-[90vh] md:max-w-2xl lg:max-w-3xl bg-graphite border border-primary/20 rounded-[16px] shadow-xl flex flex-col overflow-hidden"
             onClick={(e) => e.stopPropagation()}
@@ -117,10 +120,12 @@ export function SchedulingModal() {
                 )}
               </AnimatePresence>
 
-              {/* Calendly iframe - only renders when modal is open */}
+              {/* Calendly iframe - stays mounted after first open for instant reopens */}
               <iframe
                 src={CALENDLY_URL}
                 onLoad={handleIframeLoad}
+                loading="eager"
+                fetchPriority="high"
                 className={`w-full h-full min-h-[400px] md:min-h-[500px] border-0 transition-opacity duration-300 ${
                   iframeLoaded ? "opacity-100" : "opacity-0"
                 }`}
@@ -145,8 +150,6 @@ export function SchedulingModal() {
               </p>
             </div>
           </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+    </motion.div>
   );
 }
