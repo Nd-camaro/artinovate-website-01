@@ -125,7 +125,6 @@ export function SchedulingModal() {
                 src={CALENDLY_URL}
                 onLoad={handleIframeLoad}
                 loading="eager"
-                fetchPriority="high"
                 className={`w-full h-full min-h-[400px] md:min-h-[500px] border-0 transition-opacity duration-300 ${
                   iframeLoaded ? "opacity-100" : "opacity-0"
                 }`}
