@@ -72,6 +72,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "manifest", href: "/manifest.json" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      { rel: "preconnect", href: "https://calendly.com" },
+      { rel: "dns-prefetch", href: "https://calendly.com" },
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=League+Gothic&family=Manrope:wght@400;500;600;700;800&display=swap",
