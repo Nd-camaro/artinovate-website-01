@@ -9,6 +9,7 @@ export function SchedulingModal() {
   const { isOpen, closeScheduler } = useScheduling();
   const [isLoading, setIsLoading] = useState(true);
   const [iframeLoaded, setIframeLoaded] = useState(false);
+  const [hasOpened, setHasOpened] = useState(false);
 
   // Handle ESC key
   useEffect(() => {
@@ -29,13 +30,15 @@ export function SchedulingModal() {
     };
   }, [isOpen, closeScheduler]);
 
-  // Reset loading state when modal opens
+  // Track first open so the iframe stays mounted afterwards (instant reopens)
   useEffect(() => {
     if (isOpen) {
-      setIsLoading(true);
-      setIframeLoaded(false);
+      setHasOpened(true);
+      if (!iframeLoaded) {
+        setIsLoading(true);
+      }
     }
-  }, [isOpen]);
+  }, [isOpen, iframeLoaded]);
 
   const handleIframeLoad = useCallback(() => {
     setIsLoading(false);
@@ -49,25 +52,32 @@ export function SchedulingModal() {
     }
   };
 
+  // After first open the modal stays mounted (hidden) so the Calendly iframe
+  // remains loaded and reopens are instant.
+  if (!hasOpened) return null;
+
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.2 }}
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6"
-          onClick={handleOverlayClick}
-        >
+    <motion.div
+      initial={false}
+      animate={{ opacity: isOpen ? 1 : 0 }}
+      transition={{ duration: 0.2 }}
+      className={`fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6 ${
+        isOpen ? "" : "invisible pointer-events-none"
+      }`}
+      onClick={handleOverlayClick}
+      aria-hidden={!isOpen}
+    >
           {/* Overlay */}
           <div className="absolute inset-0 bg-black/60" />
 
           {/* Modal */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            initial={false}
+            animate={
+              isOpen
+                ? { opacity: 1, scale: 1, y: 0 }
+                : { opacity: 0, scale: 0.95, y: 20 }
+            }
             transition={{ duration: 0.25, ease: "easeOut" }}
             className="relative w-full h-full md:h-auto md:max-h-[90vh] md:max-w-2xl lg:max-w-3xl bg-graphite border border-primary/20 rounded-[16px] shadow-xl flex flex-col overflow-hidden"
             onClick={(e) => e.stopPropagation()}
@@ -75,7 +85,7 @@ export function SchedulingModal() {
             {/* Header */}
             <div className="flex items-start justify-between p-5 md:p-6 border-b border-border/30 flex-shrink-0">
               <div>
-                <h2 className="text-lg md:text-xl font-semibold text-foreground leading-[1.4] py-2 mb-1">
+                <h2 className="text-lg md:text-xl font-semibold text-foreground leading-[1.4] tracking-wide py-2 mb-1">
                   Schedule a strategy call
                 </h2>
                 <span className="font-mono text-xs text-muted-foreground mt-2 block">
@@ -110,10 +120,11 @@ export function SchedulingModal() {
                 )}
               </AnimatePresence>
 
-              {/* Calendly iframe - only renders when modal is open */}
+              {/* Calendly iframe - stays mounted after first open for instant reopens */}
               <iframe
                 src={CALENDLY_URL}
                 onLoad={handleIframeLoad}
+                loading="eager"
                 className={`w-full h-full min-h-[400px] md:min-h-[500px] border-0 transition-opacity duration-300 ${
                   iframeLoaded ? "opacity-100" : "opacity-0"
                 }`}
@@ -138,8 +149,6 @@ export function SchedulingModal() {
               </p>
             </div>
           </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+    </motion.div>
   );
 }
